@@ -1,0 +1,9 @@
+{
+  "companyName": "fullcontact",
+  "sort": "traffic",
+  "location": "Colorado, USA",
+  "locality": "Denver",
+  "region": "Colorado",
+  "country": "United States",
+  "webhookUrl": "https://www.fullcontact.com/webHook"
+}

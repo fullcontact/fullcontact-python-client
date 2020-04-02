@@ -1,0 +1,6 @@
+{
+    "status": 404,
+    "message": "The domain <domain_name> does not appear to be registered.",
+    "requestId": "1d7cd045-070c-4432-9225-add3dc4ee0b1",
+    "reasonCode": "NOT_REGISTERED"
+}

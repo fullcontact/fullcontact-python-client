@@ -1,0 +1,5 @@
+{
+  "status": 202,
+  "message": "Webhook request accepted and queued for search. Results will be POSTed to <webhook_url>",
+  "requestId": "c677437c-f817-43ab-a6ab-ff6d056e83b4"
+}
