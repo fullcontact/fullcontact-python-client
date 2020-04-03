@@ -2,14 +2,16 @@ from setuptools import setup, find_packages
 
 requirements = [
     # Test
-    "pytest"
+    "pytest==5.4.1",
+    # Prod
+    "requests==2.23.0"
 ]
 
 with open("README.md", "r") as readme:
     long_description = readme.read()
 
 setup(
-    name="fc-client",
+    name="python-fullcontact",
     version="1.0.0",
 
     author="Nithin Subhash",

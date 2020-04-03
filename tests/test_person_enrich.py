@@ -1,8 +1,8 @@
 import pytest
 import requests
-from fc_client import Person
-from fc_client.exceptions import FullContactException
-from fc_client.schema.person import PersonSchema
+from fullcontact import PersonClient
+from fullcontact.exceptions import FullContactException
+from fullcontact.schema.person_schema import PersonSchema
 
 from .utils.mock_request import MockRequest
 from .utils.mock_response import MockResponse
@@ -88,29 +88,29 @@ def mock_webhook_bad_response(monkeypatch):
 class TestPersonEnrich(object):
 
     def setup(self):
-        self.person = Person(MockRequest.MOCK_TOKEN)
+        self.person_client = PersonClient(MockRequest.MOCK_TOKEN)
 
     # Empty/None API Key provided
     @pytest.mark.parametrize("api_key", ["", None])
     def test_empty_none_api_key(self, api_key):
         with pytest.raises(FullContactException) as fc_exception:
-            Person("")
+            PersonClient("")
         assert str(fc_exception.value) == "Invalid/Empty API Key provided."
 
     # No API Key provided
     def test_no_api_key(self):
         with pytest.raises(FullContactException) as fc_exception:
-            Person()
+            PersonClient()
         assert str(fc_exception.value) == "Invalid/Empty API Key provided."
 
     # Acceptable API Key provided
     def test_good_api_key(self):
-        Person(MockRequest.MOCK_TOKEN)
+        PersonClient(MockRequest.MOCK_TOKEN)
 
     # Empty query provided
     def test_empty_query(self):
         with pytest.raises(FullContactException) as fc_exception:
-            self.person.enrich()
+            self.person_client.enrich()
 
         assert str(fc_exception.value) == "No queryable inputs given (" \
                                           "for example: email, emails, phone, phones," \
@@ -121,7 +121,7 @@ class TestPersonEnrich(object):
                              MockRequest.get_mock_request(REQUEST_TYPE, METHOD_ENRICH, SCENARIO_GOOD_NAME_BAD_LOCATION))
     def test_good_name_bad_location_query(self, query):
         with pytest.raises(FullContactException) as fc_exception:
-            self.person.enrich(**query)
+            self.person_client.enrich(**query)
         assert str(fc_exception.value) == "Possible combinations to query by Location are:\n" \
                                           "addressLine1 + city + region\n" \
                                           "addressLine1 + city + regionCode\n" \
@@ -133,7 +133,7 @@ class TestPersonEnrich(object):
                                                           SCENARIO_GOOD_LOCATION_BAD_NAME))
     def test_enrich_good_name_bad_location_query(self, query):
         with pytest.raises(FullContactException) as fc_exception:
-            self.person.enrich(**query)
+            self.person_client.enrich(**query)
         assert str(fc_exception.value) == "Possible combinations to query by Name are:\n" \
                                           "given + family\n" \
                                           "full"
@@ -146,13 +146,13 @@ class TestPersonEnrich(object):
     def test_enrich_missing_name_or_location(self, scenario):
         query = MockRequest.get_mock_request(REQUEST_TYPE, METHOD_ENRICH, scenario)
         with pytest.raises(FullContactException) as fc_exception:
-            self.person.enrich(**query)
+            self.person_client.enrich(**query)
         assert str(fc_exception.value) == "Location and Name have to be queried together"
 
     # Acceptable input query provided
     def test_enrich_good_requests(self, mock_good_response):
         query = MockRequest.get_mock_request(REQUEST_TYPE, METHOD_ENRICH, SCENARIO_POSITIVE)
-        result = self.person.enrich(**query)
+        result = self.person_client.enrich(**query)
         expected_result = MockResponse.get_mock_response(
             REQUEST_TYPE, method=METHOD_ENRICH,
             test_scenario=SCENARIO_POSITIVE
@@ -164,7 +164,7 @@ class TestPersonEnrich(object):
     # Parse 202 message
     def test_enrich_good_webhook_url(self, mock_webhook_good_response):
         query = MockRequest.get_mock_request(REQUEST_TYPE, METHOD_ENRICH, SCENARIO_FULL_SERIALIZATION)
-        result = self.person.enrich(**query)
+        result = self.person_client.enrich(**query)
         expected_result = MockResponse.get_mock_response(REQUEST_TYPE, method=METHOD_ENRICH, test_scenario=SCENARIO_VALID_WEBHOOK,
                                               status_code=int(SCENARIO_202),
                                               message_replace=("<webhook_url>", query.get("webhookUrl", "")))
@@ -175,7 +175,7 @@ class TestPersonEnrich(object):
     # Invalid webhook
     def test_enrich_bad_webhook_url(self, mock_webhook_bad_response):
         query = MockRequest.get_mock_request(REQUEST_TYPE, METHOD_ENRICH, SCENARIO_FULL_SERIALIZATION)
-        result = self.person.enrich(**query)
+        result = self.person_client.enrich(**query)
         expected_result = MockResponse.get_mock_response(REQUEST_TYPE, method=METHOD_ENRICH,
                                                          test_scenario=SCENARIO_INVALID_WEBHOOK,
                                                          status_code=400,
@@ -195,7 +195,7 @@ class TestPersonEnrich(object):
     # 202 when profile not found immediately
     def test_enrich_202(self, mock_202_response):
         query = MockRequest.get_mock_request(REQUEST_TYPE, METHOD_ENRICH, SCENARIO_POSITIVE)
-        result = self.person.enrich(**query)
+        result = self.person_client.enrich(**query)
         expected_result = MockResponse.get_mock_response(REQUEST_TYPE, method=METHOD_ENRICH, test_scenario=SCENARIO_202,
                                                          status_code=int(SCENARIO_202))
         assert result.is_successful and \
@@ -205,7 +205,7 @@ class TestPersonEnrich(object):
     # 404 when profile not found
     def test_enrich_404(self, mock_404_response):
         query = MockRequest.get_mock_request(REQUEST_TYPE, METHOD_ENRICH, SCENARIO_POSITIVE)
-        result = self.person.enrich(**query)
+        result = self.person_client.enrich(**query)
         expected_result = MockResponse.get_mock_response(REQUEST_TYPE, method=METHOD_ENRICH, test_scenario=SCENARIO_404,
                                               status_code=int(SCENARIO_404))
         assert result.is_successful and \
@@ -215,7 +215,7 @@ class TestPersonEnrich(object):
     # 401 when invalid token is provided
     def test_enrich_401(self, mock_401_response):
         query = MockRequest.get_mock_request(REQUEST_TYPE, METHOD_ENRICH, SCENARIO_POSITIVE)
-        result = self.person.enrich(**query)
+        result = self.person_client.enrich(**query)
         expected_result = MockResponse.get_mock_response(REQUEST_TYPE, method=METHOD_ENRICH,
                                                                  test_scenario=SCENARIO_401,
                                                                  status_code=int(SCENARIO_401),

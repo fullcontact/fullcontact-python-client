@@ -1,10 +1,10 @@
 from .base.enrich_base import EnrichBase
 from .base.search_base import SearchBase
-from ..response.company import CompanyEnrichResponse, CompanySearchResponse
-from ..schema.company import CompanyEnrichSchema, CompanySearchSchema
+from ..response.company_response import CompanyEnrichResponse, CompanySearchResponse
+from ..schema.company_schema import CompanyEnrichSchema, CompanySearchSchema
 
 
-class Company(EnrichBase, SearchBase):
+class CompanyClient(EnrichBase, SearchBase):
     r"""
     Class that provides methods to perform
     Company Enrich and Search operations.

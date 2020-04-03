@@ -1,9 +1,9 @@
 from .base.enrich_base import EnrichBase
-from ..response.person import PersonEnrichResponse
-from ..schema.person import PersonSchema
+from ..response.person_response import PersonEnrichResponse
+from ..schema.person_schema import PersonSchema
 
 
-class Person(EnrichBase):
+class PersonClient(EnrichBase):
     r"""
     Class that provides methods to perform
     Person Enrich operations, with MultiField Capabilities.

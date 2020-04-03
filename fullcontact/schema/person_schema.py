@@ -62,7 +62,7 @@ class PersonSchema(BaseSchema):
     maids: List[str]
     webhookUrl: str
     confidence: str
-    dataFilters: List[str]
+    dataFilter: List[str]
     infer: bool
 
     queryable_fields = ("email", "emails", "phone", "phones", "location", "name", "profiles", "maids")
