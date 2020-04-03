@@ -69,7 +69,7 @@ class BaseSchema(object, metaclass=ABCMeta):
         r"""
         Validate the dict data against the type hints
         :param data: dict data to be validated
-        :return: validated data. ValidationError will be raised for invalid
+        :return: validated data. FullContactException will be raised for invalid
         type
         """
         valid_fields = {}
@@ -119,7 +119,7 @@ class BaseCombinationSchema(BaseSchema):
         r"""
         Allowed field combinations for the query type
         :return: an iterable with tuples of valid combinations
-        ValidationError will be raised if an invalid combination is provided
+        FullContactException will be raised if an invalid combination is provided
         """
         pass
 
