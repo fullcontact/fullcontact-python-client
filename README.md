@@ -1,3 +1,75 @@
+# FullContact Client
+The official python client library for FullContact V3 API. This client provides an interface to perform Person Enrich, Company Enrich and Company Search operations.   
+FullContact API Documentation is available at: https://dashboard.fullcontact.com/api-ref
+
+# Table of contents
+* [Requirements](#requirements)
+* [Installation](#installation)
+* [Basic Usage](#basic-usage)
+* [PersonClient](#personclient)
+    * [Methods](#methods)
+        * [enrich](#enrichheadersnone-delay1-max_retries5-query)
+        * [enrich_async](#enrich_asyncheadersnone-delay1-max_retries5-query)
+    * [Query](#query)
+        * [Valid enrich parameters](#valid-query-parameters)
+    * [Response](#response)
+        * [PersonEnrichResponse](#personenrichresponse)
+        * [Future](#future)
+* [CompanyClient](#companyclient)
+    * [Methods](#methods-1)
+        * [enrich](#enrichheadersnone-delay1-max_retries5-query-1)
+        * [enrich_async](#enrich_asyncheadersnone-delay1-max_retries5-query-1)
+        * [search](#searchheadersnone-delay1-max_retries5-query)
+        * [search_async](#search_asyncheadersnone-delay1-max_retries5-query)
+    * [Query](#query-1)
+        * [Valid enrich parameters](#valid-query-parameter-for-enrich)
+        * [Valid search parameters](#valid-query-parameters-for-search)
+    * [Response](#response-1)
+        * [CompanyEnrichResponse](#companyenrichresponse)
+        * [CompanySearchResponse](#companysearchresponse)
+        * [Future](#future-1)
+* [Examples](#examples)
+    * [PersonClient](#personclient-1)
+    * [CompanyClient](#companyclient-1)
+
+# Requirements
+This library requires Python 3.5 and above. 
+
+# Installation
+It is recommended to install the FullContact python client library from [PyPi](https://pypi.org/) using the below command.
+```
+pip install python-fullcontact
+```
+It is also possible to install the package by cloning this repo, by running the below commands.
+```
+git clone git@github.com:fullcontact/fullcontact-python-client.git
+pip install -e fullcontact-python-client
+```
+
+# Basic Usage
+**PersonClient**   
+[PersonClient](#personclient) can be initialized and used as below.
+```python
+import os
+from fullcontact import PersonClient
+
+person_client = PersonClient(os.environ.get('FULLCONTACT_API_KEY'))
+person_response = person_client.enrich(email="marquitaross006@gmail.com")
+```
+More examples for [PersonClient](#personclient) usage can be found in [Examples](#personclient-1) section.
+
+**CompanyClient**   
+[CompanyClient](#companyclient) can be initialized and used as below.
+```python
+import os
+from fullcontact import CompanyClient
+
+company_client = CompanyClient(os.environ.get('FULLCONTACT_API_KEY'))
+company_enrich_response = company_client.enrich(domain="fullcontact.com")
+company_search_response = company_client.search(companyName="fullcontact")
+```
+More examples for [CompanyClient](#companyclient) usage can be found in [Examples](#companyclient-1) section.
+
 # PersonClient
 This class provides an interface to the V3 Person Enrich endpoint. Once the client library is installed, `PersonClient` can be directly imported from it and an instance can be created using the API Key,as follows.
 ```python
@@ -137,7 +209,7 @@ This method has the same parameters as the [`enrich()`](#enrichheadersnone-delay
 
 ### search(_headers=None_, _delay=1_, _max_retries=5_, _**query_)
 This method has the same parameters as [`enrich()`](#enrichheadersnone-delay1-max_retries5-query-1), but hits FullContact Company Search API instead of Company Enrich API and accepts different fields for query.
-* **Parameters:** Same as [`enrich()`](#enrichheadersnone-delay1-max_retries5-query-1), but the supported fields in `query` are different. Supported fields are mentioned in the next section.
+* **Parameters:** Same as [`enrich()`](#enrichheadersnone-delay1-max_retries5-query-1), but the supported fields in [`query`](#valid-query-parameter-for-search) are different.
 * **Returns:** [`CompanySearchResponse`](#companysearchresponse) object
 * **Return type:** [`fullcontact.response.company_response.CompanySearchResponse`](#companysearchresponse)
 
@@ -153,9 +225,9 @@ For company enrich and search operations, the query has to be provided as _kwarg
 ### Valid query parameter for enrich:
 * **domain** _[str]_ - The domain name of the company to lookup.
 
-### Valid query parameter for search:
+### Valid query parameters for search:
 * **companyName** _[str]_ _(required)_ - The name of the company to search for.
-* ** sort** _[str]_ _(optional)_ - Controls how results will be sorted. Valid values: `traffic`, `relevance`, `employees`
+* **sort** _[str]_ _(optional)_ - Controls how results will be sorted. Valid values: `traffic`, `relevance`, `employees`
 * **location** _[str]_ _(optional)_ - If provided, only companies matching given location will be returned.
 * **locality** _[str]_ _(optional)_ - If provided, only companies matching given locality/city will be returned.
 * **region** _[str]_ _(optional)_ - If provided, only companies matching given region/state will be returned.
@@ -192,3 +264,305 @@ The response of [`enrich_async()`](#enrich_asyncheadersnone-delay1-max_retries5-
 ### Future
 The [Future](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future) object returned by the [`enrich_async()`](#enrich_asyncheadersnone-delay1-max_retries5-query-1) or [`search_async()`](#search_asyncheadersnone-delay1-max_retries5-query) method provides a method [`result()`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future.result) to retrieve the result once the processing is done. The output of this [`result()`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future.result) method will be a [`CompanyEnrichResponse`](#companyenrichresponse) or a [`CompanySearchResponse`](#companysearchresponse).    
 For details on Future objects, please refer: https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future
+
+# Examples
+## PersonClient
+* **Initialization**
+```python
+import os
+from fullcontact import PersonClient
+
+person_client = PersonClient(os.environ.get('FULLCONTACT_API_KEY'))
+```
+* **Synchronous simple query**
+```python
+person_response = person_client.enrich(email="marquitaross006@gmail.com")
+
+print(person_response.get_summary())
+{
+  "fullName": "Marquita H Ross",
+  "ageRange": "37-47",
+  "gender": "Female",
+  "location": "San Francisco, California, United States",
+  "title": "Senior Petroleum Manager",
+  "organization": "Mostow Co.",
+  "twitter": "https://twitter.com/marqross91",
+  "linkedin": "https://www.linkedin.com/in/marquita-ross-5b6b72192",
+  "facebook": null,
+  "bio": "Senior Petroleum Manager at Mostow Co.",
+  "avatar": "https://img.fullcontact.com/sandbox/1gagrO2K67_oc5DLG_siVCpYVE5UvCu2Z.png",
+  "website": "http://marquitaas8.com/",
+  "isSandboxProfile": true,
+  "updated": "1970-01-01"
+}
+```
+* **Synchronous multifield query**
+```python
+person_response = person_client.enrich(**{
+  "emails": [
+    "marquitaross006@gmail.com"
+  ],
+  "phones": [
+    "+14105551773"
+  ]
+})
+
+print(person_response.get_summary())
+{
+  "fullName": "Marquita H Ross",
+  "ageRange": "37-47",
+  "gender": "Female",
+  "location": "San Francisco, California, United States",
+  "title": "Senior Petroleum Manager",
+  "organization": "Mostow Co.",
+  "twitter": "https://twitter.com/marqross91",
+  "linkedin": "https://www.linkedin.com/in/marquita-ross-5b6b72192",
+  "facebook": null,
+  "bio": "Senior Petroleum Manager at Mostow Co.",
+  "avatar": "https://img.fullcontact.com/sandbox/1gagrO2K67_oc5DLG_siVCpYVE5UvCu2Z.png",
+  "website": "http://marquitaas8.com/",
+  "isSandboxProfile": true,
+  "updated": "1970-01-01"
+}
+```
+* **Synchronous query by name and address with insights bundle**
+```python
+query = {
+  "name": {
+    "given": "Marquita",
+    "family": "Ross"
+  },
+  "location": {
+    "addressLine1": "313 North Gainsway Street",
+    "city": "San Francisco",
+    "region": "California"
+  }
+}
+
+person_response = person_client.enrich(dataAddon=["location"], **query)
+
+print(person_response.get_summary())
+{
+  "fullName": "Marquita H Ross",
+  "ageRange": "37-47",
+  "gender": "Female",
+  "location": "San Francisco, California, United States",
+  "title": "Senior Petroleum Manager",
+  "organization": "Mostow Co.",
+  "twitter": "https://twitter.com/marqross91",
+  "linkedin": "https://www.linkedin.com/in/marquita-ross-5b6b72192",
+  "facebook": null,
+  "bio": "Senior Petroleum Manager at Mostow Co.",
+  "avatar": "https://img.fullcontact.com/sandbox/1gagrO2K67_oc5DLG_siVCpYVE5UvCu2Z.png",
+  "website": "http://marquitaas8.com/",
+  "isSandboxProfile": true,
+  "updated": "1970-01-01"
+}
+```
+* **Asynchronous queries**
+```python
+import concurrent.futures
+
+from fullcontact.exceptions import FullContactException
+
+queries = [
+  {
+    "email": "marquitaross006@gmail.com"
+  },
+  {
+    "email": "ispangler@yandex.com",
+    "phone": "+12075550145"
+  },
+  {
+    "phone": "+14105551773"
+  }
+]
+
+futures = [ person_client.enrich_async(query) for query in queries ]
+
+for future in concurrent.futures.as_completed(futures):
+  try:
+    data = future.result()
+  except FullContactException as fc_exception:
+    print("FullContactException occurred: %s" % str(fc_exception))
+  except Exception as other_exception:
+    print("Some error occurred: %s" % str(other_exception))
+
+```
+## CompanyClient
+* **Initialization**
+```python
+import os
+from fullcontact import CompanyClient
+
+company_client = CompanyClient(os.environ.get('FULLCONTACT_API_KEY'))
+```
+
+* **Synchronous enrich query**
+```python
+company_enrich_response = company_client.enrich(domain="fullcontact.com")
+
+print(company_enrich_response.get_summary())
+{
+  "name": "FullContact Inc.",
+  "location": "1755 Blake Street Suite 450 Denver CO, 80202 USA",
+  "twitter": "https://twitter.com/fullcontact",
+  "linkedin": "https://www.linkedin.com/company/fullcontact-inc-",
+  "facebook": null,
+  "bio": "FullContact is the most powerful fully-connected contact management platform for professionals and enterprises who need to master their contacts and be awesome with people.",
+  "logo": "https://img.fullcontact.com/static/bb796b303166bd928f6c0968f15d4a4e_7ef85b2a563abd95ae07e815da2db916a5f8de4d82702388e546a66adc9eac44",
+  "website": "https://www.fullcontact.com",
+  "founded": 2010,
+  "employees": 351,
+  "locale": "en",
+  "category": "Other",
+  "dataAddOns": [
+    {
+      "id": "keypeople",
+      "name": "Key People",
+      "enabled": true,
+      "applied": true,
+      "description": "Displays information about people of interest at this company.",
+      "docLink": "http://docs.fullcontact.com/api/#key-people"
+    }
+  ],
+  "updated": "2020-04-03"
+}
+```
+* **Synchronous search query**
+```python
+query = {
+  "companyName": "fullcontact",
+  "sort": "relevance",
+  "location": "Colorado, USA",
+  "locality": "Denver",
+  "region": "Colorado",
+  "country": "United States"
+}
+
+company_search_response = company_client.search(**query)
+
+print(company_search_response.raw())
+[
+  {
+    "lookupDomain": "blog.fullcontact.com",
+    "orgName": "FullContact, Inc.",
+    "logo": "https://d2ojpxxtu63wzl.cloudfront.net/v1/thumbnail?size=128&url=https://img.fullcontact.com/static/6a43815ada39ec64b22d4589c11360b0_ac6d3981bba92f9df1c232eb98ad255a821acb3bbf66334c079b27f438b93653",
+    "location": {
+      "locality": "Denver",
+      "region": {
+        "name": "Colorado",
+        "code": "CO"
+      },
+      "country": {
+        "name": "United States",
+        "code": "US"
+      }
+    },
+    "score": 1
+  },
+  {
+    "lookupDomain": "tryfullcontact.com",
+    "orgName": "FullContact, Inc.",
+    "logo": "https://d2ojpxxtu63wzl.cloudfront.net/v1/thumbnail?size=128&url=https://img.fullcontact.com/static/d82fa6b4ff10b53af598b274bb9cafbc_f739aa5936447143d4fdcb242a112c62dcfba5c13400dfbcdc9b685ade1409f8",
+    "location": {
+      "locality": "Denver",
+      "region": {
+        "name": "Colorado",
+        "code": "CO"
+      },
+      "country": {
+        "name": "United States",
+        "code": "US"
+      }
+    },
+    "score": 0.976352277344633
+  }
+]
+```
+
+* **Asynchronous enrich query**
+```python
+company_enrich_future = company_client.enrich_async(domain="fullcontact.com")
+company_enrich_response = company_enrich_future.result()
+
+print(company_enrich_response.get_summary())
+{
+  "name": "FullContact Inc.",
+  "location": "1755 Blake Street Suite 450 Denver CO, 80202 USA",
+  "twitter": "https://twitter.com/fullcontact",
+  "linkedin": "https://www.linkedin.com/company/fullcontact-inc-",
+  "facebook": null,
+  "bio": "FullContact is the most powerful fully-connected contact management platform for professionals and enterprises who need to master their contacts and be awesome with people.",
+  "logo": "https://img.fullcontact.com/static/bb796b303166bd928f6c0968f15d4a4e_7ef85b2a563abd95ae07e815da2db916a5f8de4d82702388e546a66adc9eac44",
+  "website": "https://www.fullcontact.com",
+  "founded": 2010,
+  "employees": 351,
+  "locale": "en",
+  "category": "Other",
+  "dataAddOns": [
+    {
+      "id": "keypeople",
+      "name": "Key People",
+      "enabled": true,
+      "applied": true,
+      "description": "Displays information about people of interest at this company.",
+      "docLink": "http://docs.fullcontact.com/api/#key-people"
+    }
+  ],
+  "updated": "2020-04-03"
+}
+```
+
+* **Asynchronous search query**
+```python
+query = {
+  "companyName": "fullcontact",
+  "sort": "relevance",
+  "location": "Colorado, USA",
+  "locality": "Denver",
+  "region": "Colorado",
+  "country": "United States"
+}
+
+company_search_future = company_client.search_async(**query)
+company_search_response = company_search_future.result()
+
+print(company_search_response.raw())
+[
+  {
+    "lookupDomain": "blog.fullcontact.com",
+    "orgName": "FullContact, Inc.",
+    "logo": "https://d2ojpxxtu63wzl.cloudfront.net/v1/thumbnail?size=128&url=https://img.fullcontact.com/static/6a43815ada39ec64b22d4589c11360b0_ac6d3981bba92f9df1c232eb98ad255a821acb3bbf66334c079b27f438b93653",
+    "location": {
+      "locality": "Denver",
+      "region": {
+        "name": "Colorado",
+        "code": "CO"
+      },
+      "country": {
+        "name": "United States",
+        "code": "US"
+      }
+    },
+    "score": 1
+  },
+  {
+    "lookupDomain": "tryfullcontact.com",
+    "orgName": "FullContact, Inc.",
+    "logo": "https://d2ojpxxtu63wzl.cloudfront.net/v1/thumbnail?size=128&url=https://img.fullcontact.com/static/d82fa6b4ff10b53af598b274bb9cafbc_f739aa5936447143d4fdcb242a112c62dcfba5c13400dfbcdc9b685ade1409f8",
+    "location": {
+      "locality": "Denver",
+      "region": {
+        "name": "Colorado",
+        "code": "CO"
+      },
+      "country": {
+        "name": "United States",
+        "code": "US"
+      }
+    },
+    "score": 0.976352277344633
+  }
+]
+```
