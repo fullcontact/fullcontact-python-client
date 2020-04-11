@@ -1,4 +1,6 @@
 # FullContact Client
+[![PyPI](https://img.shields.io/pypi/v/python-fullcontact?label=PyPi)](https://pypi.org/project/python-fullcontact/)
+
 The official python client library for FullContact V3 API. This client provides an interface to perform Person Enrich, Company Enrich and Company Search operations.   
 FullContact API Documentation is available at: https://dashboard.fullcontact.com/api-ref
 
