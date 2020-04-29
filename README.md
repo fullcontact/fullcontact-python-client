@@ -52,24 +52,24 @@ pip install -e fullcontact-python-client
 **PersonClient**   
 [PersonClient](#personclient) can be initialized and used as below.
 ```python
-import os
 from fullcontact import PersonClient
 
-person_client = PersonClient(os.environ.get('FULLCONTACT_API_KEY'))
+person_client = PersonClient("<your_fullcontact_api_key>")
 person_response = person_client.enrich(email="marquitaross006@gmail.com")
 ```
+
 More examples for [PersonClient](#personclient) usage can be found in [Examples](#personclient-1) section.
 
 **CompanyClient**   
 [CompanyClient](#companyclient) can be initialized and used as below.
 ```python
-import os
 from fullcontact import CompanyClient
 
-company_client = CompanyClient(os.environ.get('FULLCONTACT_API_KEY'))
+company_client = CompanyClient("<your_fullcontact_api_key>")
 company_enrich_response = company_client.enrich(domain="fullcontact.com")
 company_search_response = company_client.search(companyName="fullcontact")
 ```
+
 More examples for [CompanyClient](#companyclient) usage can be found in [Examples](#companyclient-1) section.
 
 # PersonClient
@@ -271,6 +271,19 @@ For details on Future objects, please refer: https://docs.python.org/3/library/c
 ## PersonClient
 * **Initialization**
 ```python
+from fullcontact import PersonClient
+
+person_client = PersonClient("q4pKoF4fRNk0WxfUn4S3vcKLJGgrXxGQ")
+```
+
+You can also export the FullContact API key as an environment variable and then use it in the code.
+
+Export it in terminal:
+```bash
+export FULLCONTACT_API_KEY="q4pKoF4fRNk0WxfUn4S3vcKLJGgrXxGQ"
+```
+Then use it in the code:
+```python
 import os
 from fullcontact import PersonClient
 
@@ -393,6 +406,19 @@ for future in concurrent.futures.as_completed(futures):
 ```
 ## CompanyClient
 * **Initialization**
+```python
+from fullcontact import CompanyClient
+
+company_client = CompanyClient("q4pKoF4fRNk0WxfUn4S3vcKLJGgrXxGQ")
+```
+
+You can also export the FullContact API key as an environment variable and then use it in the code.
+
+Export it in terminal:
+```bash
+export FULLCONTACT_API_KEY="q4pKoF4fRNk0WxfUn4S3vcKLJGgrXxGQ"
+```
+Then use it in the code:
 ```python
 import os
 from fullcontact import CompanyClient
