@@ -1,0 +1,42 @@
+{
+  "email": "marquitaross006@gmail.com",
+  "emails": [
+    "marquitaross006@gmail.com"
+  ],
+  "phone": "+14105551773",
+  "phones": [
+    "+14105551773"
+  ],
+  "location": {
+    "addressLine1": "313 North Gainsway Street",
+    "city": "San Francisco",
+    "region": "California",
+    "regionCode": "CA"
+  },
+  "name": {
+    "given": "Marquita",
+    "family": "Ross",
+    "full": "Marquita H Ross"
+  },
+  "profiles": [
+    {
+      "username": "marqross91",
+      "service": "twitter"
+    },
+    {
+      "url": "https://twitter.com/marqross91"
+    },
+    {
+      "username": "marquita-ross-5b6b72192",
+      "service": "linkedin"
+    },
+    {
+      "userid": "761326554",
+      "service": "linkedin"
+    },
+    {
+      "url": "https://www.linkedin.com/in/marquita-ross-5b6b72192"
+    }
+  ],
+  "recordId": "<recordId>"
+}

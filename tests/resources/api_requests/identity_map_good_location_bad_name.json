@@ -1,0 +1,36 @@
+[
+  {
+    "location": {
+      "addressLine1": "313 North Gainsway Street",
+      "city": "San Francisco",
+      "region": "California",
+      "regionCode": "CA"
+    },
+    "name": {
+      "given": "Marquita"
+    },
+  "recordId": "<recordId>"
+  },
+  {
+    "location": {
+      "addressLine1": "313 North Gainsway Street",
+      "city": "San Francisco",
+      "region": "California",
+      "regionCode": "CA"
+    },
+    "name": {
+      "family": "Ross"
+    },
+  "recordId": "<recordId>"
+  },
+  {
+    "location": {
+      "addressLine1": "313 North Gainsway Street",
+      "city": "San Francisco",
+      "region": "California",
+      "regionCode": "CA"
+    },
+    "name": {},
+  "recordId": "<recordId>"
+  }
+]
