@@ -1,10 +1,22 @@
+# -*- coding: utf-8 -*-
+
+"""
+This module serves the base class for wrapping
+FullContact API responses.
+"""
+
+from json.decoder import JSONDecodeError
 from typing import Union
 
 from requests import Response
 
 
 class BaseApiResponse(object):
-    SUCCESSFUL_STATUS_CODES = (200, 202, 404)
+    r"""
+    Base class to wrap the requests.Response object
+    returned by the FullContact API call.
+    """
+    SUCCESSFUL_STATUS_CODES = (200, 202, 204, 404)
 
     def __init__(self, response):
         self.response = response
@@ -19,23 +31,26 @@ class BaseApiResponse(object):
         return False
 
     def __set_response_json(self, response: Response):
-        self.__response_json = response.json() or {}
+        try:
+            self.__response_json = response.json() or {}
+        except JSONDecodeError:
+            self.__response_json = {}
 
     def get_status_code(self) -> int:
         r"""
-        :return: Status code of the response
+        :return: Status code of the response.
         """
         return self.response.status_code or None
 
     def raw(self) -> Union[dict, list]:
         r"""
-        :return: JSON representation of the API response content
+        :return: JSON representation of the API response content.
         """
         return self.__response_json
 
     def get_message(self) -> str:
         r"""
-        :return: Response error message if unsuccessful
+        :return: Response error message if unsuccessful.
         """
         if type(self.__response_json) == dict and self.__response_json.get(
                 "message", None) is not None:
@@ -44,6 +59,6 @@ class BaseApiResponse(object):
 
     def get_headers(self) -> dict:
         r"""
-        :return: Response headers
+        :return: Response additional_headers.
         """
-        return self.response.headers or {}
+        return self.response.additional_headers or {}

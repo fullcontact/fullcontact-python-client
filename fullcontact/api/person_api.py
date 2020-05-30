@@ -1,9 +1,16 @@
+# -*- coding: utf-8 -*-
+
+"""
+This module serves the class for making
+FullContact Person Enrich API requests.
+"""
+
 from .base.enrich_base import EnrichBase
 from ..response.person_response import PersonEnrichResponse
 from ..schema.person_schema import PersonSchema
 
 
-class PersonClient(EnrichBase):
+class PersonApi(EnrichBase):
     r"""
     Class that provides methods to perform
     Person Enrich operations, with MultiField Capabilities.

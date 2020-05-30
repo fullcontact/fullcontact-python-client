@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+
+"""
+This module serves the base class for wrapping
+FullContact Company Enrich response.
+"""
+
 from .base import BaseApiResponse
 
 

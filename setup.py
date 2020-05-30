@@ -4,7 +4,8 @@ requirements = [
     # Test
     "pytest==5.4.1",
     # Prod
-    "requests==2.23.0"
+    "requests==2.23.0",
+    "urllib3==1.25.7"
 ]
 
 with open("README.md", "r") as readme:

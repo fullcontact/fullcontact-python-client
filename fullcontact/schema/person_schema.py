@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+
+"""
+This module serves the  class for validating
+FullContact Person Enrich API requests.
+"""
+
 from typing import List
 
 from .base.schema_base import BaseSchema, BaseCombinationSchema
@@ -49,9 +56,8 @@ class ProfileSchema(BaseCombinationSchema):
     )
 
 
-class PersonSchema(BaseSchema):
-    schema_name = "Person"
-
+class PersonSummarySchema(BaseSchema):
+    schema_name = "Person Summary"
     email: str
     emails: List[str]
     phone: str
@@ -60,20 +66,22 @@ class PersonSchema(BaseSchema):
     name: NameSchema
     profiles: List[ProfileSchema]
     maids: List[str]
-    webhookUrl: str
-    confidence: str
-    dataFilter: List[str]
-    infer: bool
+    recordId: str
 
-    queryable_fields = ("email", "emails", "phone", "phones", "location", "name", "profiles", "maids")
+    queryable_fields = ("email", "emails",
+                        "phone", "phones",
+                        "location", "name",
+                        "profiles", "maids",
+                        "recordId")
 
     def validate(self, data: dict) -> dict:
         r"""
-        Validate the input data
+        Validate the input data.
+
         :param data: dict data to be validated
         :return: validated data
         Validation will be done using the base class method. In addition,
-        a check for the minumum combination for location and name
+        a check for the minimum combination for location and name
         would be checked
         """
         validated_data = super().validate(data)
@@ -87,3 +95,15 @@ class PersonSchema(BaseSchema):
             raise FullContactException("Location and Name have to be queried together")
 
         return validated_data
+
+
+class PersonSchema(PersonSummarySchema):
+    schema_name = "Person"
+
+    personId: str
+    webhookUrl: str
+    confidence: str
+    dataFilter: List[str]
+    infer: bool
+
+    queryable_fields = PersonSummarySchema.queryable_fields + ("personId",)

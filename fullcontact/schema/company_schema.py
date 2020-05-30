@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+
+"""
+This module serves the  class for validating
+FullContact Company Enrich and Search API requests.
+"""
+
 from .base.schema_base import BaseSchema
 
 
