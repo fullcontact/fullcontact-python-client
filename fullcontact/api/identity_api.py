@@ -43,14 +43,13 @@ class IdentityApi(ApiBase):
             fields
         )
 
-    def resolve(self, recordId: str) -> _resolve_response_handler:
+    def resolve(self, **identifiers) -> _resolve_response_handler:
         r"""
         POST query to FullContact Identity Resolve API.
 
-        :param recordId: recordId to be used for identity.resolve
+        :param identifiers: identifiers to be used for identity.resolve
         :return: requests.Response wrapped in _resolve_response_handler
         """
-        identifiers = dict(recordId=recordId)
         return self._validate_and_post_to_api(
             self._resolve_request_handler,
             self._resolve_response_handler,
@@ -83,15 +82,15 @@ class IdentityApi(ApiBase):
         """
         return self.config.get_executor().submit(self.map, **fields)
 
-    def resolve_async(self, recordId) -> Future:
+    def resolve_async(self, **identifiers) -> Future:
         r"""
         POST query to FullContact Identity Resolve API asynchronously.
 
-        :param recordId: recordId to be used for identity.resolve
+        :param identifiers: identifiers to be used for identity.resolve
         :return: Future object. result() will return a requests.Response
         wrapped in self._resolve_response_handler
         """
-        return self.config.get_executor().submit(self.resolve, recordId)
+        return self.config.get_executor().submit(self.resolve, **identifiers)
 
     def delete_async(self, recordId) -> Future:
         r"""
