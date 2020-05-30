@@ -5,11 +5,7 @@ This module serves the  class for validating
 FullContact Identity Map, Resolve and Delete API requests.
 """
 
-from typing import List
-
-from .base.schema_base import BaseSchema
 from .person_schema import PersonSummarySchema
-from ..exceptions import FullContactException
 
 
 class IdentityMapSchema(PersonSummarySchema):
@@ -21,4 +17,12 @@ class IdentityResolveSchema(PersonSummarySchema):
 
     personId: str
 
-    required_fields = PersonSummarySchema.queryable_fields + ("personId",)
+    queryable_fields = PersonSummarySchema.queryable_fields + ("personId",)
+
+
+class IdentityDeleteSchema(PersonSummarySchema):
+    schema_name = "Identity Delete"
+
+    recordId: str
+
+    required_fields = ("recordId",)
