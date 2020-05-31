@@ -9,7 +9,7 @@ API requests.
 from concurrent.futures import Future
 
 from .base.base import ApiBase
-from ..response.identity_response import IdentityMapResponse
+from ..response.identity_response import IdentityMapResponse, IdentityResolveResponse, IdentityDeleteResponse
 from ..schema.identity_schema import IdentityMapSchema, IdentityResolveSchema, IdentityDeleteSchema
 
 
@@ -27,8 +27,8 @@ class IdentityApi(ApiBase):
     _delete_request_handler = IdentityDeleteSchema()
 
     _map_response_handler = IdentityMapResponse
-    _resolve_response_handler = IdentityMapResponse
-    _delete_response_handler = IdentityMapResponse
+    _resolve_response_handler = IdentityResolveResponse
+    _delete_response_handler = IdentityDeleteResponse
 
     def map(self, **fields) -> _map_response_handler:
         r"""
