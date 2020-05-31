@@ -13,7 +13,7 @@ with open("README.md", "r") as readme:
 
 setup(
     name="python-fullcontact",
-    version="1.0.0",
+    version="2.0.0",
 
     author="Nithin Subhash",
     author_email="nithin.subhash@fullcontact.com",
