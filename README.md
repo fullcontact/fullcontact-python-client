@@ -6,591 +6,537 @@ FullContact API Documentation is available at: https://dashboard.fullcontact.com
 
 # Table of contents
 * [Requirements](#requirements)
+* [Adding To Your Project](#adding-to-your-project)
 * [Installation](#installation)
-* [Basic Usage](#basic-usage)
-* [PersonClient](#personclient)
-    * [Methods](#methods)
-        * [enrich](#enrichheadersnone-delay1-max_retries5-query)
-        * [enrich_async](#enrich_asyncheadersnone-delay1-max_retries5-query)
-    * [Query](#query)
-        * [Valid enrich parameters](#valid-query-parameters)
-    * [Response](#response)
-        * [PersonEnrichResponse](#personenrichresponse)
-        * [Future](#future)
-* [CompanyClient](#companyclient)
-    * [Methods](#methods-1)
-        * [enrich](#enrichheadersnone-delay1-max_retries5-query-1)
-        * [enrich_async](#enrich_asyncheadersnone-delay1-max_retries5-query-1)
-        * [search](#searchheadersnone-delay1-max_retries5-query)
-        * [search_async](#search_asyncheadersnone-delay1-max_retries5-query)
-    * [Query](#query-1)
-        * [Valid enrich parameters](#valid-query-parameter-for-enrich)
-        * [Valid search parameters](#valid-query-parameters-for-search)
-    * [Response](#response-1)
-        * [CompanyEnrichResponse](#companyenrichresponse)
-        * [CompanySearchResponse](#companysearchresponse)
-        * [Future](#future-1)
-* [Examples](#examples)
-    * [PersonClient](#personclient-1)
-    * [CompanyClient](#companyclient-1)
+* [Migrating from FullContact Client V1.0.0](#migrating-from-fullcontact-client-v100)
+* [Usage](#usage)
+    * [Basic Usage](#basic-usage)
+    * [Client Configuration](#client-configuration)
+    * [Person API](#person-api)
+        * [enrich()](#fullcontactclientpersonenrich)
+        * [enrich_async()](#fullcontactclientpersonenrich_async)
+    * [Company API](#company-api)
+        * [enrich()](#fullcontactclientcompanyenrich)
+        * [enrich_async](#fullcontactclientcompanyenrich_async)
+        * [search()](#fullcontactclientcompanysearch)
+        * [search_async()](#fullcontactclientcompanysearch_async)
+    * [Identity API](#identity-api)
+        * [map()](#fullcontactclientidentitymap)
+        * [map_async()](#fullcontactclientidentitymap_async)
+        * [resolve()](#fullcontactclientidentityresolve)
+        * [resolve_async()](#fullcontactclientidentityresolve_async)
+        * [delete()](#fullcontactclientidentitydelete)
+        * [delete_async()](#fullcontactclientidentitydelete_async)
 
 # Requirements
-This library requires Python 3.5 and above. 
+This library requires Python 3.5 or above. 
+
+# Adding To Your Project
+To add FullContact Python Client library to your project, add the below line to your `requirements.txt` file, or as a requirement in the `setup.py` file.
+```
+python-fullcontact==2.0.0
+```
 
 # Installation
 It is recommended to install the FullContact python client library from [PyPi](https://pypi.org/) using the below command.
 ```
 pip install python-fullcontact
 ```
-It is also possible to install the package by cloning this repo, by running the below commands.
+It is also possible to install the package from this repo, by running the below commands.
 ```
-git clone git@github.com:fullcontact/fullcontact-python-client.git
-pip install -e fullcontact-python-client
+pip install git+https://github.com/fullcontact/fullcontact-python-client.git
 ```
 
-# Basic Usage
-**PersonClient**   
-[PersonClient](#personclient) can be initialized and used as below.
+# Migrating from FullContact Client V1.0.0
+This version of FullContact Client (V2.0.0) has significant changes in terms of design and features. Hence, it is not backward compatible with V1.0.0 library.
+However, migrating from the V1.0.0 client is very easy.
+In V1.0.0, there used to be different clients for different APIs (PersonClient, CompanyClient). However with V2.0.0, we have only 1 client, with different methods.
+**V1.0.0**
 ```python
-from fullcontact import PersonClient
-
-person_client = PersonClient("<your_fullcontact_api_key>")
-person_response = person_client.enrich(email="marquitaross006@gmail.com")
+from fullcontact import PersonClient, CompanyClient
+person_client = PersonClient("<your_api_key>")
+company_client = CompanyClient("<your_api_key>")
+person_client.enrich(**query)
+company_client.enrich(**query)
+company_client.search(**query)
 ```
+This would be changed as below in V2.0.0
 
-More examples for [PersonClient](#personclient) usage can be found in [Examples](#personclient-1) section.
-
-**CompanyClient**   
-[CompanyClient](#companyclient) can be initialized and used as below.
+**V2.0.0**
 ```python
-from fullcontact import CompanyClient
-
-company_client = CompanyClient("<your_fullcontact_api_key>")
-company_enrich_response = company_client.enrich(domain="fullcontact.com")
-company_search_response = company_client.search(companyName="fullcontact")
+from fullcontact import FullContactClient
+fullcontact_client = FullContactClient("<your_api_key>")
+fullcontact_client.person.enrich(**query)
+fullcontact_client.company.enrich(**query)
+fullcontact_client.company.search(**query)
 ```
 
-More examples for [CompanyClient](#companyclient) usage can be found in [Examples](#companyclient-1) section.
-
-# PersonClient
-This class provides an interface to the V3 Person Enrich endpoint. Once the client library is installed, `PersonClient` can be directly imported from it and an instance can be created using the API Key,as follows.
+# Usage
+## Importing the client
+The client is available straight out of the package `fullcontact`.
 ```python
-from fullcontact import PersonClient
-person_client = PersonClient(<API_KEY>)
+from fullcontact import FullContactClient
 ```
-## Methods
 
-### enrich(_headers=None_, _delay=1_, _max_retries=5_, _**query_)
-* **Parameters:**
-    * **headers** _[dict]_ _(optional)_ - Any custom header that you wish to add to the request should be provided through this parameter as a dictionary. `Authorization` and `Content-Type` headers are added automatically, and need not be specified explicitly.
-    
-        > An example use of this is to add Reporting Key, if required.   
-        > `headers = {"Reporting-Key": "clientXYZ"}`
-
-    * **delay** _[int]_ _(optional)_ - Delay in seconds to retry, in case of response status code 429 or 503. This value will be used as the base delay in exponential backoff. Default value is 1.
-    * **max_retries** _[int]_ _(optional)_ - Maximum number of retries, in case of response status code 429 or 503. Maximum value allowed for this is 5.
-    * **query** _[kwargs]_ _(required)_ - This is the query for performing person enrich operation and hence, is a required parameter. It should be provided as keyword arguments.
-* **Returns:** [`PersonEnrichResponse`](#personenrichresponse) object
-* **Return type:** [`fullcontact.response.person_response.PersonEnrichResponse`](#personenrichresponse)
-
-### enrich_async(_headers=None_, _delay=1_, _max_retries=5_, _**query_)
-This method has the same parameters as the [`enrich()`](#enrichheadersnone-delay1-max_retries5-query) method, but works asynchronously using a [`concurrent.futures.thread.ThreadPoolExecutor`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.ThreadPoolExecutor).
-* **Parameters:** Same as the parameters of [`enrich()`](#enrichheadersnone-delay1-max_retries5-query) method.
-* **Returns:** [`Future`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future) object. Result is delivered through [`Future.result()`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future.result) method, once done.
-* **Return type:** [`concurrent.futures.Future`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future)
-
-## Query
-For person enrich operation, the query has to be provided as _kwargs_. The query parameters are aligned with the [FullContact Enrich API Multi Field Request](https://dashboard.fullcontact.com/api-ref#multi-field-request)
-
-> If you have a dict query, that can be converted to _kwargs_ by prepending ** to it.   
-> `person_client.enrich(**{"email": "abc@xyz.com", "phone": "1234567890"})`
-
-### Valid query parameters:
-* **email** _[str]_ - One email address of the contact. Can accept cleartext, an MD5 or SHA-256 hash representation of the email address to query. Be certain to lowercase and trim the email address prior to hashing. There is a limit of 10 hashed emails.
-* **emails** _[list(str)]_ - One or many email addresses of the contact. Can accept cleartext, an MD5 or SHA-256 hash representation of the email address to query. Be certain to lowercase and trim the email address prior to hashing.
-* **phone** _[str]_ - Phone number of the contact. For international numbers a country code is required.
-* **phones** _[list(str)]_ - One or many phone numbers of the contact. For international numbers a country code is required.
-* **profiles** _[list(dict)]_ - A list of profiles. Below are the supported parameters for a profile.
-    * **service** _[str]_ - Service type of the profiles on the social platform. Either of username or userid has to be specified with service.
-    * **username** _[str]_ - Username of the profile on the social platform. Service has to be specified with username.
-    * **userid** _[str]_ - User ID of the profile on the social platform. Service has to be specified with userid.
-    * **url** _[str]_ - URL to the profile on the social platform. None of the other profile parameters can be specified with url.
-* **name** _[dict]_ - Name of the individual. Only queryable when provided in conjunction with location.
-    * **full** _[str]_ - Full name of the contact (givenName, familyName).
-    * **given** _[str]_ - The given name (first name) of the individual.
-    * **family** _[str]_ - The family name (last name) of the individual.
-* **location** _[dict]_ - Postal address of the individual. Only queryable when provided in conjunction with name.
-    * **addressLine1** _[str]_ - The first address line of postal address.
-    * **addressLine2** _[str]_ - The second address line of postal address.
-    * **city** _[str]_ - The city of postal address.
-    * **region** _[str]_ - The region of postal address.
-    * **regionCode** _[str]_ - The region code of postal address.
-    * **postalCode** _[str]_ - The postal code of postal address. Can accept Zip + 4 or Zip.
-* **maids** _list(str)_ - One or more Mobile Advertising IDs (MAIDs) for an individual, as a list.
-
-**Additional optional parameters that can be passed in query:**
-* **confidence** _[str]_ _(optional)_ - Acceptable values are 'LOW', 'MED', 'HIGH', and 'MAX'. If this parameter is not specified, the API defaults to the value 'HIGH'.
-
-    > The higher the confidence, the higher the likelihood that the data returned is accurate. If the confidence level of the data to be returned does not meet or exceed the parameter provided, then the result will not be a match. Generally, setting this value higher results in more accurate data, but fewer matches, while setting the value lower results in more matches and data, but lower quality and accuracy.
-
-* **infer** _[bool]_ _(optional)_ - Flag for enabling or disabling inferences. If this parameter is not specified, the API defaults to `True`.
-* **dataFilter** _list(str)_ _(optional)_ - A specific set of insight bundles can be provided in this parameter as a list, to tailor the result and only receive data back for specific Insights Bundles that are already enabled on your account.
-* **webhookUrl** _[str]_ _(optional)_ - If a valid webhook url is passed through this parameter, the request will be queued and result will be POSTed to the provided webhook URL, once the processing has been completed.
-
-**Valid combinations for `profiles`, `name` and `location`:**
-* `profiles`: A list of dictionaries of the above mentioned specification has to be provided to query by `profiles`. Only the below mentioned combinations are accepted:
-    * `service` + `username`
-    * `service` + `userid`
-    * `url`
-* `location`: A dictionary with above mentioned specification has to be provided, along with a valid `name` to query by `location`. Only the below mentioned combinations are accepted:
-    * `addressLine1` + `city` + `region`
-    * `addressLine1` + `city` + `regionCode`
-    * `addressLine1` + `postalCode`
-* `name`: A dictionary with above mentioned specification has to be provided, along with a valid `location` to query by `name`. Only the below mentioned combinations are accepted:
-    * `full`
-    * `given` + `family`
-
-
-## Response
-The response of [`enrich()`](#enrichheadersnone-delay1-max_retries5-query) method is a [`PersonEnrichResponse`](#personenrichresponse) object of type [`fullcontact.response.person_response.PersonEnrichResponse`](#personenrichresponse). The responses are aligned with the [Person Enrichment Response](https://dashboard.fullcontact.com/api-ref#person-enrichment).
-
-The response of [`enrich_async()`](#enrich_asyncheadersnone-delay1-max_retries5-query) method is a [`Future`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future) object of type [`concurrent.futures.Future`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future). If successful, the [`Future.result()`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future.result) will return a [`PersonEnrichResponse`](#personenrichresponse).
-
-### PersonEnrichResponse
-`PersonEnrichResponse` provides the below instance variables and methods
-* **is_successful** _[bool]_ - `True` if the response status code is 200, 202 or 404. Else, `False`.
-* **response** _[requests.Response]_ - The actual Response object received from `requests.post` operation, that makes the API call. This may be helpful in debugging.
-* **get_status_code()** -> _[int]_ - Returns the HTTP status code received.
-* **get_message()** -> _[str]_ - Returns the error message received from the API and the HTTP status message otherwise.
-* **get_headers()** -> _[dict]_ - Returns the response headers as a dictionary.
-* **raw()** -> _[dict]_ - Returns the response body converted to a dictionary.
-* **get_summary()** -> _[dict]_ - Returns a dictionary with the Person summary extracted from raw response. This is the person response without the `details` in it.
-* **get_details()** -> _[dict]_ - Returns the details from the person summary as a dictionary.
-* **get_name()** -> _[dict]_ - Returns the name, if available in the response, as a dictionary.
-* **get_age()** -> _[dict]_ - Returns the age, if available in the response, as a dictionary.
-* **get_gender()** -> _[str]_ - Returns the gender, if available in the response, as a string.
-* **get_demographics()** -> _[dict]_ - Returns the demographics, if available in the response, as a dictionary.
-* **get_emails()** -> _[list(str)]_ - Returns the emails, if available in the response, as a list of strings.
-* **get_phones()** -> _[list(str)]_ - Returns the phones, if available in the response, as a list of strings.
-* **get_profiles()** -> _[list(dict)]_ - Returns the profiles, if available in the response, as a list of dictionaries.
-* **get_locations()** -> _[list(dict)]_ - Returns the locations, if available in the response, as a list of dictionaries.
-* **get_employment()** -> _[list(dict)]_ - Returns the employment details, if available in the response, as a list of dictionaries.
-* **get_photos()** -> _[list(dict)]_ - Returns the photos, if available in the response, as a list of dictionaries.
-* **get_education()** -> _[list(dict)]_ - Returns the education details, if available in the response, as a list of dictionaries.
-* **get_urls()** -> _[list(dict)]_ - Returns the URLs, if available in the response, as a list of dictionaries.
-* **get_interests()** -> _[list(dict)]_ - Returns the interests, if available in the response, as a list of dictionaries.
-* **get_household()** -> _[dict]_ - Returns the household details, if available in the response, as a dictionary.
-* **get_finance()** -> _[dict]_ - Returns the finance details, if available in the response, as a dictionary.
-* **get_census()** -> _[dict]_ - Returns the census details, if available in the response, as a dictionary.
-
-### Future
-The [Future](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future) object returned by the [`enrich_async()`](#enrich_asyncheadersnone-delay1-max_retries5-query) method provides a method [`result()`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future.result) to retrieve the result once the processing is done. The output of this [`result()`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future.result) method will be a [`PersonEnrichResponse`](#personenrichresponse).    
-For details on Future objects, please refer: https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future
-
-
-
-# CompanyClient
-This class provides an interface to the V3 Company Enrich and Search endpoints. Once the client library is installed, `CompanyClient` can be directly imported from it and an instance can be created using the API Key, as follows.
+## Basic Usage
+To use the client library, you need to initialize the client using the API KEY that you have generated from [FullContact Developer Dashboard](https://dashboard.fullcontact.com).
+Once initialized, the client provides the `Enrich` and `Resolve` capabilities of the V3 FullContact API.
 ```python
-from fullcontact import CompanyClient
-company_client = CompanyClient(<API_KEY>)
+from fullcontact import FullContactClient
+
+fullcontact_client = FullContactClient("<your_api_key>")
+
+# V3 Person Enrich
+person_enrich_result = fullcontact_client.person.enrich(email="marquitaross006@gmail.com")
+
+# V3 Company Enrich
+company_enrich_result = fullcontact_client.company.enrich(domain="fullcontact.com")
+
+# V3 Company Search
+company_search_results = fullcontact_client.company.search(companyName="fullcontact")
+
+# V3 Identity Map
+identity_map_result = fullcontact_client.identity.map(email="marquitaross006@gmail.com", recordId="customer123")
+
+# V3 Identity Resolve
+identity_resolve_result = fullcontact_client.identity.resolve(recordId="customer123")
+
+# V3 Identity Delete
+identity_delete_result = fullcontact_client.identity.delete(recordId="customer123")
 ```
-## Methods
 
-### enrich(_headers=None_, _delay=1_, _max_retries=5_, _**query_)
-This method has the same parameters as [`PersonClient.enrich()`](#enrichheadersnone-delay1-max_retries5-query), but hits FullContact Company Enrich API instead of Person Enrich API and accepts different fields for query.
-* **Parameters:** Same as [`PersonClient.enrich()`](#enrichheadersnone-delay1-max_retries5-query), but the supported fields in `query` are different. Supported fields are mentioned in the next section.
-* **Returns:** [`CompanyEnrichResponse`](#companyenrichresponse) object
-* **Return type:** [`fullcontact.response.company_response.CompanyEnrichResponse`](#companyenrichresponse)
+## Client Configuration
+The FullContact Client allows the configuration of additional headers and retry related values, through init parameters.
 
-### enrich_async(_headers=None_, _delay=1_, _max_retries=5_, _**query_)
-This method has the same parameters as the [`enrich()`](#enrichheadersnone-delay1-max_retries5-query-1) method, but works asynchronously using a [`concurrent.futures.thread.ThreadPoolExecutor`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.ThreadPoolExecutor).
-* **Parameters:** Same as the parameters of [`enrich()`](#enrichheadersnone-delay1-max_retries5-query-1) method.
-* **Returns:** [`Future`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future) object. Result is delivered through [`Future.result()`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future.result) method, once done.
-* **Return type:** [`concurrent.futures.Future`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future)
+##### API Key
+API Key is required to Authorize with FullContact API and hence, is a required parameter.
+This is set using the `api_key` init parameter for [FullContactClient](#fullcontactclient).
 
-### search(_headers=None_, _delay=1_, _max_retries=5_, _**query_)
-This method has the same parameters as [`enrich()`](#enrichheadersnone-delay1-max_retries5-query-1), but hits FullContact Company Search API instead of Company Enrich API and accepts different fields for query.
-* **Parameters:** Same as [`enrich()`](#enrichheadersnone-delay1-max_retries5-query-1), but the supported fields in [`query`](#valid-query-parameter-for-search) are different.
-* **Returns:** [`CompanySearchResponse`](#companysearchresponse) object
-* **Return type:** [`fullcontact.response.company_response.CompanySearchResponse`](#companysearchresponse)
-
-### search_async(_headers=None_, _delay=1_, _max_retries=5_, _**query_)
-This method has the same parameters as the [`search()`](#searchheadersnone-delay1-max_retries5-query) method, but works asynchronously using a [`concurrent.futures.thread.ThreadPoolExecutor`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.ThreadPoolExecutor).
-* **Parameters:** Same as the parameters of [`search()`](#searchheadersnone-delay1-max_retries5-query) method.
-* **Returns:** [`Future`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future) object. Result is delivered through [`Future.result()`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future.result) method, once done.
-* **Return type:** [`concurrent.futures.Future`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future)
-
-## Query
-For company enrich and search operations, the query has to be provided as _kwargs_. The query parameters are aligned with the [FullContact Company Enrichment Requests](https://dashboard.fullcontact.com/api-ref#multi-field-request)
-
-### Valid query parameter for enrich:
-* **domain** _[str]_ - The domain name of the company to lookup.
-
-### Valid query parameters for search:
-* **companyName** _[str]_ _(required)_ - The name of the company to search for.
-* **sort** _[str]_ _(optional)_ - Controls how results will be sorted. Valid values: `traffic`, `relevance`, `employees`
-* **location** _[str]_ _(optional)_ - If provided, only companies matching given location will be returned.
-* **locality** _[str]_ _(optional)_ - If provided, only companies matching given locality/city will be returned.
-* **region** _[str]_ _(optional)_ - If provided, only companies matching given region/state will be returned.
-* **country** _[str]_ _(optional)_ - If provided, only companies matching given country will be returned.
-
-**Additional optional parameters that can be passed in enrich/search query:**
-* **webhookUrl** _[str]_ _(optional)_ - If a valid webhook url is passed through this parameter, the request will be queued and result will be POSTed to the provided webhook URL, once the processing has been completed.
-
-## Response
-The responses of [`enrich()`](#enrichheadersnone-delay1-max_retries5-query-1) and [`search()`](#searchheadersnone-delay1-max_retries5-query) methods are [`CompanyEnrichResponse`](#companyenrichresponse) of type [`fullcontact.response.company_response.CompanyEnrichResponse`]((#companyenrichresponse)) and [`CompanySearchResponse`](#companysearchresponse) object of type [`fullcontact.response.company_response.CompanySearchResponse`](#companysearchresponse), respectively. The responses are aligned with the [Company Enrichment/Search Response](https://dashboard.fullcontact.com/api-ref#company-enrichment).
-
-The response of [`enrich_async()`](#enrich_asyncheadersnone-delay1-max_retries5-query-1) or [`search_async()`](#search_asyncheadersnone-delay1-max_retries5-query) method is a [`Future`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future) object of type [`concurrent.futures.Future`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future). If successful, the [`Future.result()`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future.result) will return a [`CompanyEnrichResponse`](#companyenrichresponse) or a [`CompanySearchResponse`](#companysearchresponse), based on the method.
-
-### CompanyEnrichResponse
-`CompanyEnrichResponse` provides the below instance variables and methods
-* **is_successful** _[bool]_ - `True` if the response status code is 200, 202 or 404. Else, `False`.
-* **response** _[requests.Response]_ - The actual Response object received from `requests.post` operation, that makes the API call. This may be helpful in debugging.
-* **get_status_code()** -> _[int]_ - Returns the HTTP status code received.
-* **get_message()** -> _[str]_ - Returns the error message received from the API and the HTTP status message otherwise.
-* **get_headers()** -> _[dict]_ - Returns the response headers as a dictionary.
-* **raw()** -> _[dict]_ - Returns the response body converted to a dictionary.
-* **get_summary()** -> _[dict]_ - Returns a dictionary with the Company summary extracted from raw response. This is the company enrich response without the `details` in it.
-* **get_details()** -> _[dict]_ - Returns the details from the company summary as a dictionary.
-
-### CompanySearchResponse
-`CompanySearchResponse` provides the below instance variables and methods
-* **is_successful** _[bool]_ - `True` if the response status code is 200, 202 or 404. Else, `False`.
-* **response** _[requests.Response]_ - The actual Response object received from `requests.post` operation, that makes the API call. This may be helpful in debugging.
-* **get_status_code()** -> _[int]_ - Returns the HTTP status code received.
-* **get_message()** -> _[str]_ - Returns the error message received from the API and the HTTP status message otherwise.
-* **get_headers()** -> _[dict]_ - Returns the response headers as a dictionary.
-* **raw()** -> _[list]_ or _[dict]_ - Returns the response body with search results converted to a list if successful and otherwise, a dictionary with response converted to a dictionary.
-
-### Future
-The [Future](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future) object returned by the [`enrich_async()`](#enrich_asyncheadersnone-delay1-max_retries5-query-1) or [`search_async()`](#search_asyncheadersnone-delay1-max_retries5-query) method provides a method [`result()`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future.result) to retrieve the result once the processing is done. The output of this [`result()`](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future.result) method will be a [`CompanyEnrichResponse`](#companyenrichresponse) or a [`CompanySearchResponse`](#companysearchresponse).    
-For details on Future objects, please refer: https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future
-
-# Examples
-## PersonClient
-* **Initialization**
 ```python
-from fullcontact import PersonClient
-
-person_client = PersonClient("q4pKoF4fRNk0WxfUn4S3vcKLJGgrXxGQ")
+fullcontact_client = FullContactClient("<your_api_key>")
 ```
 
-You can also export the FullContact API key as an environment variable and then use it in the code.
+##### Headers
+The headers `Authorization` and `Content-Type` are added automatically and hence, headers needs to be added only if any additional header needs to be passed to the API.
+One useful situation for this is when you need to pass your `Reporting-Key`.
+The headers can be added by setting the `headers` init parameter for [FullContactClient](#fullcontactclient).
 
-Export it in terminal:
-```bash
-export FULLCONTACT_API_KEY="q4pKoF4fRNk0WxfUn4S3vcKLJGgrXxGQ"
-```
-Then use it in the code:
 ```python
-import os
-from fullcontact import PersonClient
-
-person_client = PersonClient(os.environ.get('FULLCONTACT_API_KEY'))
+additional_headers = {"Reporting-Key": "clientXYZ"}
+fullcontact_client = FullContactClient(api_key="<your_api_key>", headers=additional_headers)
 ```
-* **Synchronous simple query**
+
+##### Retry
+By default, the client retries a request if it receives a `429` or `503` status code. The default retry count is 5 and the backoff factor (base delay) for exponential backoff is 1 second.
+Retry can by configured by setting the `max_retry_count`, `retry_status_codes` and `base_delay` init parameters for [FullContactClient](#fullcontactclient).
+If the value provided for `max_retry_count` is greater than 5, it will be set to 5.
+
 ```python
-person_response = person_client.enrich(email="marquitaross006@gmail.com")
-
-print(person_response.get_summary())
-{
-  "fullName": "Marquita H Ross",
-  "ageRange": "37-47",
-  "gender": "Female",
-  "location": "San Francisco, California, United States",
-  "title": "Senior Petroleum Manager",
-  "organization": "Mostow Co.",
-  "twitter": "https://twitter.com/marqross91",
-  "linkedin": "https://www.linkedin.com/in/marquita-ross-5b6b72192",
-  "facebook": null,
-  "bio": "Senior Petroleum Manager at Mostow Co.",
-  "avatar": "https://img.fullcontact.com/sandbox/1gagrO2K67_oc5DLG_siVCpYVE5UvCu2Z.png",
-  "website": "http://marquitaas8.com/",
-  "isSandboxProfile": true,
-  "updated": "1970-01-01"
-}
+fullcontact_client = FullContactClient(api_key="<your_api_key>", max_retry_count=3, retry_status_codes=(429, 503, 413), base_delay=2.5)
 ```
-* **Synchronous multifield query**
+
+### FullContactClient
+class: _fullcontact.FullContactClient_
+##### Init parameters:
+* `api_key`: _str_ - (required)
+* `headers`: _dict_ - [optional]
+* `max_retry_count`: _int_ _[default=5]_ - [optional]
+* `retry_status_codes`: _List[int]_ _[default=(429, 503)]_ - [optional]
+* `base_delay`: _float_ _[default=1.0]_ - [optional]
+
+
+## Person API
+The client library provides methods to interact with V3 Person Enrich API through `FullContactClient.person` object.
+The V3 Person Enrich API can be called synchronously using [enrich()](#fullcontactclientpersonenrich) and asynchronously using [enrich_async()](#fullcontactclientpersonenrich_async)
+
 ```python
-person_response = person_client.enrich(**{
-  "emails": [
-    "marquitaross006@gmail.com"
-  ],
-  "phones": [
-    "+14105551773"
-  ]
-})
+# Synchronous execution
+enrich_response = fullcontact_client.person.enrich(email="marquitaross006@gmail.com")
+print(enrich_response.get_name())
+# Output: {'given': 'Marquita', 'family': 'Ross', 'full': 'Marquita H Ross'}
 
-print(person_response.get_summary())
-{
-  "fullName": "Marquita H Ross",
-  "ageRange": "37-47",
-  "gender": "Female",
-  "location": "San Francisco, California, United States",
-  "title": "Senior Petroleum Manager",
-  "organization": "Mostow Co.",
-  "twitter": "https://twitter.com/marqross91",
-  "linkedin": "https://www.linkedin.com/in/marquita-ross-5b6b72192",
-  "facebook": null,
-  "bio": "Senior Petroleum Manager at Mostow Co.",
-  "avatar": "https://img.fullcontact.com/sandbox/1gagrO2K67_oc5DLG_siVCpYVE5UvCu2Z.png",
-  "website": "http://marquitaas8.com/",
-  "isSandboxProfile": true,
-  "updated": "1970-01-01"
-}
+# Asynchronous execution
+enrich_async_response = fullcontact_client.person.enrich_async(email="marquitaross006@gmail.com")
+enrich_result = enrich_async_response.result()
+print(enrich_result.get_name())
+# Output: {'given': 'Marquita', 'family': 'Ross', 'full': 'Marquita H Ross'}
+
+# Asynchronous execution using callback
+def print_name_from_result(result: concurrent.Futures.Future):
+    enrich_result = result.result()
+    print(enrich_result.get_name())
+
+fullcontact_client.person.enrich_async(email="marquitaross006@gmail.com").add_done_callback(print_name_from_result)
+# Output: {'given': 'Marquita', 'family': 'Ross', 'full': 'Marquita H Ross'}
 ```
-* **Synchronous query by name and address with insights bundle**
+
+### FullContactClient.person.enrich()
+class: _fullcontact.api.person_api.PersonClient_ 
+##### Parameters:
+* `**query`: _kwargs_ - (required)
+
+Supported fields for query:
+* `email`: _str_
+* `emails`: _List[str]_
+* `phone`: _str_
+* `phones`: _List[str]_
+* `location`: _dict_
+    * `addressLine1`: _str_
+    * `addressLine2`: _str_
+    * `city`: _str_
+    * `region`: _str_
+    * `regionCode`: _str_
+    * `postalCode`: _str_
+* `name`: _dict_
+    * `full`: _str_
+    * `given`: _str_
+    * `family`: _str_
+* `profiles`: _List[dict]_
+    * `service`: _str_
+    * `username`: _str_
+    * `userid`: _str_
+    * `url`: _str_
+* `maids`: _List[str]_
+* `recordId`: _str_
+* `personId`: _str_
+* `webhookUrl`: _str_
+* `confidence`: _str_
+* `dataFilter`: _List[str]_
+* `infer`: _bool_
+
+##### Returns:
+#### PersonEnrichResponse
+class: _fullcontact.response.person_response.PersonEnrichResponse_
+
+##### Instance variables
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+##### Methods:
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+* `get_summary()`: _dict_ - Summary from Person Enrich Response
+* `get_details()`: _dict_ - Details from Person Enrich Response
+* `get_name()`: _dict_ - Name from Person Enrich Response
+* `get_age()`: _dict_ - Age from Person Enrich Response
+* `get_gender()`: _str_ - Gender from Person Enrich Response
+* `get_demographics()`: _dict_ - Demographics from Person Enrich Response
+* `get_emails()`: _List[str]_ - Emails from Person Enrich Response
+* `get_phones()`: _List[str]_ - Phones from Person Enrich Response
+* `get_profiles()`: _List[dict]_ - Profiles from Person Enrich Response
+* `get_locations()`: _List[dict]_ - Locations from Person Enrich Response
+* `get_employment()`: _List[dict]_ - Employments from Person Enrich Response
+* `get_photos()`: _List[dict]_ - Photos from Person Enrich Response
+* `get_education()`: _List[dict]_ - Education
+* `get_urls()`: _List[dict]_ - URLs from Person Enrich Response
+* `get_interests()`: _List[dict]_ - Interests from Person Enrich Response
+* `get_household()`: _dict_ - Household details from Person Enrich Response
+* `get_finance()`: _dict_ - Finance details from Person Enrich Response
+* `get_census()`: _dict_ - Census details from Person Enrich Response
+* `get_identifiers()`: _dict_ - Identifiers from Person Enrich Response
+
+### FullContactClient.person.enrich_async()
+class: _fullcontact.api.person_api.PersonClient_ 
+##### Parameters:
+Same as that of [FullContactClient.person.enrich()](#fullcontactclientpersonenrich)
+
+##### Returns:
+#### Future[PersonEnrichResponse]
+class: _concurrent.Futures.Future_
+##### Useful Methods:
+* `result()`: _PersonEnrichResponse_ - [PersonEnrichResponse](#personenrichresponse) object received once execution is completed
+* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
+
+More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+
+
+## Company API
+The client library provides methods to interact with V3 Company Enrich and Search APIs through `FullContactClient.company` object.
+The V3 Company Enrich API can be called synchronously using [enrich()](#fullcontactclientcompanyenrich) and asynchronously using [enrich_async()](#fullcontactclientcompanyenrich_async).
+Similarly, the V3 Company Search API can be called synchronously using [search()](#fullcontactclientcompanysearch) and asynchronously using [search_async()](#fullcontactclientcompanysearch_async)
+
 ```python
-query = {
-  "name": {
-    "given": "Marquita",
-    "family": "Ross"
-  },
-  "location": {
-    "addressLine1": "313 North Gainsway Street",
-    "city": "San Francisco",
-    "region": "California"
-  }
-}
+# Synchronous enrich execution
+enrich_response = fullcontact_client.company.enrich(domain="fullcontact.com")
+print(enrich_response.get_summary())
+""" Output: {'name': 'FullContact Inc',
+ 'location': '1755 Blake Street Suite 450 Denver CO, 80202 USA',
+ 'twitter': 'https://twitter.com/fullcontact',
+ 'linkedin': 'https://www.linkedin.com/company/fullcontact-inc-',
+ 'facebook': None,
+ 'bio': "Solving the world's contact information problem!",
+ 'logo': 'https://img.fullcontact.com/static/7329d91237b7970b984d56c2497c80c0_7abd96cd75e5587b39b9f15dce07d7ebe8dc31accecf1b0f2a617ada34498633',
+ 'website': 'https://www.fullcontact.com',
+ 'founded': 2010,
+ 'employees': 300,
+ 'locale': 'en',
+ 'category': 'Other',
+ 'dataAddOns': [{'id': 'keypeople',
+   'name': 'Key People',
+   'enabled': True,
+   'applied': True,
+   'description': 'Displays information about people of interest at this company.',
+   'docLink': 'http://docs.fullcontact.com/api/#key-people'}],
+ 'updated': '2020-05-31'} """
 
-person_response = person_client.enrich(dataAddon=["location"], **query)
+# Synchronous search execution
+search_response = fullcontact_client.company.search(companyName="fullcontact")
+print(search_response.json()[0])
+""" Output: {'lookupDomain': 'fullcontact.com',
+ 'orgName': 'FullContact Inc',
+ 'logo': 'https://d2ojpxxtu63wzl.cloudfront.net/v1/thumbnail?size=128&url=https://img.fullcontact.com/static/7329d91237b7970b984d56c2497c80c0_7abd96cd75e5587b39b9f15dce07d7ebe8dc31accecf1b0f2a617ada34498633',
+ 'location': {'locality': 'Denver',
+  'region': {'name': 'CO'},
+  'country': {'name': 'USA'}}} """
 
-print(person_response.get_summary())
-{
-  "fullName": "Marquita H Ross",
-  "ageRange": "37-47",
-  "gender": "Female",
-  "location": "San Francisco, California, United States",
-  "title": "Senior Petroleum Manager",
-  "organization": "Mostow Co.",
-  "twitter": "https://twitter.com/marqross91",
-  "linkedin": "https://www.linkedin.com/in/marquita-ross-5b6b72192",
-  "facebook": null,
-  "bio": "Senior Petroleum Manager at Mostow Co.",
-  "avatar": "https://img.fullcontact.com/sandbox/1gagrO2K67_oc5DLG_siVCpYVE5UvCu2Z.png",
-  "website": "http://marquitaas8.com/",
-  "isSandboxProfile": true,
-  "updated": "1970-01-01"
-}
+# Asynchronous enrich execution
+enrich_async_response = fullcontact_client.company.enrich_async(domain="fullcontact.com")
+enrich_result = enrich_async_response.result()
+print(enrich_result.get_summary())
+
+# Asynchronous search execution
+search_async_response = fullcontact_client.company.search_async(companyName="fullcontact")
+search_result = search_async_response.result()
+print(search_result.json()[0])
 ```
-* **Asynchronous queries**
+
+### FullContactClient.company.enrich()
+class: _fullcontact.api.company_api.CompanyClient_
+##### Parameters:
+* `**query`: _kwargs_ - (required)
+
+Supported fields for query:
+* `domain`: _str_
+* `webhookUrl`: _str_
+
+##### Returns:
+#### CompanyEnrichResponse
+class: _fullcontact.response.company_response.CompanyEnrichResponse_
+
+##### Instance variables
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+##### Methods:
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+* `get_summary()`: _dict_ - Summary from Company Enrich Response
+* `get_details()`: _dict_ - Details from Company Enrich Response
+
+### FullContactClient.company.enrich_async()
+class: _fullcontact.api.company_api.CompanyClient_
+##### Parameters:
+Same as that of [FullContactClient.company.enrich()](#fullcontactclientcompanyenrich)
+
+##### Returns:
+#### Future[CompanyEnrichResponse]
+class: _concurrent.Futures.Future_
+##### Useful Methods:
+* `result()`: _CompanyEnrichResponse_ - [CompanyEnrichResponse](#companyenrichresponse) object received once execution is completed
+* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
+
+More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+
+### FullContactClient.company.search()
+class: _fullcontact.api.company_api.CompanyClient_
+##### Parameters:
+* `**query`: _kwargs_ - (required)
+
+Supported fields for query:
+* `companyName`: _str_
+* `sort`: _str_
+* `location`: _str_
+* `locality`: _str_
+* `region`: _str_
+* `country`: _str_
+* `webhookUrl`: _str_
+
+##### Returns:
+#### CompanySearchResponse
+class: _fullcontact.response.company_response.CompanySearchResponse_
+
+##### Instance variables
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+##### Methods:
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+
+### FullContactClient.company.search_async()
+class: _fullcontact.api.company_api.CompanyClient_
+##### Parameters:
+Same as that of [FullContactClient.company.search()](#fullcontactclientcompanysearch)
+
+##### Returns:
+#### Future[CompanySearchResponse]
+class: _concurrent.Futures.Future_
+##### Useful Methods:
+* `result()`: _CompanySearchResponse_ - [CompanySearchResponse](#companysearchresponse) object received once execution is completed
+* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
+
+More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+
+## Identity API
+The client library provides methods to interact with V3 Identity Map, Resolve and Delete APIs through `FullContactClient.identity` object.
+The V3 Identity Map, Resolve and Delete APIs can be accessed using the methods [map()](#fullcontactclientidentitymap), [resolve()](#fullcontactclientidentityresolve) and [delete()](#fullcontactclientidentitydelete), respectively.
+These APIs can be accessed using the async version these functions, [map_async()](#fullcontactclientidentitymap_async), [resolve_async()](#fullcontactclientidentityresolve_async) and [delete_async()](#fullcontactclientidentitydelete_async)
+
 ```python
-import concurrent.futures
+# Synchronous map execution
+map_response = fullcontact_client.identity.map(email="marquitaross006@gmail.com", recordId="customer123")
+print(map_response.get_recordIds())
+# Output: ['customer123']
 
-from fullcontact.exceptions import FullContactException
+# Synchronous resolve execution
+resolve_response = fullcontact_client.identity.resolve(email="marquitaross006@gmail.com")
+print(resolve_response.get_recordIds())
+# Output: ['customer123']
 
-queries = [
-  {
-    "email": "marquitaross006@gmail.com"
-  },
-  {
-    "email": "ispangler@yandex.com",
-    "phone": "+12075550145"
-  },
-  {
-    "phone": "+14105551773"
-  }
-]
+# Synchronous delete execution
+delete_response = fullcontact_client.identity.delete(recordId="customer123")
+print(delete_response.is_successful)
+# Output: True
 
-futures = [ person_client.enrich_async(query) for query in queries ]
+# Asynchronous map execution
+map_async_response = fullcontact_client.identity.map_async(email="marquitaross006@gmail.com", recordId="customer123")
+map_response = map_async_response.result()
+print(map_response.get_recordIds())
+# Output: ['customer123']
 
-for future in concurrent.futures.as_completed(futures):
-  try:
-    data = future.result()
-  except FullContactException as fc_exception:
-    print("FullContactException occurred: %s" % str(fc_exception))
-  except Exception as other_exception:
-    print("Some error occurred: %s" % str(other_exception))
+# Asynchronous resolve execution
+resolve_async_response = fullcontact_client.identity.resolve_async(email="marquitaross006@gmail.com")
+resolve_response = resolve_async_response.result()
+print(resolve_response.get_recordIds())
+# Output: ['customer123']
 
-```
-## CompanyClient
-* **Initialization**
-```python
-from fullcontact import CompanyClient
-
-company_client = CompanyClient("q4pKoF4fRNk0WxfUn4S3vcKLJGgrXxGQ")
+# Asynchronous delete execution
+delete_async_response = fullcontact_client.identity.delete_async(recordId="customer123")
+delete_response = delete_async_response.result()
+print(delete_response.is_successful)
+# Output: True
 ```
 
-You can also export the FullContact API key as an environment variable and then use it in the code.
+### FullContactClient.identity.map()
+class: _fullcontact.api.person_api.IdentityClient_ 
+##### Parameters:
+* `**fields`: _kwargs_ - (required)
 
-Export it in terminal:
-```bash
-export FULLCONTACT_API_KEY="q4pKoF4fRNk0WxfUn4S3vcKLJGgrXxGQ"
-```
-Then use it in the code:
-```python
-import os
-from fullcontact import CompanyClient
+Supported fields for mapping:
+* `email`: _str_
+* `emails`: _List[str]_
+* `phone`: _str_
+* `phones`: _List[str]_
+* `location`: _dict_
+    * `addressLine1`: _str_
+    * `addressLine2`: _str_
+    * `city`: _str_
+    * `region`: _str_
+    * `regionCode`: _str_
+    * `postalCode`: _str_
+* `name`: _dict_
+    * `full`: _str_
+    * `given`: _str_
+    * `family`: _str_
+* `profiles`: _List[dict]_
+    * `service`: _str_
+    * `username`: _str_
+    * `userid`: _str_
+    * `url`: _str_
+* `maids`: _List[str]_
+* `recordId`: _str_ - (required)
 
-company_client = CompanyClient(os.environ.get('FULLCONTACT_API_KEY'))
-```
+##### Returns:
+#### IdentityMapResponse
+class: _fullcontact.response.identity_response.IdentityMapResponse_
 
-* **Synchronous enrich query**
-```python
-company_enrich_response = company_client.enrich(domain="fullcontact.com")
+##### Instance variables
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+##### Methods:
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+* `get_recordIds()`: _List[str]_ - List of recordIds from Map response
 
-print(company_enrich_response.get_summary())
-{
-  "name": "FullContact Inc.",
-  "location": "1755 Blake Street Suite 450 Denver CO, 80202 USA",
-  "twitter": "https://twitter.com/fullcontact",
-  "linkedin": "https://www.linkedin.com/company/fullcontact-inc-",
-  "facebook": null,
-  "bio": "FullContact is the most powerful fully-connected contact management platform for professionals and enterprises who need to master their contacts and be awesome with people.",
-  "logo": "https://img.fullcontact.com/static/bb796b303166bd928f6c0968f15d4a4e_7ef85b2a563abd95ae07e815da2db916a5f8de4d82702388e546a66adc9eac44",
-  "website": "https://www.fullcontact.com",
-  "founded": 2010,
-  "employees": 351,
-  "locale": "en",
-  "category": "Other",
-  "dataAddOns": [
-    {
-      "id": "keypeople",
-      "name": "Key People",
-      "enabled": true,
-      "applied": true,
-      "description": "Displays information about people of interest at this company.",
-      "docLink": "http://docs.fullcontact.com/api/#key-people"
-    }
-  ],
-  "updated": "2020-04-03"
-}
-```
-* **Synchronous search query**
-```python
-query = {
-  "companyName": "fullcontact",
-  "sort": "relevance",
-  "location": "Colorado, USA",
-  "locality": "Denver",
-  "region": "Colorado",
-  "country": "United States"
-}
+### FullContactClient.identity.map_async()
+class: _fullcontact.api.identity_api.IdentityClient_
+##### Parameters:
+Same as that of [FullContactClient.identity.map()](#fullcontactclientidentitymap)
 
-company_search_response = company_client.search(**query)
+##### Returns:
+#### Future[IdentityMapResponse]
+class: _concurrent.Futures.Future_
+##### Useful Methods:
+* `result()`: _IdentityMapResponse_ - [IdentityMapResponse](#identitymapresponse) object received once execution is completed
+* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
 
-print(company_search_response.raw())
-[
-  {
-    "lookupDomain": "blog.fullcontact.com",
-    "orgName": "FullContact, Inc.",
-    "logo": "https://d2ojpxxtu63wzl.cloudfront.net/v1/thumbnail?size=128&url=https://img.fullcontact.com/static/6a43815ada39ec64b22d4589c11360b0_ac6d3981bba92f9df1c232eb98ad255a821acb3bbf66334c079b27f438b93653",
-    "location": {
-      "locality": "Denver",
-      "region": {
-        "name": "Colorado",
-        "code": "CO"
-      },
-      "country": {
-        "name": "United States",
-        "code": "US"
-      }
-    },
-    "score": 1
-  },
-  {
-    "lookupDomain": "tryfullcontact.com",
-    "orgName": "FullContact, Inc.",
-    "logo": "https://d2ojpxxtu63wzl.cloudfront.net/v1/thumbnail?size=128&url=https://img.fullcontact.com/static/d82fa6b4ff10b53af598b274bb9cafbc_f739aa5936447143d4fdcb242a112c62dcfba5c13400dfbcdc9b685ade1409f8",
-    "location": {
-      "locality": "Denver",
-      "region": {
-        "name": "Colorado",
-        "code": "CO"
-      },
-      "country": {
-        "name": "United States",
-        "code": "US"
-      }
-    },
-    "score": 0.976352277344633
-  }
-]
-```
+More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
 
-* **Asynchronous enrich query**
-```python
-company_enrich_future = company_client.enrich_async(domain="fullcontact.com")
-company_enrich_response = company_enrich_future.result()
+### FullContactClient.identity.resolve()
+class: _fullcontact.api.person_api.IdentityClient_ 
+##### Parameters:
+* `**fields`: _kwargs_ - (required)
 
-print(company_enrich_response.get_summary())
-{
-  "name": "FullContact Inc.",
-  "location": "1755 Blake Street Suite 450 Denver CO, 80202 USA",
-  "twitter": "https://twitter.com/fullcontact",
-  "linkedin": "https://www.linkedin.com/company/fullcontact-inc-",
-  "facebook": null,
-  "bio": "FullContact is the most powerful fully-connected contact management platform for professionals and enterprises who need to master their contacts and be awesome with people.",
-  "logo": "https://img.fullcontact.com/static/bb796b303166bd928f6c0968f15d4a4e_7ef85b2a563abd95ae07e815da2db916a5f8de4d82702388e546a66adc9eac44",
-  "website": "https://www.fullcontact.com",
-  "founded": 2010,
-  "employees": 351,
-  "locale": "en",
-  "category": "Other",
-  "dataAddOns": [
-    {
-      "id": "keypeople",
-      "name": "Key People",
-      "enabled": true,
-      "applied": true,
-      "description": "Displays information about people of interest at this company.",
-      "docLink": "http://docs.fullcontact.com/api/#key-people"
-    }
-  ],
-  "updated": "2020-04-03"
-}
-```
+Supported fields for mapping:
+Same as that of [FullContactClient.identity.map()](#fullcontactclientidentitymap), but with one more extra field
+* `personId`: _str_
 
-* **Asynchronous search query**
-```python
-query = {
-  "companyName": "fullcontact",
-  "sort": "relevance",
-  "location": "Colorado, USA",
-  "locality": "Denver",
-  "region": "Colorado",
-  "country": "United States"
-}
+##### Returns:
+#### IdentityResolveResponse
+class: _fullcontact.response.identity_response.IdentityResolveResponse_
 
-company_search_future = company_client.search_async(**query)
-company_search_response = company_search_future.result()
+##### Instance variables
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+##### Methods:
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+* `get_recordIds()`: _List[str]_ - List of recordIds from Resolve response
+* `get_personIds()`: _List[str]_ - List of personIds from Resolve response
 
-print(company_search_response.raw())
-[
-  {
-    "lookupDomain": "blog.fullcontact.com",
-    "orgName": "FullContact, Inc.",
-    "logo": "https://d2ojpxxtu63wzl.cloudfront.net/v1/thumbnail?size=128&url=https://img.fullcontact.com/static/6a43815ada39ec64b22d4589c11360b0_ac6d3981bba92f9df1c232eb98ad255a821acb3bbf66334c079b27f438b93653",
-    "location": {
-      "locality": "Denver",
-      "region": {
-        "name": "Colorado",
-        "code": "CO"
-      },
-      "country": {
-        "name": "United States",
-        "code": "US"
-      }
-    },
-    "score": 1
-  },
-  {
-    "lookupDomain": "tryfullcontact.com",
-    "orgName": "FullContact, Inc.",
-    "logo": "https://d2ojpxxtu63wzl.cloudfront.net/v1/thumbnail?size=128&url=https://img.fullcontact.com/static/d82fa6b4ff10b53af598b274bb9cafbc_f739aa5936447143d4fdcb242a112c62dcfba5c13400dfbcdc9b685ade1409f8",
-    "location": {
-      "locality": "Denver",
-      "region": {
-        "name": "Colorado",
-        "code": "CO"
-      },
-      "country": {
-        "name": "United States",
-        "code": "US"
-      }
-    },
-    "score": 0.976352277344633
-  }
-]
-```
+### FullContactClient.identity.resolve_async()
+class: _fullcontact.api.identity_api.IdentityClient_
+##### Parameters:
+Same as that of [FullContactClient.identity.resolve()](#fullcontactclientidentityresolve)
+
+##### Returns:
+#### Future[IdentityResolveResponse]
+class: _concurrent.Futures.Future_
+##### Useful Methods:
+* `result()`: _IdentityResolveResponse_ - [IdentityResolveResponse](#identityresolveresponse) object received once execution is completed
+* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
+
+More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+
+### FullContactClient.identity.delete()
+class: _fullcontact.api.person_api.IdentityClient_ 
+##### Parameters:
+* `recordId`: _str_ - (required)
+
+##### Returns:
+#### IdentityDeleteResponse
+class: _fullcontact.response.identity_response.IdentityDeleteResponse_
+
+##### Instance variables
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+##### Methods:
+* `json()`: _dict_ - Response JSON as dict. Empty dict will be returned on successful delete.
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+
+### FullContactClient.identity.delete_async()
+class: _fullcontact.api.identity_api.IdentityClient_
+##### Parameters:
+Same as that of [FullContactClient.identity.delete()](#fullcontactclientidentitydelete)
+
+##### Returns:
+#### Future[IdentityDeleteResponse]
+class: _concurrent.Futures.Future_
+##### Useful Methods:
+* `result()`: _IdentityDeleteResponse_ - [IdentityDeleteResponse](#identitydeleteresponse) object received once execution is completed
+* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
+
+More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
