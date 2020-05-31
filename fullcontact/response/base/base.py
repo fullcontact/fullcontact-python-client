@@ -42,7 +42,7 @@ class BaseApiResponse(object):
         """
         return self.response.status_code or None
 
-    def raw(self) -> Union[dict, list]:
+    def json(self) -> Union[dict, list]:
         r"""
         :return: JSON representation of the API response content.
         """

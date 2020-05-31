@@ -117,10 +117,10 @@ class TestCompanyApi(object):
             REQUEST_TYPE, method=method,
             test_scenario=SCENARIO_POSITIVE
         )
-        assert result.raw() and \
+        assert result.json() and \
                result.is_successful and \
                result.get_status_code() == expected_result.status_code and \
-               result.raw() == expected_result.json()
+               result.json() == expected_result.json()
 
     # Parse 202 message
     @pytest.mark.parametrize("method", [

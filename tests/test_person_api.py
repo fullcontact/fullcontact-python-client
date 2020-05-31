@@ -136,7 +136,7 @@ class TestPersonApi(object):
         )
         assert result.is_successful and \
                result.get_status_code() == expected_result.status_code and \
-               result.raw() == expected_result.json()
+               result.json() == expected_result.json()
 
     # Parse 202 message
     def test_enrich_good_webhook_url(self, mock_webhook_good_response):

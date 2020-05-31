@@ -11,12 +11,12 @@ from .base.base import BaseApiResponse
 
 class IdentityMapResponse(BaseApiResponse):
     def get_recordIds(self):
-        return self.raw().get("recordIds", None) or []
+        return self.json().get("recordIds", None) or []
 
 
 class IdentityResolveResponse(IdentityMapResponse):
     def get_personIds(self):
-        return self.raw().get("personIds", None) or []
+        return self.json().get("personIds", None) or []
 
 
 class IdentityDeleteResponse(BaseApiResponse):

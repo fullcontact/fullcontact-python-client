@@ -19,7 +19,7 @@ class BaseEnrichResponse(BaseApiResponse):
         if self.is_successful is False:
             self.__summary = {}
         else:
-            raw_data = self.raw()
+            raw_data = self.json()
             self.__summary = {
                 key: raw_data.get(key, None)
                 for key in raw_data
@@ -32,7 +32,7 @@ class BaseEnrichResponse(BaseApiResponse):
         else:
             # Using or to assign default value as the API
             # sometimes sends None/null values
-            self.__details = self.raw().get("details", None) or {}
+            self.__details = self.json().get("details", None) or {}
 
     def get_summary(self) -> dict:
         r"""
