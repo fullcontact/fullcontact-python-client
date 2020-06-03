@@ -507,6 +507,8 @@ Supported fields for mapping:
 Same as that of [FullContactClient.identity.map()](#fullcontactclientidentitymap), but with one more extra field
 * `personId`: _str_
 
+> Note: recordId and personId cannot be used together to resolve. Only one of these fields can be used in a request.
+
 #### Returns:
 #### IdentityResolveResponse
 class: _fullcontact.response.identity_response.IdentityResolveResponse_
