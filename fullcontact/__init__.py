@@ -33,10 +33,9 @@ class FullContactClient(object):
         :param base_delay: The base delay/backoff factor for exponential backoff.
         """
         client_config = _ClientConfig(api_key,
-                                      headers,
                                       max_retry_count,
                                       retry_status_codes,
                                       base_delay)
-        self.person = _PersonApi(client_config)
-        self.company = _CompanyApi(client_config)
-        self.identity = _IdentityApi(client_config)
+        self.person = _PersonApi(client_config, headers)
+        self.company = _CompanyApi(client_config, headers)
+        self.identity = _IdentityApi(client_config, headers)

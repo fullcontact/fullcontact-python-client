@@ -18,35 +18,42 @@ class CompanyApi(EnrichBase):
     Class that provides methods to perform
     Company Enrich and Search operations.
     """
-    enrich_endpoint = "company.enrich/"
+    _enrich_endpoint = "company.enrich/"
     _enrich_request_handler = CompanyEnrichSchema()
     _enrich_response_handler = CompanyEnrichResponse
 
-    search_endpoint = "company.search/"
+    _search_endpoint = "company.search/"
     _search_request_handler = CompanySearchSchema()
     _search_response_handler = CompanySearchResponse
 
-    def search(self, **query) -> _search_response_handler:
+    def search(self, headers: dict = None, **query) -> _search_response_handler:
         r"""
         POST query to FullContact Company Search API
 
         :param query: query as kwargs, for creating request body
+        :param headers: additional_headers to be passed. Authorization and Content-Type
+        are added automatically.
+
         :return: requests.Response wrapped in self._search_response_handler
         """
 
         return self._validate_and_post_to_api(
             self._search_request_handler,
             self._search_response_handler,
-            self.search_endpoint,
-            query
+            self._search_endpoint,
+            query,
+            headers
         )
 
-    def search_async(self, **query) -> Future:
+    def search_async(self, headers: dict = None, **query) -> Future:
         r"""
         POST query to FullContact Company Search API
 
         :param query: query as kwargs, for creating request body
+        :param headers: additional_headers to be passed. Authorization and Content-Type
+        are added automatically.
+
         :return: Future object. result() will return a requests.Response
         wrapped in self._search_response_handler
         """
-        return self.config.get_executor().submit(self.search, **query)
+        return self.config.get_executor().submit(self.search, headers, **query)

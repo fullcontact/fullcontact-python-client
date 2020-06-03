@@ -15,14 +15,14 @@ class EnrichBase(ApiBase, metaclass=ABCMeta):
 
     @property
     @abstractmethod
-    def enrich_endpoint(self) -> str:
+    def _enrich_endpoint(self) -> str:
         r"""
         Endpoint for enrich.
 
         :return: Enrich endpoint that can be used by self._enrich_url
         """
         raise NotImplementedError(
-            "The property 'enrich_endpoint' is "
+            "The property '_enrich_endpoint' is "
             "not implemented in %s" % self.__class__
         )
 
@@ -52,27 +52,34 @@ class EnrichBase(ApiBase, metaclass=ABCMeta):
             "not implemented in %s" % self.__class__
         )
 
-    def enrich(self, **query) -> _enrich_response_handler:
+    def enrich(self, headers: dict = None, **query) -> _enrich_response_handler:
         r"""
         POST query to FullContact Enrich API.
 
         :param query: query as kwargs, for creating request body
+        :param headers: additional_headers to be passed. Authorization and Content-Type
+        are added automatically.
+
         :return: requests.Response wrapped in self._enrich_response_handler
         """
 
         return self._validate_and_post_to_api(
             self._enrich_request_handler,
             self._enrich_response_handler,
-            self.enrich_endpoint,
-            query
+            self._enrich_endpoint,
+            query,
+            headers
         )
 
-    def enrich_async(self, **query) -> Future:
+    def enrich_async(self, headers: dict = None, **query) -> Future:
         r"""
         POST query to FullContact Enrich API asynchronously.
 
         :param query: query as kwargs, for creating request body
+        :param headers: additional_headers to be passed. Authorization and Content-Type
+        are added automatically.
+
         :return: Future object. result() will return a requests.Response object
         wrapped in self._enrich_response_handler.
         """
-        return self.config.get_executor().submit(self.enrich, **query)
+        return self.config.get_executor().submit(self.enrich, headers, **query)

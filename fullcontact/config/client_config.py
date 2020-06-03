@@ -22,13 +22,14 @@ class ClientConfig(object):
     used with the ApiBase subclass.
     """
     MAX_RETRY_ATTEMPTS = 5
+
+    DEFAULT_RETRY_ATTEMPTS = 1
     DEFAULT_RETRY_DELAY = 1.0
     DEFAULT_RETRY_STATUS_CODES = (429, 503)
 
     def __init__(self,
                  api_key: str,
-                 headers: dict = None,
-                 retry_attempts: int = MAX_RETRY_ATTEMPTS,
+                 retry_attempts: int = DEFAULT_RETRY_ATTEMPTS,
                  retry_status_codes: List[int] = DEFAULT_RETRY_STATUS_CODES,
                  retry_delay: float = DEFAULT_RETRY_DELAY
                  ):
@@ -36,8 +37,6 @@ class ClientConfig(object):
         Initialize the config object.
 
         :param api_key: Used for Authorization
-        :param headers: additional_headers to be passed. Authorization and Content-Type
-        are added if not provided.
         :param retry_attempts: The maximum number of retries to be attempted,
         in case of the provided retry_status_codes. The value is capped at 5.
         :param retry_status_codes: The list of status codes for which retry
@@ -49,10 +48,7 @@ class ClientConfig(object):
         if api_key is None or api_key.strip() == "":
             raise FullContactException("Invalid/Empty API Key provided.")
 
-        if headers is not None and type(headers) != dict:
-            raise FullContactException("Parameter headers should be of type 'dict'")
         self.__api_key = api_key
-        self.__headers = headers if headers is not None else {}
         self.__http_session = self._build_http_session(
             retry_attempts,
             retry_status_codes,
@@ -95,9 +91,6 @@ class ClientConfig(object):
 
     def get_executor(self):
         return self.__executor
-
-    def get_headers(self):
-        return self.__headers
 
     def get_api_key(self):
         return self.__api_key
