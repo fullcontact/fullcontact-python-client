@@ -4,12 +4,14 @@
 The official python client library for FullContact V3 API. This client provides an interface to perform Person Enrich, Company Enrich and Company Search operations.   
 FullContact API Documentation is available at: https://dashboard.fullcontact.com/api-ref
 
+
 # Table of contents
 * [Requirements](#requirements)
 * [Adding To Your Project](#adding-to-your-project)
 * [Installation](#installation)
 * [Migrating from FullContact Client V1.0.0](#migrating-from-fullcontact-client-v100)
 * [Usage](#usage)
+    * [Importing the client](#importing-the-client)
     * [Basic Usage](#basic-usage)
     * [Client Configuration](#client-configuration)
     * [Person API](#person-api)
@@ -28,14 +30,17 @@ FullContact API Documentation is available at: https://dashboard.fullcontact.com
         * [delete()](#fullcontactclientidentitydelete)
         * [delete_async()](#fullcontactclientidentitydelete_async)
 
+
 # Requirements
 This library requires Python 3.5 or above. 
+
 
 # Adding To Your Project
 To add FullContact Python Client library to your project, add the below line to your `requirements.txt` file, or as a requirement in the `setup.py` file.
 ```
 python-fullcontact==2.0.0
 ```
+
 
 # Installation
 It is recommended to install the FullContact python client library from [PyPi](https://pypi.org/) using the below command.
@@ -47,11 +52,12 @@ It is also possible to install the package from this repo, by running the below 
 pip install git+https://github.com/fullcontact/fullcontact-python-client.git
 ```
 
+
 # Migrating from FullContact Client V1.0.0
 This version of FullContact Client (V2.0.0) has significant changes in terms of design and features. Hence, it is not backward compatible with V1.0.0 library.
 However, migrating from the V1.0.0 client is very easy.
 In V1.0.0, there used to be different clients for different APIs (PersonClient, CompanyClient). However with V2.0.0, we have only 1 client, with different methods.
-**V1.0.0**
+#### V1.0.0
 ```python
 from fullcontact import PersonClient, CompanyClient
 person_client = PersonClient("<your_api_key>")
@@ -62,7 +68,7 @@ company_client.search(**query)
 ```
 This would be changed as below in V2.0.0
 
-**V2.0.0**
+#### V2.0.0
 ```python
 from fullcontact import FullContactClient
 fullcontact_client = FullContactClient("<your_api_key>")
@@ -71,12 +77,14 @@ fullcontact_client.company.enrich(**query)
 fullcontact_client.company.search(**query)
 ```
 
+
 # Usage
 ## Importing the client
 The client is available straight out of the package `fullcontact`.
 ```python
 from fullcontact import FullContactClient
 ```
+
 
 ## Basic Usage
 To use the client library, you need to initialize the client using the API KEY that you have generated from [FullContact Developer Dashboard](https://dashboard.fullcontact.com).
@@ -105,10 +113,11 @@ identity_resolve_result = fullcontact_client.identity.resolve(recordId="customer
 identity_delete_result = fullcontact_client.identity.delete(recordId="customer123")
 ```
 
+
 ## Client Configuration
 The FullContact Client allows the configuration of additional headers and retry related values, through init parameters.
 
-##### API Key
+#### API Key
 API Key is required to Authorize with FullContact API and hence, is a required parameter.
 This is set using the `api_key` init parameter for [FullContactClient](#fullcontactclient).
 
@@ -116,8 +125,8 @@ This is set using the `api_key` init parameter for [FullContactClient](#fullcont
 fullcontact_client = FullContactClient("<your_api_key>")
 ```
 
-##### Headers
-The headers `Authorization` and `Content-Type` are added automatically and hence, headers needs to be added only if any additional header needs to be passed to the API.
+#### Headers
+The headers `Authorization`, `Content-Type` and `User-Agent` are added automatically and cannot be overridden. Hence, headers needs to be added only if any additional header needs to be passed to the API.
 One useful situation for this is when you need to pass your `Reporting-Key`.
 The headers can be added by setting the `headers` init parameter for [FullContactClient](#fullcontactclient).
 
@@ -126,8 +135,8 @@ additional_headers = {"Reporting-Key": "clientXYZ"}
 fullcontact_client = FullContactClient(api_key="<your_api_key>", headers=additional_headers)
 ```
 
-##### Retry
-By default, the client retries a request if it receives a `429` or `503` status code. The default retry count is 5 and the backoff factor (base delay) for exponential backoff is 1 second.
+#### Retry
+By default, the client retries a request if it receives a `429` or `503` status code. The default retry count is 1 and the backoff factor (base delay) for exponential backoff is 1 second.
 Retry can by configured by setting the `max_retry_count`, `retry_status_codes` and `base_delay` init parameters for [FullContactClient](#fullcontactclient).
 If the value provided for `max_retry_count` is greater than 5, it will be set to 5.
 
@@ -137,7 +146,7 @@ fullcontact_client = FullContactClient(api_key="<your_api_key>", max_retry_count
 
 ### FullContactClient
 class: _fullcontact.FullContactClient_
-##### Init parameters:
+#### Init parameters:
 * `api_key`: _str_ - (required)
 * `headers`: _dict_ - [optional]
 * `max_retry_count`: _int_ _[default=5]_ - [optional]
@@ -147,7 +156,9 @@ class: _fullcontact.FullContactClient_
 
 ## Person API
 The client library provides methods to interact with V3 Person Enrich API through `FullContactClient.person` object.
-The V3 Person Enrich API can be called synchronously using [enrich()](#fullcontactclientpersonenrich) and asynchronously using [enrich_async()](#fullcontactclientpersonenrich_async)
+The V3 Person Enrich API can be called synchronously using [enrich()](#fullcontactclientpersonenrich) and asynchronously using [enrich_async()](#fullcontactclientpersonenrich_async).
+Additional headers can be set on a per-request basis by setting the parameter `headers` while calling [enrich()](#fullcontactclientpersonenrich) or [enrich_async()](#fullcontactclientpersonenrich_async).
+Being a request level parameter, this can be used to override any header that has been set on the client level.
 
 ```python
 # Synchronous execution
@@ -172,8 +183,9 @@ fullcontact_client.person.enrich_async(email="marquitaross006@gmail.com").add_do
 
 ### FullContactClient.person.enrich()
 class: _fullcontact.api.person_api.PersonClient_ 
-##### Parameters:
+#### Parameters:
 * `**query`: _kwargs_ - (required)
+* `headers`: _dict_ - [optional]
 
 Supported fields for query:
 * `email`: _str_
@@ -204,14 +216,14 @@ Supported fields for query:
 * `dataFilter`: _List[str]_
 * `infer`: _bool_
 
-##### Returns:
+#### Returns:
 #### PersonEnrichResponse
 class: _fullcontact.response.person_response.PersonEnrichResponse_
 
-##### Instance variables
+#### Instance variables
 * `is_successful`: _bool_ - Success flag
 * `response`: _requests.Response_ - Raw _requests.Response_ object
-##### Methods:
+#### Methods:
 * `json()`: _dict_ - Response JSON as dict
 * `get_message()`: _str_ - Response message or HTTP status message
 * `get_headers()`: _dict_ - Response headers
@@ -235,25 +247,28 @@ class: _fullcontact.response.person_response.PersonEnrichResponse_
 * `get_census()`: _dict_ - Census details from Person Enrich Response
 * `get_identifiers()`: _dict_ - Identifiers from Person Enrich Response
 
+
 ### FullContactClient.person.enrich_async()
 class: _fullcontact.api.person_api.PersonClient_ 
-##### Parameters:
+#### Parameters:
 Same as that of [FullContactClient.person.enrich()](#fullcontactclientpersonenrich)
 
-##### Returns:
+#### Returns:
 #### Future[PersonEnrichResponse]
 class: _concurrent.Futures.Future_
-##### Useful Methods:
+> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+#### Useful Methods:
 * `result()`: _PersonEnrichResponse_ - [PersonEnrichResponse](#personenrichresponse) object received once execution is completed
 * `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
 
-More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
 
 
 ## Company API
 The client library provides methods to interact with V3 Company Enrich and Search APIs through `FullContactClient.company` object.
 The V3 Company Enrich API can be called synchronously using [enrich()](#fullcontactclientcompanyenrich) and asynchronously using [enrich_async()](#fullcontactclientcompanyenrich_async).
-Similarly, the V3 Company Search API can be called synchronously using [search()](#fullcontactclientcompanysearch) and asynchronously using [search_async()](#fullcontactclientcompanysearch_async)
+Similarly, the V3 Company Search API can be called synchronously using [search()](#fullcontactclientcompanysearch) and asynchronously using [search_async()](#fullcontactclientcompanysearch_async).
+Additional headers can be set on a per-request basis by setting the parameter `headers` while calling [enrich()](#fullcontactclientcompanyenrich)), [enrich_async()](#fullcontactclientcompanyenrich_async), [search()](#fullcontactclientcompanysearch) or [search_async()](#fullcontactclientcompanysearch_async).  
+Being a request level parameter, this can be used to override any header that has been set on the client level.
 
 ```python
 # Synchronous enrich execution
@@ -300,47 +315,51 @@ search_result = search_async_response.result()
 print(search_result.json()[0])
 ```
 
+
 ### FullContactClient.company.enrich()
 class: _fullcontact.api.company_api.CompanyClient_
-##### Parameters:
+#### Parameters:
 * `**query`: _kwargs_ - (required)
+* `headers`: _dict_ - [optional]
 
 Supported fields for query:
 * `domain`: _str_
 * `webhookUrl`: _str_
 
-##### Returns:
+#### Returns:
 #### CompanyEnrichResponse
 class: _fullcontact.response.company_response.CompanyEnrichResponse_
 
-##### Instance variables
+#### Instance variables
 * `is_successful`: _bool_ - Success flag
 * `response`: _requests.Response_ - Raw _requests.Response_ object
-##### Methods:
+#### Methods:
 * `json()`: _dict_ - Response JSON as dict
 * `get_message()`: _str_ - Response message or HTTP status message
 * `get_headers()`: _dict_ - Response headers
 * `get_summary()`: _dict_ - Summary from Company Enrich Response
 * `get_details()`: _dict_ - Details from Company Enrich Response
 
+
 ### FullContactClient.company.enrich_async()
 class: _fullcontact.api.company_api.CompanyClient_
-##### Parameters:
+#### Parameters:
 Same as that of [FullContactClient.company.enrich()](#fullcontactclientcompanyenrich)
 
-##### Returns:
+#### Returns:
 #### Future[CompanyEnrichResponse]
 class: _concurrent.Futures.Future_
-##### Useful Methods:
+> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+#### Useful Methods:
 * `result()`: _CompanyEnrichResponse_ - [CompanyEnrichResponse](#companyenrichresponse) object received once execution is completed
 * `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
 
-More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
 
 ### FullContactClient.company.search()
 class: _fullcontact.api.company_api.CompanyClient_
-##### Parameters:
+#### Parameters:
 * `**query`: _kwargs_ - (required)
+* `headers`: _dict_ - [optional]
 
 Supported fields for query:
 * `companyName`: _str_
@@ -351,36 +370,39 @@ Supported fields for query:
 * `country`: _str_
 * `webhookUrl`: _str_
 
-##### Returns:
+#### Returns:
 #### CompanySearchResponse
 class: _fullcontact.response.company_response.CompanySearchResponse_
 
-##### Instance variables
+#### Instance variables
 * `is_successful`: _bool_ - Success flag
 * `response`: _requests.Response_ - Raw _requests.Response_ object
-##### Methods:
+#### Methods:
 * `json()`: _dict_ - Response JSON as dict
 * `get_message()`: _str_ - Response message or HTTP status message
 * `get_headers()`: _dict_ - Response headers
 
+
 ### FullContactClient.company.search_async()
 class: _fullcontact.api.company_api.CompanyClient_
-##### Parameters:
+#### Parameters:
 Same as that of [FullContactClient.company.search()](#fullcontactclientcompanysearch)
 
-##### Returns:
+#### Returns:
 #### Future[CompanySearchResponse]
 class: _concurrent.Futures.Future_
-##### Useful Methods:
+> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+#### Useful Methods:
 * `result()`: _CompanySearchResponse_ - [CompanySearchResponse](#companysearchresponse) object received once execution is completed
 * `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
 
-More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
 
 ## Identity API
 The client library provides methods to interact with V3 Identity Map, Resolve and Delete APIs through `FullContactClient.identity` object.
 The V3 Identity Map, Resolve and Delete APIs can be accessed using the methods [map()](#fullcontactclientidentitymap), [resolve()](#fullcontactclientidentityresolve) and [delete()](#fullcontactclientidentitydelete), respectively.
-These APIs can be accessed using the async version these functions, [map_async()](#fullcontactclientidentitymap_async), [resolve_async()](#fullcontactclientidentityresolve_async) and [delete_async()](#fullcontactclientidentitydelete_async)
+These APIs can be accessed using the async version these functions, [map_async()](#fullcontactclientidentitymap_async), [resolve_async()](#fullcontactclientidentityresolve_async) and [delete_async()](#fullcontactclientidentitydelete_async).
+Additional headers can be set on a per-request basis by setting the parameter `headers` while calling these methods.     
+Being a request level parameter, this can be used to override any header that has been set on the client level.
 
 ```python
 # Synchronous map execution
@@ -419,8 +441,9 @@ print(delete_response.is_successful)
 
 ### FullContactClient.identity.map()
 class: _fullcontact.api.person_api.IdentityClient_ 
-##### Parameters:
+#### Parameters:
 * `**fields`: _kwargs_ - (required)
+* `headers`: _dict_ - [optional]
 
 Supported fields for mapping:
 * `email`: _str_
@@ -446,97 +469,101 @@ Supported fields for mapping:
 * `maids`: _List[str]_
 * `recordId`: _str_ - (required)
 
-##### Returns:
+#### Returns:
 #### IdentityMapResponse
 class: _fullcontact.response.identity_response.IdentityMapResponse_
 
-##### Instance variables
+#### Instance variables
 * `is_successful`: _bool_ - Success flag
 * `response`: _requests.Response_ - Raw _requests.Response_ object
-##### Methods:
+#### Methods:
 * `json()`: _dict_ - Response JSON as dict
 * `get_message()`: _str_ - Response message or HTTP status message
 * `get_headers()`: _dict_ - Response headers
 * `get_recordIds()`: _List[str]_ - List of recordIds from Map response
 
+
 ### FullContactClient.identity.map_async()
 class: _fullcontact.api.identity_api.IdentityClient_
-##### Parameters:
+#### Parameters:
 Same as that of [FullContactClient.identity.map()](#fullcontactclientidentitymap)
 
-##### Returns:
+#### Returns:
 #### Future[IdentityMapResponse]
 class: _concurrent.Futures.Future_
-##### Useful Methods:
+> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+#### Useful Methods:
 * `result()`: _IdentityMapResponse_ - [IdentityMapResponse](#identitymapresponse) object received once execution is completed
 * `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
 
-More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
 
 ### FullContactClient.identity.resolve()
 class: _fullcontact.api.person_api.IdentityClient_ 
-##### Parameters:
+#### Parameters:
 * `**fields`: _kwargs_ - (required)
+* `headers`: _dict_ - [optional]
 
 Supported fields for mapping:
 Same as that of [FullContactClient.identity.map()](#fullcontactclientidentitymap), but with one more extra field
 * `personId`: _str_
 
-##### Returns:
+#### Returns:
 #### IdentityResolveResponse
 class: _fullcontact.response.identity_response.IdentityResolveResponse_
 
-##### Instance variables
+#### Instance variables
 * `is_successful`: _bool_ - Success flag
 * `response`: _requests.Response_ - Raw _requests.Response_ object
-##### Methods:
+#### Methods:
 * `json()`: _dict_ - Response JSON as dict
 * `get_message()`: _str_ - Response message or HTTP status message
 * `get_headers()`: _dict_ - Response headers
 * `get_recordIds()`: _List[str]_ - List of recordIds from Resolve response
 * `get_personIds()`: _List[str]_ - List of personIds from Resolve response
 
+
 ### FullContactClient.identity.resolve_async()
 class: _fullcontact.api.identity_api.IdentityClient_
-##### Parameters:
+#### Parameters:
 Same as that of [FullContactClient.identity.resolve()](#fullcontactclientidentityresolve)
 
-##### Returns:
+#### Returns:
 #### Future[IdentityResolveResponse]
 class: _concurrent.Futures.Future_
-##### Useful Methods:
+> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+#### Useful Methods:
 * `result()`: _IdentityResolveResponse_ - [IdentityResolveResponse](#identityresolveresponse) object received once execution is completed
 * `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
 
-More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
 
 ### FullContactClient.identity.delete()
 class: _fullcontact.api.person_api.IdentityClient_ 
-##### Parameters:
+#### Parameters:
 * `recordId`: _str_ - (required)
+* `headers`: _dict_ - [optional]
 
-##### Returns:
+#### Returns:
 #### IdentityDeleteResponse
 class: _fullcontact.response.identity_response.IdentityDeleteResponse_
 
-##### Instance variables
+#### Instance variables
 * `is_successful`: _bool_ - Success flag
 * `response`: _requests.Response_ - Raw _requests.Response_ object
-##### Methods:
+#### Methods:
 * `json()`: _dict_ - Response JSON as dict. Empty dict will be returned on successful delete.
 * `get_message()`: _str_ - Response message or HTTP status message
 * `get_headers()`: _dict_ - Response headers
 
+
 ### FullContactClient.identity.delete_async()
 class: _fullcontact.api.identity_api.IdentityClient_
-##### Parameters:
+#### Parameters:
 Same as that of [FullContactClient.identity.delete()](#fullcontactclientidentitydelete)
 
-##### Returns:
+#### Returns:
 #### Future[IdentityDeleteResponse]
 class: _concurrent.Futures.Future_
-##### Useful Methods:
+> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+#### Useful Methods:
 * `result()`: _IdentityDeleteResponse_ - [IdentityDeleteResponse](#identitydeleteresponse) object received once execution is completed
 * `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
-
-More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
