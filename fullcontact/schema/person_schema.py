@@ -71,8 +71,7 @@ class PersonSummarySchema(BaseSchema):
     queryable_fields = ("email", "emails",
                         "phone", "phones",
                         "location", "name",
-                        "profiles", "maids",
-                        "recordId")
+                        "profiles", "maids")
 
     def validate(self, data: dict) -> dict:
         r"""
@@ -84,7 +83,7 @@ class PersonSummarySchema(BaseSchema):
         a check for the minimum combination for location and name
         would be checked
         """
-        validated_data = super().validate(data)
+        validated_data = super(PersonSummarySchema, self).validate(data)
 
         is_location_present = validated_data.get('location', None) is not None
 
@@ -106,4 +105,4 @@ class PersonSchema(PersonSummarySchema):
     dataFilter: List[str]
     infer: bool
 
-    queryable_fields = PersonSummarySchema.queryable_fields + ("personId",)
+    queryable_fields = PersonSummarySchema.queryable_fields + ("recordId", "personId",)

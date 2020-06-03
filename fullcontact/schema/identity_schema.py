@@ -4,8 +4,9 @@
 This module serves the  class for validating
 FullContact Identity Map, Resolve and Delete API requests.
 """
-
+from .base.schema_base import BaseSchema
 from .person_schema import PersonSummarySchema
+from ..exceptions import FullContactException
 
 
 class IdentityMapSchema(PersonSummarySchema):
@@ -17,10 +18,17 @@ class IdentityResolveSchema(PersonSummarySchema):
 
     personId: str
 
-    queryable_fields = PersonSummarySchema.queryable_fields + ("personId",)
+    queryable_fields = PersonSummarySchema.queryable_fields + ("recordId", "personId",)
+
+    def validate(self, data: dict) -> dict:
+        validated_data = super(IdentityResolveSchema, self).validate(data)
+        if "personId" in validated_data and "recordId" in validated_data:
+            raise FullContactException("Both recordId and personId are provided, please provide only one.")
+
+        return validated_data
 
 
-class IdentityDeleteSchema(PersonSummarySchema):
+class IdentityDeleteSchema(BaseSchema):
     schema_name = "Identity Delete"
 
     recordId: str
