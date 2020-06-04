@@ -3,7 +3,7 @@ import pytest
 from fullcontact import FullContactClient
 from fullcontact.config.client_config import Session
 from fullcontact.exceptions import FullContactException
-from fullcontact.schema.person_schema import PersonSchema
+from fullcontact.schema.person_schema import PersonRequestSchema
 from .utils.mock_request import MockRequest
 from .utils.error_messages import ErrorMessages
 from .utils.mock_response import MockResponse
@@ -167,7 +167,7 @@ class TestPersonApi(object):
     # Full serialization using schema
     def test_full_schema_serialization(self):
         query = MockRequest.get_mock_request(REQUEST_TYPE, METHOD_ENRICH, SCENARIO_FULL_SERIALIZATION)
-        validated_query = PersonSchema().validate(query)
+        validated_query = PersonRequestSchema().validate(query)
         assert validated_query == query
 
     # 202 when profile not found immediately

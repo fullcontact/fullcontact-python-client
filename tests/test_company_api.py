@@ -3,7 +3,7 @@ import pytest
 from fullcontact import FullContactClient
 from fullcontact.config.client_config import Session
 from fullcontact.exceptions import FullContactException
-from fullcontact.schema.company_schema import CompanyEnrichSchema, CompanySearchSchema
+from fullcontact.schema.company_schema import CompanyEnrichRequestSchema, CompanySearchRequestSchema
 from .utils.mock_request import MockRequest
 from .utils.error_messages import ErrorMessages
 from .utils.mock_response import MockResponse
@@ -26,7 +26,7 @@ SCENARIO_FULL_SERIALIZATION = "full_serialization"
 def mock_webhook_good_response(monkeypatch):
     def mock_post(*args, **kwargs):
         webhook_url = kwargs.get('json', {}).get('webhookUrl', '')
-        method = METHOD_SEARCH if kwargs.get("url", "").endswith("search/") else METHOD_ENRICH
+        method = METHOD_SEARCH if kwargs.get("url", "").endswith("search") else METHOD_ENRICH
         return MockResponse.get_mock_response(REQUEST_TYPE, method=method, test_scenario=SCENARIO_VALID_WEBHOOK,
                                               status_code=int(SCENARIO_202),
                                               message_replace=("<webhook_url>", webhook_url))
@@ -38,7 +38,7 @@ def mock_webhook_good_response(monkeypatch):
 def mock_webhook_bad_response(monkeypatch):
     def mock_post(*args, **kwargs):
         webhook_url = kwargs.get('json', {}).get('webhookUrl', '')
-        method = METHOD_SEARCH if kwargs.get("url", "").endswith("search/") else METHOD_ENRICH
+        method = METHOD_SEARCH if kwargs.get("url", "").endswith("search") else METHOD_ENRICH
         return MockResponse.get_mock_response(REQUEST_TYPE, method=method, test_scenario=SCENARIO_INVALID_WEBHOOK,
                                               status_code=400, message_replace=("<webhook_url>", webhook_url))
 
@@ -48,7 +48,7 @@ def mock_webhook_bad_response(monkeypatch):
 @pytest.fixture
 def mock_good_response(monkeypatch):
     def mock_post(*args, **kwargs):
-        method = METHOD_SEARCH if kwargs.get("url", "").endswith("search/") else METHOD_ENRICH
+        method = METHOD_SEARCH if kwargs.get("url", "").endswith("search") else METHOD_ENRICH
         return MockResponse.get_mock_response(REQUEST_TYPE, method=method, test_scenario=SCENARIO_POSITIVE)
 
     monkeypatch.setattr(Session, "post", mock_post)
@@ -57,7 +57,7 @@ def mock_good_response(monkeypatch):
 @pytest.fixture
 def mock_404_response(monkeypatch):
     def mock_post(*args, **kwargs):
-        method = METHOD_SEARCH if kwargs.get("url", "").endswith("search/") else METHOD_ENRICH
+        method = METHOD_SEARCH if kwargs.get("url", "").endswith("search") else METHOD_ENRICH
         query = kwargs.get('json', {})
         message_replace = ("<input_query>", ", ".join(["%s=%s" % (k, v) for k, v in query.items()])) \
             if method == METHOD_SEARCH \
@@ -72,7 +72,7 @@ def mock_404_response(monkeypatch):
 @pytest.fixture
 def mock_401_response(monkeypatch):
     def mock_post(*args, **kwargs):
-        method = METHOD_SEARCH if kwargs.get("url", "").endswith("search/") else METHOD_ENRICH
+        method = METHOD_SEARCH if kwargs.get("url", "").endswith("search") else METHOD_ENRICH
         return MockResponse.get_mock_response(REQUEST_TYPE, method=method, test_scenario=SCENARIO_401,
                                               status_code=int(SCENARIO_401),
                                               message_replace=("<api_key>", MockRequest.MOCK_TOKEN))
@@ -83,7 +83,7 @@ def mock_401_response(monkeypatch):
 @pytest.fixture
 def mock_202_response(monkeypatch):
     def mock_post(*args, **kwargs):
-        method = METHOD_SEARCH if kwargs.get("url", "").endswith("search/") else METHOD_ENRICH
+        method = METHOD_SEARCH if kwargs.get("url", "").endswith("search") else METHOD_ENRICH
         return MockResponse.get_mock_response(REQUEST_TYPE, method=method, test_scenario=SCENARIO_202,
                                               status_code=int(SCENARIO_202))
 
@@ -157,8 +157,8 @@ class TestCompanyApi(object):
 
     # Full serialization using schema
     @pytest.mark.parametrize("method, schema", [
-        (METHOD_ENRICH, CompanyEnrichSchema()),
-        (METHOD_SEARCH, CompanySearchSchema())
+        (METHOD_ENRICH, CompanyEnrichRequestSchema()),
+        (METHOD_SEARCH, CompanySearchRequestSchema())
     ])
     def test_full_schema_serialization(self, method, schema):
         query = MockRequest.get_mock_request(REQUEST_TYPE, method, SCENARIO_FULL_SERIALIZATION)
