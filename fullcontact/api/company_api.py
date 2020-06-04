@@ -18,11 +18,11 @@ class CompanyApi(EnrichBase):
     Class that provides methods to perform
     Company Enrich and Search operations.
     """
-    _enrich_endpoint = "company.enrich/"
+    _enrich_endpoint = "company.enrich"
     _enrich_request_handler = CompanyEnrichSchema()
     _enrich_response_handler = CompanyEnrichResponse
 
-    _search_endpoint = "company.search/"
+    _search_endpoint = "company.search"
     _search_request_handler = CompanySearchSchema()
     _search_response_handler = CompanySearchResponse
 

@@ -15,6 +15,6 @@ class PersonApi(EnrichBase):
     Class that provides methods to perform
     Person Enrich operations, with MultiField Capabilities.
     """
-    _enrich_endpoint = "person.enrich/"
+    _enrich_endpoint = "person.enrich"
     _enrich_request_handler = PersonSchema()
     _enrich_response_handler = PersonEnrichResponse
