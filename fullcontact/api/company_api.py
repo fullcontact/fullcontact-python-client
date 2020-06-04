@@ -10,7 +10,7 @@ from concurrent.futures import Future
 
 from .base.enrich_base import EnrichBase
 from ..response.company_response import CompanyEnrichResponse, CompanySearchResponse
-from ..schema.company_schema import CompanyEnrichSchema, CompanySearchSchema
+from ..schema.company_schema import CompanyEnrichRequestSchema, CompanySearchRequestSchema
 
 
 class CompanyApi(EnrichBase):
@@ -19,11 +19,11 @@ class CompanyApi(EnrichBase):
     Company Enrich and Search operations.
     """
     _enrich_endpoint = "company.enrich"
-    _enrich_request_handler = CompanyEnrichSchema()
+    _enrich_request_handler = CompanyEnrichRequestSchema()
     _enrich_response_handler = CompanyEnrichResponse
 
     _search_endpoint = "company.search"
-    _search_request_handler = CompanySearchSchema()
+    _search_request_handler = CompanySearchRequestSchema()
     _search_response_handler = CompanySearchResponse
 
     def search(self, headers: dict = None, **query) -> _search_response_handler:

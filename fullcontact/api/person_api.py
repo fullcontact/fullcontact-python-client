@@ -7,7 +7,7 @@ FullContact Person Enrich API requests.
 
 from .base.enrich_base import EnrichBase
 from ..response.person_response import PersonEnrichResponse
-from ..schema.person_schema import PersonSchema
+from ..schema.person_schema import PersonRequestSchema
 
 
 class PersonApi(EnrichBase):
@@ -16,5 +16,5 @@ class PersonApi(EnrichBase):
     Person Enrich operations, with MultiField Capabilities.
     """
     _enrich_endpoint = "person.enrich"
-    _enrich_request_handler = PersonSchema()
+    _enrich_request_handler = PersonRequestSchema()
     _enrich_response_handler = PersonEnrichResponse

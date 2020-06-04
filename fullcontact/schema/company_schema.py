@@ -8,7 +8,7 @@ FullContact Company Enrich and Search API requests.
 from .base.schema_base import BaseSchema
 
 
-class CompanyEnrichSchema(BaseSchema):
+class CompanyEnrichRequestSchema(BaseSchema):
     schema_name = "Company Enrich"
 
     domain: str
@@ -17,7 +17,7 @@ class CompanyEnrichSchema(BaseSchema):
     required_fields = ("domain",)
 
 
-class CompanySearchSchema(BaseSchema):
+class CompanySearchRequestSchema(BaseSchema):
     schema_name = "Company Search"
 
     companyName: str

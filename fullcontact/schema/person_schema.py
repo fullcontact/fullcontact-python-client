@@ -11,7 +11,7 @@ from .base.schema_base import BaseSchema, BaseCombinationSchema
 from ..exceptions import FullContactException
 
 
-class LocationSchema(BaseCombinationSchema):
+class LocationRequestSchema(BaseCombinationSchema):
     schema_name = "Location"
 
     addressLine1: str
@@ -28,7 +28,7 @@ class LocationSchema(BaseCombinationSchema):
     )
 
 
-class NameSchema(BaseCombinationSchema):
+class NameRequestSchema(BaseCombinationSchema):
     schema_name = "Name"
 
     full: str
@@ -41,7 +41,7 @@ class NameSchema(BaseCombinationSchema):
     )
 
 
-class ProfileSchema(BaseCombinationSchema):
+class ProfileRequestSchema(BaseCombinationSchema):
     schema_name = "Profile"
 
     service: str
@@ -56,15 +56,15 @@ class ProfileSchema(BaseCombinationSchema):
     )
 
 
-class PersonSummarySchema(BaseSchema):
-    schema_name = "Person Summary"
+class MultiFieldRequestSchema(BaseSchema):
+    schema_name = "Multi Field"
     email: str
     emails: List[str]
     phone: str
     phones: List[str]
-    location: LocationSchema
-    name: NameSchema
-    profiles: List[ProfileSchema]
+    location: LocationRequestSchema
+    name: NameRequestSchema
+    profiles: List[ProfileRequestSchema]
     maids: List[str]
     recordId: str
 
@@ -83,7 +83,7 @@ class PersonSummarySchema(BaseSchema):
         a check for the minimum combination for location and name
         would be checked
         """
-        validated_data = super(PersonSummarySchema, self).validate(data)
+        validated_data = super(MultiFieldRequestSchema, self).validate(data)
 
         is_location_present = validated_data.get('location', None) is not None
 
@@ -96,7 +96,7 @@ class PersonSummarySchema(BaseSchema):
         return validated_data
 
 
-class PersonSchema(PersonSummarySchema):
+class PersonRequestSchema(MultiFieldRequestSchema):
     schema_name = "Person"
 
     personId: str
@@ -105,4 +105,4 @@ class PersonSchema(PersonSummarySchema):
     dataFilter: List[str]
     infer: bool
 
-    queryable_fields = PersonSummarySchema.queryable_fields + ("recordId", "personId",)
+    queryable_fields = MultiFieldRequestSchema.queryable_fields + ("recordId", "personId",)

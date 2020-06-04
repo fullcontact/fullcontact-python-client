@@ -10,7 +10,7 @@ from concurrent.futures import Future
 
 from .base.base import ApiBase
 from ..response.identity_response import IdentityMapResponse, IdentityResolveResponse, IdentityDeleteResponse
-from ..schema.identity_schema import IdentityMapSchema, IdentityResolveSchema, IdentityDeleteSchema
+from ..schema.identity_schema import IdentityMapRequestSchema, IdentityResolveRequestSchema, IdentityDeleteRequestSchema
 
 
 class IdentityApi(ApiBase):
@@ -22,9 +22,9 @@ class IdentityApi(ApiBase):
     _resolve_endpoint = "identity.resolve"
     _delete_endpoint = "identity.delete"
 
-    _map_request_handler = IdentityMapSchema()
-    _resolve_request_handler = IdentityResolveSchema()
-    _delete_request_handler = IdentityDeleteSchema()
+    _map_request_handler = IdentityMapRequestSchema()
+    _resolve_request_handler = IdentityResolveRequestSchema()
+    _delete_request_handler = IdentityDeleteRequestSchema()
 
     _map_response_handler = IdentityMapResponse
     _resolve_response_handler = IdentityResolveResponse
