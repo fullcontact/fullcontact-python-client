@@ -89,15 +89,15 @@ class TestIdentityApi(object):
 
     # Empty query provided
     @pytest.mark.parametrize("function_name, expected_exception, expected_error_message", [
-        (METHOD_MAP, FullContactException, ErrorMessages.IDENTITY_MAP_NOT_QUERYABLE),
-        (METHOD_RESOLVE, FullContactException, ErrorMessages.IDENTITY_RESOLVE_NOT_QUERYABLE),
+        (METHOD_MAP, FullContactException, ErrorMessages.NO_QUERYABLE_INPUTS),
+        (METHOD_RESOLVE, FullContactException, ErrorMessages.NO_QUERYABLE_INPUTS),
         (METHOD_DELETE, TypeError, ErrorMessages.IDENTITY_DELETE_MISSING_ARGUMENT)
     ])
     def test_empty_query(self, function_name, expected_exception, expected_error_message):
         with pytest.raises(expected_exception) as fc_exception:
             getattr(self.fullcontact_client.identity, function_name)()
 
-        assert str(fc_exception.value) == expected_error_message
+        assert str(fc_exception.value).startswith(expected_error_message)
 
     # Invalid location-name combinations
     @pytest.mark.parametrize("method, scenario, expected_error", [
@@ -118,7 +118,7 @@ class TestIdentityApi(object):
         for query in queries:
             with pytest.raises(FullContactException) as fc_exception:
                 getattr(self.fullcontact_client.identity, method)(**query)
-            assert str(fc_exception.value) == expected_error
+            assert str(fc_exception.value).startswith(expected_error)
 
     # Full serialization
     @pytest.mark.parametrize("method", [METHOD_MAP, METHOD_RESOLVE, METHOD_DELETE])

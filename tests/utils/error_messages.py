@@ -1,7 +1,9 @@
 class ErrorMessages(object):
-    PERSON_ENRICH_NOT_QUERYABLE = "No queryable inputs given (" \
-                                  "for example: email, emails, phone, phones," \
-                                  " location, name, profiles, maids, recordId, personId)"
+
+    NO_QUERYABLE_INPUTS = "No queryable inputs given"
+
+    COMPANY_ENRICH_NOT_QUERYABLE = "For Company Enrich query, domain is required."
+    COMPANY_SEARCH_NOT_QUERYABLE = "For Company Search query, companyName is required."
 
     PERSON_ENRICH_INVALID_LOCATION = "Possible combinations to query by Location are:\n" \
                                      "addressLine1 + city + region\n" \
@@ -13,13 +15,6 @@ class ErrorMessages(object):
                                  "full"
 
     PERSON_ENRICH_INVALID_NAME_LOCATION = "Location and Name have to be queried together"
-
-    IDENTITY_MAP_NOT_QUERYABLE = "No queryable inputs given " \
-                                 "(for example: email, emails, phone, phones, location, name, profiles, maids)"
-
-    IDENTITY_RESOLVE_NOT_QUERYABLE = "No queryable inputs given " \
-                                     "(for example: email, emails, phone, phones, location, name, profiles, maids, " \
-                                     "recordId, personId)"
 
     IDENTITY_DELETE_MISSING_ARGUMENT = "delete() missing 1 required positional argument: 'recordId'"
 

@@ -96,7 +96,7 @@ class TestPersonApi(object):
         with pytest.raises(FullContactException) as fc_exception:
             self.fullcontact_client.person.enrich()
 
-        assert str(fc_exception.value) == ErrorMessages.PERSON_ENRICH_NOT_QUERYABLE
+        assert str(fc_exception.value).startswith(ErrorMessages.NO_QUERYABLE_INPUTS)
 
     # Wrong location data, correct name data
     @pytest.mark.parametrize("query",
@@ -104,7 +104,7 @@ class TestPersonApi(object):
     def test_good_name_bad_location_query(self, query):
         with pytest.raises(FullContactException) as fc_exception:
             self.fullcontact_client.person.enrich(**query)
-        assert str(fc_exception.value) == ErrorMessages.PERSON_ENRICH_INVALID_LOCATION
+        assert str(fc_exception.value).startswith(ErrorMessages.PERSON_ENRICH_INVALID_LOCATION)
 
     # Wrong name data, correct location data
     @pytest.mark.parametrize("query",
@@ -113,7 +113,7 @@ class TestPersonApi(object):
     def test_enrich_good_name_bad_location_query(self, query):
         with pytest.raises(FullContactException) as fc_exception:
             self.fullcontact_client.person.enrich(**query)
-        assert str(fc_exception.value) == ErrorMessages.PERSON_ENRICH_INVALID_NAME
+        assert str(fc_exception.value).startswith(ErrorMessages.PERSON_ENRICH_INVALID_NAME)
 
     # Correct location with no name and correct name with no location
     @pytest.mark.parametrize("scenario", [
@@ -124,7 +124,7 @@ class TestPersonApi(object):
         query = MockRequest.get_mock_request(REQUEST_TYPE, METHOD_ENRICH, scenario)
         with pytest.raises(FullContactException) as fc_exception:
             self.fullcontact_client.person.enrich(**query)
-        assert str(fc_exception.value) == ErrorMessages.PERSON_ENRICH_INVALID_NAME_LOCATION
+        assert str(fc_exception.value).startswith(ErrorMessages.PERSON_ENRICH_INVALID_NAME_LOCATION)
 
     # Acceptable input query provided
     def test_enrich_good_requests(self, mock_good_response):

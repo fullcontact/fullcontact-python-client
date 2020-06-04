@@ -5,6 +5,7 @@ from fullcontact.config.client_config import Session
 from fullcontact.exceptions import FullContactException
 from fullcontact.schema.company_schema import CompanyEnrichSchema, CompanySearchSchema
 from .utils.mock_request import MockRequest
+from .utils.error_messages import ErrorMessages
 from .utils.mock_response import MockResponse
 
 REQUEST_TYPE = "company"
@@ -99,14 +100,14 @@ class TestCompanyApi(object):
 
     # Empty query provided
     @pytest.mark.parametrize("function_name, expected_error_message", [
-        (METHOD_ENRICH, "For Company Enrich query, domain is required."),
-        (METHOD_SEARCH, "For Company Search query, companyName is required.")
+        (METHOD_ENRICH, ErrorMessages.COMPANY_ENRICH_NOT_QUERYABLE),
+        (METHOD_SEARCH, ErrorMessages.COMPANY_SEARCH_NOT_QUERYABLE)
     ])
     def test_empty_query(self, function_name, expected_error_message):
         with pytest.raises(FullContactException) as fc_exception:
             getattr(self.fullcontact_client.company, function_name)()
         assert str(
-            fc_exception.value) == expected_error_message
+            fc_exception.value).startswith(expected_error_message)
 
     # Acceptable input query provided
     @pytest.mark.parametrize("method", [METHOD_ENRICH, METHOD_SEARCH])
