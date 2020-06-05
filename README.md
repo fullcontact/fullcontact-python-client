@@ -1,5 +1,5 @@
 # FullContact Client
-[![PyPI](https://img.shields.io/pypi/v/python-fullcontact?label=PyPi)](https://pypi.org/project/python-fullcontact/)
+[![PyPI](https://img.shields.io/pypi/v/fullcontact-python?label=PyPi)](https://pypi.org/project/fullcontact-python/)
 
 The official python client library for FullContact V3 API. This client provides an interface to perform Person Enrich, Company Enrich and Company Search operations.   
 FullContact API Documentation is available at: https://dashboard.fullcontact.com/api-ref
@@ -38,14 +38,14 @@ This library requires Python 3.5 or above.
 # Adding To Your Project
 To add FullContact Python Client library to your project, add the below line to your `requirements.txt` file, or as a requirement in the `setup.py` file.
 ```
-python-fullcontact==2.0.0
+fullcontact-python==2.0.0
 ```
 
 
 # Installation
 It is recommended to install the FullContact python client library from [PyPi](https://pypi.org/) using the below command.
 ```
-pip install python-fullcontact
+pip install fullcontact-python
 ```
 It is also possible to install the package from this repo, by running the below commands.
 ```
@@ -183,7 +183,7 @@ fullcontact_client.person.enrich_async(email="marquitaross006@gmail.com").add_do
 ```
 
 ### FullContactClient.person.enrich()
-class: _fullcontact.api.person_api.PersonClient_ 
+class: _fullcontact.api.person_api.PersonApi_ 
 #### Parameters:
 * `**query`: _kwargs_ - (required)
 * `headers`: _dict_ - [optional]
@@ -250,8 +250,7 @@ class: _fullcontact.response.person_response.PersonEnrichResponse_
 
 
 ### FullContactClient.person.enrich_async()
-class: _fullcontact.api.person_api.PersonClient_ 
-#### Parameters:
+class: _fullcontact.api.person_api.PersonApi_
 Same as that of [FullContactClient.person.enrich()](#fullcontactclientpersonenrich)
 
 #### Returns:
@@ -319,7 +318,7 @@ print(search_result.json()[0])
 
 
 ### FullContactClient.company.enrich()
-class: _fullcontact.api.company_api.CompanyClient_
+class: _fullcontact.api.company_api.CompanyApi_
 #### Parameters:
 * `**query`: _kwargs_ - (required)
 * `headers`: _dict_ - [optional]
@@ -358,7 +357,7 @@ class: _concurrent.Futures.Future_
 
 
 ### FullContactClient.company.search()
-class: _fullcontact.api.company_api.CompanyClient_
+class: _fullcontact.api.company_api.CompanyApi_
 #### Parameters:
 * `**query`: _kwargs_ - (required)
 * `headers`: _dict_ - [optional]
@@ -443,7 +442,7 @@ print(delete_response.is_successful)
 ```
 
 ### FullContactClient.identity.map()
-class: _fullcontact.api.person_api.ResolveClient_ 
+class: _fullcontact.api.resolve_api.ResolveClient_ 
 #### Parameters:
 * `**fields`: _kwargs_ - (required)
 * `headers`: _dict_ - [optional]
@@ -474,7 +473,7 @@ Supported fields for mapping:
 
 #### Returns:
 #### IdentityMapResponse
-class: _fullcontact.response.identity_response.IdentityMapResponse_
+class: _fullcontact.response.resolve_response.IdentityMapResponse_
 
 #### Instance variables
 * `is_successful`: _bool_ - Success flag
@@ -501,7 +500,7 @@ class: _concurrent.Futures.Future_
 
 
 ### FullContactClient.identity.resolve()
-class: _fullcontact.api.person_api.IdentityClient_ 
+class: _fullcontact.api.resolve_api.ResolveApi_ 
 #### Parameters:
 * `**fields`: _kwargs_ - (required)
 * `headers`: _dict_ - [optional]
@@ -514,7 +513,7 @@ Same as that of [FullContactClient.identity.map()](#fullcontactclientidentitymap
 
 #### Returns:
 #### IdentityResolveResponse
-class: _fullcontact.response.identity_response.IdentityResolveResponse_
+class: _fullcontact.response.resolve_response.IdentityResolveResponse_
 
 #### Instance variables
 * `is_successful`: _bool_ - Success flag
@@ -528,7 +527,7 @@ class: _fullcontact.response.identity_response.IdentityResolveResponse_
 
 
 ### FullContactClient.identity.resolve_async()
-class: _fullcontact.api.identity_api.IdentityClient_
+class: _fullcontact.api.resolve_api.ResolveApi_
 #### Parameters:
 Same as that of [FullContactClient.identity.resolve()](#fullcontactclientidentityresolve)
 
@@ -542,14 +541,14 @@ class: _concurrent.Futures.Future_
 
 
 ### FullContactClient.identity.delete()
-class: _fullcontact.api.person_api.IdentityClient_ 
+class: _fullcontact.api.resolve_api.ResolveApi_
 #### Parameters:
 * `recordId`: _str_ - (required)
 * `headers`: _dict_ - [optional]
 
 #### Returns:
 #### IdentityDeleteResponse
-class: _fullcontact.response.identity_response.IdentityDeleteResponse_
+class: _fullcontact.response.resolve_response.IdentityDeleteResponse_
 
 #### Instance variables
 * `is_successful`: _bool_ - Success flag
@@ -561,7 +560,7 @@ class: _fullcontact.response.identity_response.IdentityDeleteResponse_
 
 
 ### FullContactClient.identity.delete_async()
-class: _fullcontact.api.identity_api.IdentityClient_
+class: _fullcontact.api.resolve_api.ResolveApi_
 #### Parameters:
 Same as that of [FullContactClient.identity.delete()](#fullcontactclientidentitydelete)
 
