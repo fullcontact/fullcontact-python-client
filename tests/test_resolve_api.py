@@ -82,7 +82,7 @@ def mock_401_response(monkeypatch):
 ########################################################################################################################
 
 
-class TestIdentityApi(object):
+class TestResolveApi(object):
 
     def setup(self):
         self.fullcontact_client = FullContactClient(MockRequest.MOCK_TOKEN)

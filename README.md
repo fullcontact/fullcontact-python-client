@@ -22,7 +22,7 @@ FullContact API Documentation is available at: https://dashboard.fullcontact.com
         * [enrich_async](#fullcontactclientcompanyenrich_async)
         * [search()](#fullcontactclientcompanysearch)
         * [search_async()](#fullcontactclientcompanysearch_async)
-    * [Identity API](#identity-api)
+    * [Resolve API](#resolve-api)
         * [map()](#fullcontactclientidentitymap)
         * [map_async()](#fullcontactclientidentitymap_async)
         * [resolve()](#fullcontactclientidentityresolve)
@@ -159,6 +159,7 @@ The client library provides methods to interact with V3 Person Enrich API throug
 The V3 Person Enrich API can be called synchronously using [enrich()](#fullcontactclientpersonenrich) and asynchronously using [enrich_async()](#fullcontactclientpersonenrich_async).
 Additional headers can be set on a per-request basis by setting the parameter `headers` while calling [enrich()](#fullcontactclientpersonenrich) or [enrich_async()](#fullcontactclientpersonenrich_async).
 Being a request level parameter, this can be used to override any header that has been set on the client level.
+> Person Enrichment API Documentation: https://dashboard.fullcontact.com/api-ref#person-enrichment
 
 ```python
 # Synchronous execution
@@ -269,6 +270,7 @@ The V3 Company Enrich API can be called synchronously using [enrich()](#fullcont
 Similarly, the V3 Company Search API can be called synchronously using [search()](#fullcontactclientcompanysearch) and asynchronously using [search_async()](#fullcontactclientcompanysearch_async).
 Additional headers can be set on a per-request basis by setting the parameter `headers` while calling [enrich()](#fullcontactclientcompanyenrich)), [enrich_async()](#fullcontactclientcompanyenrich_async), [search()](#fullcontactclientcompanysearch) or [search_async()](#fullcontactclientcompanysearch_async).  
 Being a request level parameter, this can be used to override any header that has been set on the client level.
+> Company Enrichment API Documentation: https://dashboard.fullcontact.com/api-ref#company-enrichment
 
 ```python
 # Synchronous enrich execution
@@ -397,12 +399,13 @@ class: _concurrent.Futures.Future_
 * `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
 
 
-## Identity API
-The client library provides methods to interact with V3 Identity Map, Resolve and Delete APIs through `FullContactClient.identity` object.
-The V3 Identity Map, Resolve and Delete APIs can be accessed using the methods [map()](#fullcontactclientidentitymap), [resolve()](#fullcontactclientidentityresolve) and [delete()](#fullcontactclientidentitydelete), respectively.
+## Resolve API
+The client library provides methods to interact with V3 Resolve API (`identity.map`, `identity.resolve` and `identity.delete` endpoints) through `FullContactClient.identity` object.
+The V3 Resolve API can be accessed using the methods [map()](#fullcontactclientidentitymap), [resolve()](#fullcontactclientidentityresolve) and [delete()](#fullcontactclientidentitydelete), respectively.
 These APIs can be accessed using the async version these functions, [map_async()](#fullcontactclientidentitymap_async), [resolve_async()](#fullcontactclientidentityresolve_async) and [delete_async()](#fullcontactclientidentitydelete_async).
 Additional headers can be set on a per-request basis by setting the parameter `headers` while calling these methods.     
 Being a request level parameter, this can be used to override any header that has been set on the client level.
+> Resolve API Documentation: https://dashboard.fullcontact.com/api-ref#resolve-2
 
 ```python
 # Synchronous map execution
@@ -440,7 +443,7 @@ print(delete_response.is_successful)
 ```
 
 ### FullContactClient.identity.map()
-class: _fullcontact.api.person_api.IdentityClient_ 
+class: _fullcontact.api.person_api.ResolveClient_ 
 #### Parameters:
 * `**fields`: _kwargs_ - (required)
 * `headers`: _dict_ - [optional]
@@ -484,7 +487,7 @@ class: _fullcontact.response.identity_response.IdentityMapResponse_
 
 
 ### FullContactClient.identity.map_async()
-class: _fullcontact.api.identity_api.IdentityClient_
+class: _fullcontact.api.resolve_api.ResolveClient_
 #### Parameters:
 Same as that of [FullContactClient.identity.map()](#fullcontactclientidentitymap)
 

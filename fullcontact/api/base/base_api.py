@@ -11,14 +11,13 @@ from requests import Response
 
 from ...__about__ import __version__
 from ...config.client_config import ClientConfig
-from ...exceptions import FullContactException
 from ...response.base.base import BaseApiResponse
 from ...schema.base.schema_base import BaseSchema
 
 BaseResponse = TypeVar("BaseResponse", bound=BaseApiResponse)
 
 
-class ApiBase(object, metaclass=ABCMeta):
+class BaseApi(object, metaclass=ABCMeta):
     """
     This class acts as the abstract base for all FullContact API
     subclasses. All the functions and attributes common to all
@@ -109,27 +108,27 @@ class ApiBase(object, metaclass=ABCMeta):
                                                    headers=final_headers)
 
     def _validate_and_post_to_api(self,
-                                  request_validator: BaseSchema,
-                                  response_validator: Callable[[Response], BaseApiResponse],
+                                  request: BaseSchema,
+                                  response: Callable[[Response], BaseApiResponse],
                                   endpoint: str,
                                   data: dict,
                                   headers: dict = None) -> BaseResponse:
         r"""
         Validate the request and map the response to a class.
 
-        :param request_validator: Validator object that provides a
+        :param request: Validator object that provides a
         validate() method to validate the data.
-        :param response_validator: Class to be used to map the API response.
+        :param response: Class to be used to map the API response.
         :param endpoint: API endpoint to POST request to.
         :param data: Body of the request to be validated and posted.
         :param headers: additional_headers to be passed. Authorization and Content-Type
         are added automatically.
 
-        :return: requests.Response object wrapped in response_validator class.
+        :return: requests.Response object wrapped in response class.
         """
-        validated_data = request_validator.validate(data) or {}
+        validated_data = request.validate(data) or {}
         api_response = self._post_to_api(endpoint, validated_data, headers)
 
         if validated_data.get('webhookUrl', None) not in (None, ''):
             return BaseApiResponse(api_response)
-        return response_validator(api_response)
+        return response(api_response)

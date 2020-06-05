@@ -1,8 +1,8 @@
 from typing import List
 
 from .api.company_api import CompanyApi as _CompanyApi
-from .api.identity_api import IdentityApi as _IdentityApi
 from .api.person_api import PersonApi as _PersonApi
+from .api.resolve_api import ResolveApi as _ResolveApi
 from .config.client_config import ClientConfig as _ClientConfig
 
 
@@ -38,4 +38,4 @@ class FullContactClient(object):
                                       base_delay)
         self.person = _PersonApi(client_config, headers)
         self.company = _CompanyApi(client_config, headers)
-        self.identity = _IdentityApi(client_config, headers)
+        self.identity = _ResolveApi(client_config, headers)

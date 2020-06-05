@@ -8,12 +8,12 @@ API requests.
 
 from concurrent.futures import Future
 
-from .base.base import ApiBase
-from ..response.identity_response import IdentityMapResponse, IdentityResolveResponse, IdentityDeleteResponse
-from ..schema.identity_schema import IdentityMapRequestSchema, IdentityResolveRequestSchema, IdentityDeleteRequestSchema
+from .base.base_api import BaseApi
+from ..response.resolve_response import IdentityMapResponse, IdentityResolveResponse, IdentityDeleteResponse
+from ..schema.resolve_schema import IdentityMapRequestSchema, IdentityResolveRequestSchema, IdentityDeleteRequestSchema
 
 
-class IdentityApi(ApiBase):
+class ResolveApi(BaseApi):
     r"""
      Class that provides methods to perform
      Identity Resolution operations.
@@ -22,15 +22,15 @@ class IdentityApi(ApiBase):
     _resolve_endpoint = "identity.resolve"
     _delete_endpoint = "identity.delete"
 
-    _map_request_handler = IdentityMapRequestSchema()
-    _resolve_request_handler = IdentityResolveRequestSchema()
-    _delete_request_handler = IdentityDeleteRequestSchema()
+    _map_request = IdentityMapRequestSchema()
+    _resolve_request = IdentityResolveRequestSchema()
+    _delete_request = IdentityDeleteRequestSchema()
 
-    _map_response_handler = IdentityMapResponse
-    _resolve_response_handler = IdentityResolveResponse
-    _delete_response_handler = IdentityDeleteResponse
+    _map_response = IdentityMapResponse
+    _resolve_response = IdentityResolveResponse
+    _delete_response = IdentityDeleteResponse
 
-    def map(self, headers: dict = None, **fields) -> _map_response_handler:
+    def map(self, headers: dict = None, **fields) -> _map_response:
         r"""
         POST query to FullContact Identity Map API.
 
@@ -38,17 +38,17 @@ class IdentityApi(ApiBase):
         :param headers: additional_headers to be passed. Authorization and Content-Type
         are added automatically.
 
-        :return: requests.Response wrapped in _map_response_handler
+        :return: requests.Response wrapped in _map_response
         """
         return self._validate_and_post_to_api(
-            self._map_request_handler,
-            self._map_response_handler,
+            self._map_request,
+            self._map_response,
             self._map_endpoint,
             fields,
             headers
         )
 
-    def resolve(self, headers: dict = None, **identifiers) -> _resolve_response_handler:
+    def resolve(self, headers: dict = None, **identifiers) -> _resolve_response:
         r"""
         POST query to FullContact Identity Resolve API.
 
@@ -56,17 +56,17 @@ class IdentityApi(ApiBase):
         :param headers: additional_headers to be passed. Authorization and Content-Type
         are added automatically.
 
-        :return: requests.Response wrapped in _resolve_response_handler
+        :return: requests.Response wrapped in _resolve_response
         """
         return self._validate_and_post_to_api(
-            self._resolve_request_handler,
-            self._resolve_response_handler,
+            self._resolve_request,
+            self._resolve_response,
             self._resolve_endpoint,
             identifiers,
             headers
         )
 
-    def delete(self, recordId: str, headers: dict = None) -> _delete_response_handler:
+    def delete(self, recordId: str, headers: dict = None) -> _delete_response:
         r"""
         POST query to FullContact Identity Delete API.
 
@@ -74,12 +74,12 @@ class IdentityApi(ApiBase):
         :param headers: additional_headers to be passed. Authorization and Content-Type
         are added automatically.
 
-        :return: requests.Response wrapped in _delete_response_handler
+        :return: requests.Response wrapped in _delete_response
         """
         identifiers = dict(recordId=recordId)
         return self._validate_and_post_to_api(
-            self._delete_request_handler,
-            self._delete_response_handler,
+            self._delete_request,
+            self._delete_response,
             self._delete_endpoint,
             identifiers,
             headers
@@ -93,7 +93,7 @@ class IdentityApi(ApiBase):
         :param headers: additional_headers to be passed. Authorization and Content-Type
         are added automatically.
         :return: Future object. result() will return a requests.Response
-        wrapped in self._map_response_handler
+        wrapped in self._map_response
         """
         return self.config.get_executor().submit(self.map, headers, **fields)
 
@@ -106,7 +106,7 @@ class IdentityApi(ApiBase):
         are added automatically.
 
         :return: Future object. result() will return a requests.Response
-        wrapped in self._resolve_response_handler
+        wrapped in self._resolve_response
         """
         return self.config.get_executor().submit(self.resolve, headers, **identifiers)
 
@@ -119,6 +119,6 @@ class IdentityApi(ApiBase):
         are added automatically.
 
         :return: Future object. result() will return a requests.Response
-        wrapped in self._delete_response_handler
+        wrapped in self._delete_response
         """
         return self.config.get_executor().submit(self.delete, recordId, headers)

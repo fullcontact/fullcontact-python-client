@@ -19,7 +19,7 @@ from fullcontact.exceptions import FullContactException
 class ClientConfig(object):
     r"""
     Class that provides the client configuration to be
-    used with the ApiBase subclass.
+    used with the BaseApi subclass.
     """
     MAX_RETRY_ATTEMPTS = 5
 
