@@ -6,27 +6,31 @@
         "url": "https://twitter.com/marqross91",
         "service": "twitter"
       }
-    ]
+    ],
+    "recordId": "<recordId>"
   },
   {
     "profiles": [
       {
         "username": "marqross91"
       }
-    ]
+    ],
+    "recordId": "<recordId>"
   },
   {
     "profiles": [
       {
         "service": "twitter"
       }
-    ]
+    ],
+    "recordId": "<recordId>"
   },
   {
     "profiles": {
       "username": "marquita-ross-5b6b72192",
       "userid": "761326554",
       "service": "linkedin"
-    }
+    },
+  "recordId": "<recordId>"
   }
 ]

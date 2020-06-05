@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+
+"""
+This module serves the class for wrapping
+FullContact Person Enrich API Response.
+"""
+
 from .base.enrich_base import BaseEnrichResponse
 
 
@@ -53,3 +60,6 @@ class PersonEnrichResponse(BaseEnrichResponse):
 
     def get_census(self) -> dict:
         return self.get_details().get("census", None) or {}
+
+    def get_identifiers(self) -> dict:
+        return self.get_details().get("identifiers", None) or {}

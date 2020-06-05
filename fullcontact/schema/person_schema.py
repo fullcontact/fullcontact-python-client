@@ -1,10 +1,17 @@
+# -*- coding: utf-8 -*-
+
+"""
+This module serves the  class for validating
+FullContact Person Enrich API requests.
+"""
+
 from typing import List
 
 from .base.schema_base import BaseSchema, BaseCombinationSchema
 from ..exceptions import FullContactException
 
 
-class LocationSchema(BaseCombinationSchema):
+class LocationRequestSchema(BaseCombinationSchema):
     schema_name = "Location"
 
     addressLine1: str
@@ -21,7 +28,7 @@ class LocationSchema(BaseCombinationSchema):
     )
 
 
-class NameSchema(BaseCombinationSchema):
+class NameRequestSchema(BaseCombinationSchema):
     schema_name = "Name"
 
     full: str
@@ -34,7 +41,7 @@ class NameSchema(BaseCombinationSchema):
     )
 
 
-class ProfileSchema(BaseCombinationSchema):
+class ProfileRequestSchema(BaseCombinationSchema):
     schema_name = "Profile"
 
     service: str
@@ -49,34 +56,34 @@ class ProfileSchema(BaseCombinationSchema):
     )
 
 
-class PersonSchema(BaseSchema):
-    schema_name = "Person"
-
+class MultiFieldRequestSchema(BaseSchema):
+    schema_name = "Multi Field"
     email: str
     emails: List[str]
     phone: str
     phones: List[str]
-    location: LocationSchema
-    name: NameSchema
-    profiles: List[ProfileSchema]
+    location: LocationRequestSchema
+    name: NameRequestSchema
+    profiles: List[ProfileRequestSchema]
     maids: List[str]
-    webhookUrl: str
-    confidence: str
-    dataFilter: List[str]
-    infer: bool
+    recordId: str
 
-    queryable_fields = ("email", "emails", "phone", "phones", "location", "name", "profiles", "maids")
+    queryable_fields = ("email", "emails",
+                        "phone", "phones",
+                        "location", "name",
+                        "profiles", "maids")
 
     def validate(self, data: dict) -> dict:
         r"""
-        Validate the input data
+        Validate the input data.
+
         :param data: dict data to be validated
         :return: validated data
         Validation will be done using the base class method. In addition,
-        a check for the minumum combination for location and name
+        a check for the minimum combination for location and name
         would be checked
         """
-        validated_data = super().validate(data)
+        validated_data = super(MultiFieldRequestSchema, self).validate(data)
 
         is_location_present = validated_data.get('location', None) is not None
 
@@ -87,3 +94,15 @@ class PersonSchema(BaseSchema):
             raise FullContactException("Location and Name have to be queried together")
 
         return validated_data
+
+
+class PersonRequestSchema(MultiFieldRequestSchema):
+    schema_name = "Person"
+
+    personId: str
+    webhookUrl: str
+    confidence: str
+    dataFilter: List[str]
+    infer: bool
+
+    queryable_fields = MultiFieldRequestSchema.queryable_fields + ("recordId", "personId",)
