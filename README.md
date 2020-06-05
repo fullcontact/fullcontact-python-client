@@ -1,5 +1,5 @@
 # FullContact Client
-[![PyPI](https://img.shields.io/pypi/v/fullcontact-python?label=PyPi)](https://pypi.org/project/fullcontact-python/)
+[![PyPI](https://img.shields.io/pypi/v/python-fullcontact?label=PyPi)](https://pypi.org/project/python-fullcontact/)
 
 The official python client library for FullContact V3 API. This client provides an interface to perform Person Enrich, Company Enrich and Company Search operations.   
 FullContact API Documentation is available at: https://dashboard.fullcontact.com/api-ref
@@ -38,14 +38,14 @@ This library requires Python 3.5 or above.
 # Adding To Your Project
 To add FullContact Python Client library to your project, add the below line to your `requirements.txt` file, or as a requirement in the `setup.py` file.
 ```
-fullcontact-python==2.0.0
+python-fullcontact==2.0.0
 ```
 
 
 # Installation
 It is recommended to install the FullContact python client library from [PyPi](https://pypi.org/) using the below command.
 ```
-pip install fullcontact-python
+pip install python-fullcontact
 ```
 It is also possible to install the package from this repo, by running the below commands.
 ```

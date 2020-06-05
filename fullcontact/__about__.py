@@ -7,7 +7,7 @@ __all__ = [
     "__license__"
 ]
 
-__name__ = "fullcontact-python"
+__name__ = "python-fullcontact"
 __version__ = "2.0.0"
 __author__ = "FullContact"
 __author_email__ = "pypy@fullcontact.com"
