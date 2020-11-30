@@ -81,6 +81,7 @@ class BaseApi(object, metaclass=ABCMeta):
 
     def _post_to_api(self,
                      endpoint: str,
+                     params: dict = None,
                      data: dict = None,
                      headers: dict = None
                      ) -> Response:
@@ -89,6 +90,7 @@ class BaseApi(object, metaclass=ABCMeta):
         Method type is always POST for the requests.
 
         :param endpoint: endpoint to POST request to
+        :param params: URL parameters to be passed
         :param data: body of the request to be sent
         :param headers: additional_headers to be passed. Authorization and Content-Type
         are added automatically.
@@ -97,6 +99,7 @@ class BaseApi(object, metaclass=ABCMeta):
         """
         url = self._BASE_URL + endpoint
         data = data or {}
+        params = params or {}
 
         final_headers = self._get_merged_headers(
             self._headers,
@@ -104,6 +107,7 @@ class BaseApi(object, metaclass=ABCMeta):
             self._default_headers)
 
         return self.config.get_http_session().post(url=url,
+                                                   params=params,
                                                    json=data,
                                                    headers=final_headers)
 
@@ -112,6 +116,7 @@ class BaseApi(object, metaclass=ABCMeta):
                                   response: Callable[[Response], BaseApiResponse],
                                   endpoint: str,
                                   data: dict,
+                                  params: dict = None,
                                   headers: dict = None) -> BaseResponse:
         r"""
         Validate the request and map the response to a class.
@@ -127,8 +132,65 @@ class BaseApi(object, metaclass=ABCMeta):
         :return: requests.Response object wrapped in response class.
         """
         validated_data = request.validate(data) or {}
-        api_response = self._post_to_api(endpoint, validated_data, headers)
+        api_response = self._post_to_api(endpoint, params, validated_data, headers)
 
         if validated_data.get('webhookUrl', None) not in (None, ''):
             return BaseApiResponse(api_response)
+        return response(api_response)
+
+    def _get_from_api(self,
+                      endpoint: str,
+                      params: dict = None,
+                      headers: dict = None,
+                      stream: bool = True
+                      ) -> Response:
+        r"""
+        Send GET request to API based on parameters.
+        Method type is always GET for the requests.
+
+        :param endpoint: endpoint to POST request to
+        :param params: GET query parameters as dict
+        :param stream: Toggle streaming for the response content.
+        :param headers: additional_headers to be passed. Authorization and Content-Type
+        are added automatically.
+
+        :return: Response object
+        """
+        url = self._BASE_URL + endpoint
+        params = params or {}
+
+        final_headers = self._get_merged_headers(
+            self._headers,
+            headers,
+            self._default_headers)
+
+        return self.config.get_http_session().get(url=url,
+                                                  params=params,
+                                                  headers=final_headers,
+                                                  stream=stream)
+
+    def _validate_and_get_from_api(self,
+                                   request: BaseSchema,
+                                   response: Callable[[Response], BaseApiResponse],
+                                   endpoint: str,
+                                   params: dict,
+                                   headers: dict = None,
+                                   stream: bool = True) -> BaseResponse:
+        r"""
+        Validate the request and map the response to a class.
+
+        :param request: Validator object that provides a
+        validate() method to validate the data.
+        :param response: Class to be used to map the API response.
+        :param endpoint: API endpoint to POST request to.
+        :param params: GET query parameters as a dict.
+        :param stream: Toggle streaming for the response content.
+        :param headers: additional_headers to be passed. Authorization and Content-Type
+        are added automatically.
+
+        :return: requests.Response object wrapped in response class.
+        """
+        validated_params = request.validate(params) or {}
+        api_response = self._get_from_api(endpoint, validated_params, headers, stream)
+
         return response(api_response)
