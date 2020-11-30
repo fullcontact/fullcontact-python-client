@@ -34,9 +34,9 @@ class ResolveApi(BaseApi):
         r"""
         POST query to FullContact Identity Map API.
 
-        :param fields: fields to be used for identity.map
-        :param headers: additional_headers to be passed. Authorization and Content-Type
-        are added automatically.
+        :param fields: Fields to be used for identity.map
+        :param headers: Additional_headers to be passed.
+        Authorization and Content-Type are added automatically.
 
         :return: requests.Response wrapped in _map_response
         """
@@ -48,13 +48,17 @@ class ResolveApi(BaseApi):
             headers
         )
 
-    def resolve(self, headers: dict = None, **identifiers) -> _resolve_response:
+    def resolve(self,
+                headers: dict = None,
+                include_tags: bool = False,
+                **identifiers) -> _resolve_response:
         r"""
         POST query to FullContact Identity Resolve API.
 
-        :param identifiers: identifiers to be used for identity.resolve
-        :param headers: additional_headers to be passed. Authorization and Content-Type
+        :param headers: Additional_headers to be passed. Authorization and Content-Type
         are added automatically.
+        :param include_tags: Flag to toggle tags in the response.
+        :param identifiers: identifiers to be used for identity.resolve
 
         :return: requests.Response wrapped in _resolve_response
         """
@@ -63,6 +67,7 @@ class ResolveApi(BaseApi):
             self._resolve_response,
             self._resolve_endpoint,
             identifiers,
+            dict(tags=include_tags),
             headers
         )
 

@@ -7,6 +7,7 @@ API Responses.
 """
 
 from .base.base import BaseApiResponse
+from .base.tags_base import BaseTagsResponse
 
 
 class IdentityMapResponse(BaseApiResponse):
@@ -14,9 +15,12 @@ class IdentityMapResponse(BaseApiResponse):
         return self.json().get("recordIds", None) or []
 
 
-class IdentityResolveResponse(IdentityMapResponse):
+class IdentityResolveResponse(IdentityMapResponse, BaseTagsResponse):
     def get_personIds(self):
         return self.json().get("personIds", None) or []
+
+    def get_partnerIds(self):
+        return self.json().get("partnerIds", None) or []
 
 
 class IdentityDeleteResponse(BaseApiResponse):

@@ -67,11 +67,14 @@ class MultiFieldRequestSchema(BaseSchema):
     profiles: List[ProfileRequestSchema]
     maids: List[str]
     recordId: str
+    li_nonid: str
+    partnerId: str
 
     queryable_fields = ("email", "emails",
                         "phone", "phones",
                         "location", "name",
-                        "profiles", "maids")
+                        "profiles", "maids",
+                        "li_nonid", "partnerId")
 
     def validate(self, data: dict) -> dict:
         r"""
