@@ -17,6 +17,8 @@ class AudienceCreateResponse(BaseApiResponse):
 
 
 class AudienceDownloadResponse(BaseApiResponse):
+    SUCCESSFUL_STATUS_CODES = (200)
+
     def _copy_fileobj_in_chunks(self, source_file: BinaryIO, dest_file: BinaryIO):
         for chunk in source_file:
             dest_file.write(chunk)
@@ -27,7 +29,7 @@ class AudienceDownloadResponse(BaseApiResponse):
 
         :param file: The file path or file object to write
         """
-        if self.get_status_code() == 200:
+        if self.is_successful:
             if isinstance(file, str):
                 with open(file, "wb") as download_file:
                     self._copy_fileobj_in_chunks(self.response, download_file)
