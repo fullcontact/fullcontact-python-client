@@ -67,7 +67,7 @@ class MultiFieldRequestSchema(BaseSchema):
     profiles: List[ProfileRequestSchema]
     maids: List[str]
     recordId: str
-    li_nonid: str
+    li_nonId: str
     partnerId: str
 
     queryable_fields = ("email", "emails",
