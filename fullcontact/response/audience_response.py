@@ -27,7 +27,7 @@ class AudienceDownloadResponse(BaseApiResponse):
 
         :param file: The file path or file object to write
         """
-        if self.is_successful:
+        if self.get_status_code() == 200:
             if isinstance(file, str):
                 with open(file, "wb") as download_file:
                     self._copy_fileobj_in_chunks(self.response, download_file)
