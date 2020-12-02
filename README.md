@@ -245,6 +245,8 @@ Supported fields for query:
 * `maids`: _List[str]_
 * `recordId`: _str_
 * `personId`: _str_
+* `li_nonId`: _str_
+* `partnerId`: _str_
 * `webhookUrl`: _str_
 * `confidence`: _str_
 * `dataFilter`: _List[str]_
@@ -503,6 +505,8 @@ Supported fields for mapping:
     * `url`: _str_
 * `maids`: _List[str]_
 * `recordId`: _str_ - (required)
+* `li_nonId`: _str_
+* `partnerId`: _str_
 
 #### Returns:
 #### IdentityMapResponse
@@ -536,6 +540,8 @@ class: _concurrent.Futures.Future_
 class: _fullcontact.api.resolve_api.ResolveApi_ 
 #### Parameters:
 * `**fields`: _kwargs_ - (required)
+* `include_tags`: `_bool_ - [optional]
+    > If `include_tags` is set to True, the response will include tags in the response.
 * `headers`: _dict_ - [optional]
 
 Supported fields for mapping:
@@ -557,6 +563,8 @@ class: _fullcontact.response.resolve_response.IdentityResolveResponse_
 * `get_headers()`: _dict_ - Response headers
 * `get_recordIds()`: _List[str]_ - List of recordIds from Resolve response
 * `get_personIds()`: _List[str]_ - List of personIds from Resolve response
+* `get_partnerIds()`: _List[str]_ - List of partnerIds from Resolve response
+* `get_tags()`: _Dict_ - A dict of tags, if `include_tags` was set to True in the request
 
 
 ### FullContactClient.identity.resolve_async()
