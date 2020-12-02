@@ -45,7 +45,7 @@ class CompanyApi(EnrichBaseApi):
             headers
         )
 
-    def search_async(self, headers: dict = None, **query) -> Future[_search_response]:
+    def search_async(self, headers: dict = None, **query) -> Future:
         r"""
         POST query to FullContact Company Search API
 

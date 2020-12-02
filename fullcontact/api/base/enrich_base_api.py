@@ -73,7 +73,7 @@ class EnrichBaseApi(BaseApi, metaclass=ABCMeta):
             headers
         )
 
-    def enrich_async(self, headers: dict = None, **query) -> Future[_enrich_response]:
+    def enrich_async(self, headers: dict = None, **query) -> Future:
         r"""
         POST query to FullContact Enrich API asynchronously.
 
