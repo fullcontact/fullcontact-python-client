@@ -17,7 +17,7 @@ class AudienceCreateResponse(BaseApiResponse):
 
 
 class AudienceDownloadResponse(BaseApiResponse):
-    SUCCESSFUL_STATUS_CODES = (200)
+    SUCCESSFUL_STATUS_CODES = (200,)
 
     def _copy_fileobj_in_chunks(self, source_file: BinaryIO, dest_file: BinaryIO):
         for chunk in source_file:
