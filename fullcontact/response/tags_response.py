@@ -11,10 +11,10 @@ from .base.tags_base import BaseTagsResponse
 
 
 class TagsGetResponse(BaseTagsResponse):
-    def get_recordId(self):
+    def get_recordId(self) -> str:
         return self.json().get("recordId", None)
 
-    def get_partnerId(self):
+    def get_partnerId(self) -> str:
         return self.json().get("partnerId", None)
 
 

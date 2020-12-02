@@ -90,7 +90,7 @@ class ResolveApi(BaseApi):
             headers
         )
 
-    def map_async(self, headers: dict = None, **fields) -> Future:
+    def map_async(self, headers: dict = None, **fields) -> Future[_map_response]:
         r"""
         POST query to FullContact Identity Map API asynchronously.
 
@@ -102,7 +102,7 @@ class ResolveApi(BaseApi):
         """
         return self.config.get_executor().submit(self.map, headers, **fields)
 
-    def resolve_async(self, headers: dict = None, **identifiers) -> Future:
+    def resolve_async(self, headers: dict = None, **identifiers) -> Future[_resolve_response]:
         r"""
         POST query to FullContact Identity Resolve API asynchronously.
 
@@ -115,7 +115,7 @@ class ResolveApi(BaseApi):
         """
         return self.config.get_executor().submit(self.resolve, headers, **identifiers)
 
-    def delete_async(self, recordId, headers: dict = None) -> Future:
+    def delete_async(self, recordId, headers: dict = None) -> Future[_delete_response]:
         r"""
         POST query to FullContact Identity Delete API asynchronously.
 

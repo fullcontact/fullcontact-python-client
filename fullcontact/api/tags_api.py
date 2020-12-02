@@ -95,7 +95,7 @@ class TagsApi(TagsBaseApi):
             headers
         )
 
-    def get_async(self, headers: dict = None, **identifiers) -> Future:
+    def get_async(self, headers: dict = None, **identifiers) -> Future[_get_response]:
         r"""
         POST identifiers to FullContact Tags Get API asynchronously.
 
@@ -115,7 +115,7 @@ class TagsApi(TagsBaseApi):
     def create_async(self,
                      recordId: str,
                      tags: dict,
-                     headers: dict = None) -> Future:
+                     headers: dict = None) -> Future[_create_response]:
         r"""
         POST tags and recordId to FullContact Tags Create API asynchronously.
 
@@ -138,7 +138,7 @@ class TagsApi(TagsBaseApi):
     def delete_async(self,
                      recordId: str,
                      tags: dict,
-                     headers: dict = None) -> Future:
+                     headers: dict = None) -> Future[_delete_response]:
         r"""
         POST tags and recordId to FullContact Tags Delete API asynchronously.
 

@@ -86,11 +86,11 @@ class ClientConfig(object):
         http_session.mount("https://", http_adapter)
         return http_session
 
-    def get_http_session(self):
+    def get_http_session(self) -> Session:
         return self.__http_session
 
-    def get_executor(self):
+    def get_executor(self) -> ThreadPoolExecutor:
         return self.__executor
 
-    def get_api_key(self):
+    def get_api_key(self) -> str:
         return self.__api_key

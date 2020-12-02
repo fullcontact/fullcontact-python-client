@@ -71,7 +71,7 @@ class AudienceApi(TagsBaseApi):
     def create_async(self,
                      webhookUrl: str,
                      tags: dict,
-                     headers: dict = None) -> Future:
+                     headers: dict = None) -> Future[_create_response]:
         r"""
         POST tags to FullContact Tags Create API asynchronously.
 
@@ -92,7 +92,7 @@ class AudienceApi(TagsBaseApi):
 
     def download_async(self,
                        requestId: str,
-                       headers: dict = None) -> Future:
+                       headers: dict = None) -> Future[_download_response]:
         r"""
         Get the audience response file asynchronously.
 
