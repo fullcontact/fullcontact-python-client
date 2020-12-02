@@ -666,7 +666,7 @@ class: _fullcontact.api.tags_api.TagsApi_
 #### Parameters:
 * `recordId`: _str_ - (required)
 * `tags`: _dict_ - (required)
-    > Tags dict has to be in the format {tag1_key: tag1_value, tag2_key: tag2_value, ...}
+    > Tags dict has to be in the format {tag1_key: tag1_value, tag2_key: [tag2_value1, tag2_value2], ...}. Tag value can be a string or a list of strings to support multiple values.
 * `headers`: _dict_ - [optional]
 
 #### Returns:
