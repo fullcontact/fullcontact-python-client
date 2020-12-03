@@ -4,13 +4,17 @@
 This module serves the  class for validating
 FullContact Identity Map, Resolve and Delete API requests.
 """
-from .base.schema_base import BaseSchema
+from typing import List
+
+from .base.schema_base import BaseRequestSchema
 from .person_schema import MultiFieldRequestSchema
+from .tags_schema import TagRequestSchema
 from ..exceptions import FullContactException
 
 
 class IdentityMapRequestSchema(MultiFieldRequestSchema):
     schema_name = "Identity Map"
+    tags: List[TagRequestSchema]
 
 
 class IdentityResolveRequestSchema(MultiFieldRequestSchema):
@@ -28,7 +32,7 @@ class IdentityResolveRequestSchema(MultiFieldRequestSchema):
         return validated_data
 
 
-class IdentityDeleteRequestSchema(BaseSchema):
+class IdentityDeleteRequestSchema(BaseRequestSchema):
     schema_name = "Identity Delete"
 
     recordId: str

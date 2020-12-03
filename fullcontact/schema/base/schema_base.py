@@ -12,7 +12,7 @@ from typing import get_type_hints, Iterable, Union
 from ...exceptions import FullContactException
 
 
-class BaseSchema(object, metaclass=ABCMeta):
+class BaseRequestSchema(object, metaclass=ABCMeta):
     required_fields = ()
     queryable_fields = ()
 
@@ -33,7 +33,7 @@ class BaseSchema(object, metaclass=ABCMeta):
         :return: validated iterable data
         """
         iter_type = attr_type.__args__[0]
-        if isinstance(iter_type(), BaseSchema):
+        if isinstance(iter_type(), BaseRequestSchema):
             return [
                 iter_type().validate(data_item)
                 for data_item in iter_data
@@ -108,7 +108,7 @@ class BaseSchema(object, metaclass=ABCMeta):
                 )
 
             # If the item is an instance of a schema, call its validate method.
-            elif isinstance(attr_type(), BaseSchema):
+            elif isinstance(attr_type(), BaseRequestSchema):
                 valid_fields[attr_name] = attr_type().validate(data[attr_name])
 
             # Raise for type mismatch.
@@ -128,7 +128,7 @@ class BaseSchema(object, metaclass=ABCMeta):
         return valid_fields
 
 
-class BaseCombinationSchema(BaseSchema):
+class BaseCombinationRequestSchema(BaseRequestSchema):
     @property
     @abstractmethod
     def field_combinations(self) -> Iterable[tuple]:

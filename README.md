@@ -4,7 +4,7 @@
 ![pytest](https://github.com/fullcontact/fullcontact-python-client/workflows/pytest/badge.svg)
 
 The official python client library for FullContact V3 API. This client provides an interface to perform Person Enrich, Company Enrich and Company Search operations.   
-FullContact API Documentation is available at: https://dashboard.fullcontact.com/api-ref
+FullContact API Documentation is available at: https://platform.fullcontact.com/docs
 
 
 # Table of contents
@@ -31,6 +31,18 @@ FullContact API Documentation is available at: https://dashboard.fullcontact.com
         * [resolve_async()](#fullcontactclientidentityresolve_async)
         * [delete()](#fullcontactclientidentitydelete)
         * [delete_async()](#fullcontactclientidentitydelete_async)
+    * [Tags API](#tags-api)
+        * [get()](fullcontactclienttagsget)
+        * [get_async()](fullcontactclienttagsget_async)
+        * [create()](fullcontactclienttagscreate)
+        * [create_async()](fullcontactclienttagscreate_async)
+        * [delete()](fullcontactclienttagsdelete)
+        * [delete_async()](fullcontactclienttagsdelete_async)
+    * [Audience](#audience-api)
+        * [create()](fullcontactclientaudiencecreate)
+        * [create_async()](fullcontactclientaudiencecreate_async)
+        * [download()](fullcontactclientaudiencedownload)
+        * [download_async()](fullcontactclientaudiencedownload_async)
 
 
 # Requirements
@@ -89,30 +101,49 @@ from fullcontact import FullContactClient
 
 
 ## Basic Usage
-To use the client library, you need to initialize the client using the API KEY that you have generated from [FullContact Developer Dashboard](https://dashboard.fullcontact.com).
+To use the client library, you need to initialize the client using the API KEY that you have generated from [FullContact Platform](https://platform.fullcontact.com/developers/api-keys).
 Once initialized, the client provides the `Enrich` and `Resolve` capabilities of the V3 FullContact API.
 ```python
 from fullcontact import FullContactClient
 
 fullcontact_client = FullContactClient("<your_api_key>")
 
-# V3 Person Enrich
+# Person Enrich
 person_enrich_result = fullcontact_client.person.enrich(email="marquitaross006@gmail.com")
 
-# V3 Company Enrich
+# Company Enrich
 company_enrich_result = fullcontact_client.company.enrich(domain="fullcontact.com")
 
-# V3 Company Search
+# Company Search
 company_search_results = fullcontact_client.company.search(companyName="fullcontact")
 
-# V3 Identity Map
+# Identity Map
 identity_map_result = fullcontact_client.identity.map(email="marquitaross006@gmail.com", recordId="customer123")
 
-# V3 Identity Resolve
+# Identity Resolve
 identity_resolve_result = fullcontact_client.identity.resolve(recordId="customer123")
 
-# V3 Identity Delete
+# Identity Delete
 identity_delete_result = fullcontact_client.identity.delete(recordId="customer123")
+
+# Tags Get
+tags_get_result = fullcontact_client.tags.get(recordId="customer123")
+
+# Tags Create
+tags_create_result = fullcontact_client.tags.create(recordId="customer123", 
+                                                    tags={"tag1": "value1", "tag2": ["value2", "value3"]})
+
+# Tags Delete
+tags_delete_result = fullcontact_client.tags.create(recordId="customer123", 
+                                                    tags={"tag2": "value2"})
+
+# Audience Create
+audience_create_result = fullcontact_client.audience.create(webhookUrl="http://your_webhook_url/", 
+                                                            tags={"tag1": "value1", "tag2": "value2"})
+
+# Audience Download
+audience_download_result = fullcontact_client.audience.download(requestId="<your_requestId>")
+audience_download_result.write_to_file("<output_file_path>")
 ```
 
 
@@ -161,7 +192,7 @@ The client library provides methods to interact with V3 Person Enrich API throug
 The V3 Person Enrich API can be called synchronously using [enrich()](#fullcontactclientpersonenrich) and asynchronously using [enrich_async()](#fullcontactclientpersonenrich_async).
 Additional headers can be set on a per-request basis by setting the parameter `headers` while calling [enrich()](#fullcontactclientpersonenrich) or [enrich_async()](#fullcontactclientpersonenrich_async).
 Being a request level parameter, this can be used to override any header that has been set on the client level.
-> Person Enrichment API Documentation: https://dashboard.fullcontact.com/api-ref#person-enrichment
+> Person Enrichment API Documentation: https://platform.fullcontact.com/docs/apis/enrich/multi-field-request
 
 ```python
 # Synchronous execution
@@ -214,6 +245,8 @@ Supported fields for query:
 * `maids`: _List[str]_
 * `recordId`: _str_
 * `personId`: _str_
+* `li_nonId`: _str_
+* `partnerId`: _str_
 * `webhookUrl`: _str_
 * `confidence`: _str_
 * `dataFilter`: _List[str]_
@@ -271,7 +304,7 @@ The V3 Company Enrich API can be called synchronously using [enrich()](#fullcont
 Similarly, the V3 Company Search API can be called synchronously using [search()](#fullcontactclientcompanysearch) and asynchronously using [search_async()](#fullcontactclientcompanysearch_async).
 Additional headers can be set on a per-request basis by setting the parameter `headers` while calling [enrich()](#fullcontactclientcompanyenrich)), [enrich_async()](#fullcontactclientcompanyenrich_async), [search()](#fullcontactclientcompanysearch) or [search_async()](#fullcontactclientcompanysearch_async).  
 Being a request level parameter, this can be used to override any header that has been set on the client level.
-> Company Enrichment API Documentation: https://dashboard.fullcontact.com/api-ref#company-enrichment
+> Company Enrichment API Documentation: https://platform.fullcontact.com/docs/apis/enrich/company-enrichment
 
 ```python
 # Synchronous enrich execution
@@ -406,7 +439,7 @@ The V3 Resolve API can be accessed using the methods [map()](#fullcontactclienti
 These APIs can be accessed using the async version these functions, [map_async()](#fullcontactclientidentitymap_async), [resolve_async()](#fullcontactclientidentityresolve_async) and [delete_async()](#fullcontactclientidentitydelete_async).
 Additional headers can be set on a per-request basis by setting the parameter `headers` while calling these methods.     
 Being a request level parameter, this can be used to override any header that has been set on the client level.
-> Resolve API Documentation: https://dashboard.fullcontact.com/api-ref#resolve-2
+> Resolve API Documentation: https://platform.fullcontact.com/docs/apis/resolve/multi-field-request
 
 ```python
 # Synchronous map execution
@@ -472,6 +505,8 @@ Supported fields for mapping:
     * `url`: _str_
 * `maids`: _List[str]_
 * `recordId`: _str_ - (required)
+* `li_nonId`: _str_
+* `partnerId`: _str_
 
 #### Returns:
 #### IdentityMapResponse
@@ -505,6 +540,8 @@ class: _concurrent.Futures.Future_
 class: _fullcontact.api.resolve_api.ResolveApi_ 
 #### Parameters:
 * `**fields`: _kwargs_ - (required)
+* `include_tags`: `_bool_ - [optional]
+    > If `include_tags` is set to True, the response will include tags in the response.
 * `headers`: _dict_ - [optional]
 
 Supported fields for mapping:
@@ -526,6 +563,8 @@ class: _fullcontact.response.resolve_response.IdentityResolveResponse_
 * `get_headers()`: _dict_ - Response headers
 * `get_recordIds()`: _List[str]_ - List of recordIds from Resolve response
 * `get_personIds()`: _List[str]_ - List of personIds from Resolve response
+* `get_partnerIds()`: _List[str]_ - List of partnerIds from Resolve response
+* `get_tags()`: _Dict_ - A dict of tags, if `include_tags` was set to True in the request
 
 
 ### FullContactClient.identity.resolve_async()
@@ -572,4 +611,268 @@ class: _concurrent.Futures.Future_
 > More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
 #### Useful Methods:
 * `result()`: _IdentityDeleteResponse_ - [IdentityDeleteResponse](#identitydeleteresponse) object received once execution is completed
+* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
+
+
+## Tags API
+The client library provides methods to interact with Customer Tags API (`tags.get`, `tags.create` and `tags.delete` endpoints) through `FullContactClient.tags` object.
+The Tags API can be accessed using the methods [get()](#fullcontactclienttagsget), [create()](#fullcontactclienttagscreate) and [delete()](#fullcontactclienttagsdelete), respectively.
+These APIs can be accessed using the async version these functions, [get_async()](#fullcontactclienttagsget_async), [create_async()](#fullcontactclienttagscreate_create) and [delete_async()](#fullcontactclienttagsdelete_async).
+Additional headers can be set on a per-request basis by setting the parameter `headers` while calling these methods.     
+Being a request level parameter, this can be used to override any header that has been set on the client level.
+> Tags API Documentation: https://platform.fullcontact.com/docs/apis/resolve/customer-tags
+
+```python
+# Synchronous create execution
+create_response = fullcontact_client.tags.create(recordId="customer123",
+                                                 tags={"segment": "highspender"})
+print(create_response.json())
+# Output: {'recordId': 'customer123', 'tags': [{'key': 'segment', 'value': 'highspender'}]}
+
+# Synchronous get execution
+get_response = fullcontact_client.tags.get(recordId="customer123")
+print(get_response.get_tags())
+# Output: {'segment': ['highspender']}
+
+# Synchronous delete execution
+delete_response = fullcontact_client.tags.delete(recordId="customer123",
+                                                 tags={"segment": "highspender"})
+print(delete_response.get_status_code())
+# Output: 204
+
+# Asynchronous create execution
+create_async_response = fullcontact_client.tags.create_async(recordId="customer123",
+                                                 tags={"segment": "highspender"})
+create_response = create_async_response.result()
+print(create_response.json())
+# Output: {'recordId': 'customer123', 'tags': [{'key': 'segment', 'value': 'highspender'}]}
+
+# Asynchronous get execution
+get_async_response = fullcontact_client.tags.get_async(recordId="customer123")
+get_response = get_async_response.result()
+print(get_response.get_tags())
+# Output: {'segment': ['highspender']}
+
+# Asynchronous delete execution
+delete_async_response = fullcontact_client.tags.delete_async(recordId="customer123",
+                                                 tags={"segment": "highspender"})
+delete_response = delete_async_response.result()
+print(delete_response.get_status_code())
+# Output: 204
+```
+
+### FullContactClient.tags.create()
+class: _fullcontact.api.tags_api.TagsApi_ 
+#### Parameters:
+* `recordId`: _str_ - (required)
+* `tags`: _dict_ - (required)
+    > Tags dict has to be in the format {tag1_key: tag1_value, tag2_key: [tag2_value1, tag2_value2], ...}. Tag value can be a string or a list of strings to support multiple values.
+* `headers`: _dict_ - [optional]
+
+#### Returns:
+#### TagsCreateResponse
+class: _fullcontact.response.tags_response.TagsCreateResponse_
+
+#### Instance variables
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+#### Methods:
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+
+
+### FullContactClient.tags.create_async()
+class: _fullcontact.api.tags_api.TagsApi_
+#### Parameters:
+Same as that of [FullContactClient.tags.create()](#fullcontactclienttagscreate)
+
+#### Returns:
+#### Future[TagsCreateResponse]
+class: _concurrent.Futures.Future_
+> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+#### Useful Methods:
+* `result()`: _TagsCreateResponse_ - [TagsCreateResponse](#tagecreateresponse) object received once execution is completed
+* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
+
+
+### FullContactClient.tags.get()
+class: _fullcontact.api.tags_api.TagsApi_
+#### Parameters:
+* `**identifiers`: _kwargs_ - (required)
+* `headers`: _dict_ - [optional]
+
+Supported `identifiers` to get tags:
+* `recordId`: _str_
+* `partnerId`: _str_
+
+#### Returns:
+#### TagsGetResponse
+class: _fullcontact.response.tags_response.TagsGetResponse_
+
+#### Instance variables
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+#### Methods:
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+* `get_tags()`: _dict_ - Tags from the response in format _{tag1_key: tag1_value, tag2_key, tag2_value, ...}_
+* `get_recordId()`: _str_ - `recordId` from the response
+* `get_partnerId()`: _str_ - `partnerId` from the response
+
+### FullContactClient.tags.get_async()
+class: _fullcontact.api.tags_api.TagsApi_
+#### Parameters:
+Same as that of [FullContactClient.tags.get()](#fullcontactclienttagsget)
+
+#### Returns:
+#### Future[TagsGetResponse]
+class: _concurrent.Futures.Future_
+> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+#### Useful Methods:
+* `result()`: _TagsGetResponse_ - [TagsGetResponse](#tagsgetresponse) object received once execution is completed
+* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
+
+
+### FullContactClient.tags.delete()
+class: _fullcontact.api.tags_api.TagsApi_
+#### Parameters:
+* `recordId`: _str_ - (required)
+* `tags`: _dict_ - (required)
+    > Tags dict has to be in the format {tag1_key: tag1_value, tag2_key: tag2_value, ...}
+* `headers`: _dict_ - [optional]
+
+#### Returns:
+#### TagsDeleteResponse
+class: _fullcontact.response.tags_response.TagsDeleteResponse_
+
+#### Instance variables
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+#### Methods:
+* `json()`: _dict_ - Response JSON as dict. Empty dict will be returned on successful delete.
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+
+
+### FullContactClient.tags.delete_async()
+class: _fullcontact.api.tags_api.TagsApi_
+#### Parameters:
+Same as that of [FullContactClient.tags.delete()](#fullcontactclienttagsdelete)
+
+#### Returns:
+#### Future[TagsDeleteResponse]
+class: _concurrent.Futures.Future_
+> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+#### Useful Methods:
+* `result()`: _TagsDeleteResponse_ - [TagsDeleteResponse](#tagsdeleteresponse) object received once execution is completed
+* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
+
+
+## Audience API
+The client library provides methods to interact with Audience Tags API (`audience.create` and `audience.download` endpoints) through `FullContactClient.audience` object.
+The Audience API can be accessed using the methods [create()](#fullcontactclientaudiencecreate) and [download()](#fullcontactclientaudiencedownload), respectively.
+These APIs can be accessed using the async version these functions, [create_async()](#fullcontactclientaudiencecreate_create) and [download_async()](#fullcontactclientaudiencedownload_async).
+Additional headers can be set on a per-request basis by setting the parameter `headers` while calling these methods.     
+Being a request level parameter, this can be used to override any header that has been set on the client level.
+> Tags API Documentation: https://platform.fullcontact.com/docs/apis/resolve/customer-tags
+
+```python
+# Synchronous create execution
+create_response = fullcontact_client.audience.create(webhookUrl="http://your_webhookUrl/",
+                                                 tags={"segment": "highspender"})
+print(create_response.json())
+# Output: {'requestId': 'c7273de7-e717-4cab-9fe0-213ab3796636'}
+
+# Synchronous download execution
+download_response = fullcontact_client.audience.download(requestId="c7273de7-e717-4cab-9fe0-213ab3796636")
+download_response.write_to_file("/path/to/output_file.json.gz")
+print(download_response.get_status_code())
+# Output: 200
+
+# Asynchronous create execution
+create_async_response = fullcontact_client.audience.create(webhookUrl="http://your_webhookUrl/",
+                                                 tags={"segment": "highspender"})
+create_response = create_async_response.result()
+print(create_response.json())
+# Output: {'requestId': 'c7273de7-e717-4cab-9fe0-213ab3796636'}
+
+# Asynchronous download execution
+download_async_response = fullcontact_client.audience.download_async(requestId="c7273de7-e717-4cab-9fe0-213ab3796636")
+download_response = download_async_response.result()
+download_response.write_to_file("/path/to/output_file.json.gz")
+print(download_response.get_status_code())
+# Output: 200
+```
+
+### FullContactClient.audience.create()
+class: _fullcontact.api.tags_api.AudienceApi_ 
+#### Parameters:
+* `webhookUrl`: _str_ - (required)
+* `tags`: _dict_ - (required)
+    > Tags dict has to be in the format {tag1_key: tag1_value, tag2_key: tag2_value, ...}
+* `headers`: _dict_ - [optional]
+
+#### Returns:
+#### AudienceCreateResponse
+class: _fullcontact.response.audience_response.AudienceCreateResponse_
+
+#### Instance variables
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+#### Methods:
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+* `get_requestId()`: _str_ - `requestId` created for the request
+
+
+### FullContactClient.audience.create_async()
+class: _fullcontact.api.audience_api.AudienceApi_
+#### Parameters:
+Same as that of [FullContactClient.audience.create()](#fullcontactclientaudiencecreate)
+
+#### Returns:
+#### Future[AudienceCreateResponse]
+class: _concurrent.Futures.Future_
+> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+#### Useful Methods:
+* `result()`: _AudienceCreateResponse_ - [AudienceCreateResponse](#audiencecreateresponse) object received once execution is completed
+* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
+
+
+### FullContactClient.audience.download()
+class: _fullcontact.api.audience_api.AudienceApi_
+#### Parameters:
+* `requestId`: _str_ - (required)
+* `headers`: _dict_ - [optional]
+
+#### Returns:
+#### AudienceDownloadResponse
+class: _fullcontact.response.audience_response.AudienceDownloadResponse_
+
+#### Instance variables
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+#### Methods:
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+* `write_to_file(file)`: _bool_ - Writes the downloaded file contents to the input file/fileObj
+    * Param `file` : _str_/_FileObject_ - It can the path to a file as string or a bytes writable file object. 
+    The file will be of format `.json.gz` if the download was successful. This can be confirmed using the `is_successful` flag. 
+    > An easy way to create a bytes writable file object is by using io.BytesIO
+
+### FullContactClient.audience.download_async()
+class: _fullcontact.api.audience_api.AudienceApi_
+#### Parameters:
+Same as that of [FullContactClient.audience.download()](#fullcontactclientaudiencedownload)
+
+#### Returns:
+#### Future[AudienceDownloadResponse]
+class: _concurrent.Futures.Future_
+> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+#### Useful Methods:
+* `result()`: _AudienceDownloadResponse_ - [AudienceDownloadResponse](#audiencedownloadresponse) object received once execution is completed
 * `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.

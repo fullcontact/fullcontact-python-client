@@ -1,0 +1,6 @@
+{
+  "webhookUrl": "https://www.fullcontact.com/webHook",
+  "tags": {
+    "tag_key": "tag_value"
+  }
+}

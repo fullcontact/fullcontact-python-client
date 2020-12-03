@@ -1,5 +1,4 @@
 class ErrorMessages(object):
-
     NO_QUERYABLE_INPUTS = "No queryable inputs given"
 
     COMPANY_ENRICH_NOT_QUERYABLE = "For Company Enrich query, domain is required."
@@ -18,3 +17,8 @@ class ErrorMessages(object):
 
     IDENTITY_DELETE_MISSING_ARGUMENT = "delete() missing 1 required positional argument: 'recordId'"
 
+    TAGS_DELETE_MISSING_ARGUMENT = "delete() missing 2 required positional arguments: 'recordId' and 'tags'"
+    TAGS_CREATE_MISSING_ARGUMENT = "create() missing 2 required positional arguments: 'recordId' and 'tags'"
+
+    AUDIENCE_CREATE_MISSING_ARGUMENT = "create() missing 2 required positional arguments: 'webhookUrl' and 'tags'"
+    AUDIENCE_DOWNLOAD_MISSING_ARGUMENT = "download() missing 1 required positional argument: 'requestId'"
