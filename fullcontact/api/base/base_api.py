@@ -12,7 +12,7 @@ from requests import Response
 from ...__about__ import __version__
 from ...config.client_config import ClientConfig
 from ...response.base.base import BaseApiResponse
-from ...schema.base.schema_base import BaseSchema
+from ...schema.base.schema_base import BaseRequestSchema
 
 BaseResponse = TypeVar("BaseResponse", bound=BaseApiResponse)
 
@@ -112,7 +112,7 @@ class BaseApi(object, metaclass=ABCMeta):
                                                    headers=final_headers)
 
     def _validate_and_post_to_api(self,
-                                  request: BaseSchema,
+                                  request: BaseRequestSchema,
                                   response: Callable[[Response], BaseApiResponse],
                                   endpoint: str,
                                   data: dict,
@@ -170,7 +170,7 @@ class BaseApi(object, metaclass=ABCMeta):
                                                   stream=stream)
 
     def _validate_and_get_from_api(self,
-                                   request: BaseSchema,
+                                   request: BaseRequestSchema,
                                    response: Callable[[Response], BaseApiResponse],
                                    endpoint: str,
                                    params: dict,

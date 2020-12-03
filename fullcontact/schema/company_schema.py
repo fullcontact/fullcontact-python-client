@@ -5,10 +5,10 @@ This module serves the  class for validating
 FullContact Company Enrich and Search API requests.
 """
 
-from .base.schema_base import BaseSchema
+from .base.schema_base import BaseRequestSchema
 
 
-class CompanyEnrichRequestSchema(BaseSchema):
+class CompanyEnrichRequestSchema(BaseRequestSchema):
     schema_name = "Company Enrich"
 
     domain: str
@@ -17,7 +17,7 @@ class CompanyEnrichRequestSchema(BaseSchema):
     required_fields = ("domain",)
 
 
-class CompanySearchRequestSchema(BaseSchema):
+class CompanySearchRequestSchema(BaseRequestSchema):
     schema_name = "Company Search"
 
     companyName: str

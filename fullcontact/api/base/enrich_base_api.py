@@ -9,7 +9,7 @@ from abc import ABCMeta, abstractmethod
 from concurrent.futures import Future
 
 from .base_api import BaseApi
-from ...schema.base.schema_base import BaseSchema
+from ...schema.base.schema_base import BaseRequestSchema
 from ...response.base.enrich_base import BaseEnrichResponse
 
 
@@ -30,7 +30,7 @@ class EnrichBaseApi(BaseApi, metaclass=ABCMeta):
 
     @property
     @abstractmethod
-    def _enrich_request(self) -> BaseSchema:
+    def _enrich_request(self) -> BaseRequestSchema:
         r"""
         Handler for the Enrich API request.
         This has to be the instance of a class which provides a validate()

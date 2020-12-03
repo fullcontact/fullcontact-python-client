@@ -7,11 +7,11 @@ FullContact Person Enrich API requests.
 
 from typing import List
 
-from .base.schema_base import BaseSchema, BaseCombinationSchema
+from .base.schema_base import BaseRequestSchema, BaseCombinationRequestSchema
 from ..exceptions import FullContactException
 
 
-class LocationRequestSchema(BaseCombinationSchema):
+class LocationRequestSchema(BaseCombinationRequestSchema):
     schema_name = "Location"
 
     addressLine1: str
@@ -28,7 +28,7 @@ class LocationRequestSchema(BaseCombinationSchema):
     )
 
 
-class NameRequestSchema(BaseCombinationSchema):
+class NameRequestSchema(BaseCombinationRequestSchema):
     schema_name = "Name"
 
     full: str
@@ -41,7 +41,7 @@ class NameRequestSchema(BaseCombinationSchema):
     )
 
 
-class ProfileRequestSchema(BaseCombinationSchema):
+class ProfileRequestSchema(BaseCombinationRequestSchema):
     schema_name = "Profile"
 
     service: str
@@ -56,7 +56,7 @@ class ProfileRequestSchema(BaseCombinationSchema):
     )
 
 
-class MultiFieldRequestSchema(BaseSchema):
+class MultiFieldRequestSchema(BaseRequestSchema):
     schema_name = "Multi Field"
     email: str
     emails: List[str]

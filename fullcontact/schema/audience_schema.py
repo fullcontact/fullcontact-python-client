@@ -7,11 +7,11 @@ FullContact Audience Create and Download API requests.
 
 from typing import List
 
-from .base.schema_base import BaseSchema
+from .base.schema_base import BaseRequestSchema
 from .tags_schema import TagRequestSchema
 
 
-class AudienceCreateRequestSchema(BaseSchema):
+class AudienceCreateRequestSchema(BaseRequestSchema):
     schema_name = "Audience Create"
 
     webhookUrl: str
@@ -20,7 +20,7 @@ class AudienceCreateRequestSchema(BaseSchema):
     required_fields = ("webhookUrl", "tags")
 
 
-class AudienceDownloadRequestSchema(BaseSchema):
+class AudienceDownloadRequestSchema(BaseRequestSchema):
     schema_name = "Audience Download"
 
     requestId: str

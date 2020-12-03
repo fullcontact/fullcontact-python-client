@@ -6,7 +6,7 @@ FullContact Identity Map, Resolve and Delete API requests.
 """
 from typing import List
 
-from .base.schema_base import BaseSchema
+from .base.schema_base import BaseRequestSchema
 from .person_schema import MultiFieldRequestSchema
 from .tags_schema import TagRequestSchema
 from ..exceptions import FullContactException
@@ -32,7 +32,7 @@ class IdentityResolveRequestSchema(MultiFieldRequestSchema):
         return validated_data
 
 
-class IdentityDeleteRequestSchema(BaseSchema):
+class IdentityDeleteRequestSchema(BaseRequestSchema):
     schema_name = "Identity Delete"
 
     recordId: str

@@ -7,10 +7,10 @@ FullContact Tags Get, Create and Delete API requests.
 
 from typing import List
 
-from .base.schema_base import BaseSchema
+from .base.schema_base import BaseRequestSchema
 
 
-class TagRequestSchema(BaseSchema):
+class TagRequestSchema(BaseRequestSchema):
     schema_name = "Tag"
 
     key: str
@@ -19,7 +19,7 @@ class TagRequestSchema(BaseSchema):
     required_fields = ("key", "value")
 
 
-class TagsGetRequestSchema(BaseSchema):
+class TagsGetRequestSchema(BaseRequestSchema):
     schema_name = "Tags Get"
 
     recordId: str
@@ -28,7 +28,7 @@ class TagsGetRequestSchema(BaseSchema):
     queryable_fields = ("recordId", "partnerId")
     
 
-class TagsCreateRequestSchema(BaseSchema):
+class TagsCreateRequestSchema(BaseRequestSchema):
     schema_name = "Tags Create"
 
     recordId: str
