@@ -74,7 +74,7 @@ class MultiFieldRequestSchema(BaseSchema):
                         "phone", "phones",
                         "location", "name",
                         "profiles", "maids",
-                        "li_nonid", "partnerId")
+                        "li_nonId", "partnerId")
 
     def validate(self, data: dict) -> dict:
         r"""
