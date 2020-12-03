@@ -17,6 +17,7 @@ class AudienceCreateResponse(BaseApiResponse):
 
 
 class AudienceDownloadResponse(BaseApiResponse):
+    # Being a .json.gzip file download, only a status 200 is successful
     SUCCESSFUL_STATUS_CODES = (200,)
 
     def _copy_fileobj_in_chunks(self, source_file: BinaryIO, dest_file: BinaryIO):
