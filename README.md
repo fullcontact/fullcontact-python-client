@@ -4,7 +4,7 @@
 ![pytest](https://github.com/fullcontact/fullcontact-python-client/workflows/pytest/badge.svg)
 
 The official python client library for FullContact V3 API. This client provides an interface to perform Person Enrich, Company Enrich and Company Search operations.   
-FullContact API Documentation is available at: https://dashboard.fullcontact.com/api-ref
+FullContact API Documentation is available at: https://platform.fullcontact.com/docs
 
 
 # Table of contents
@@ -101,7 +101,7 @@ from fullcontact import FullContactClient
 
 
 ## Basic Usage
-To use the client library, you need to initialize the client using the API KEY that you have generated from [FullContact Developer Dashboard](https://dashboard.fullcontact.com).
+To use the client library, you need to initialize the client using the API KEY that you have generated from [FullContact Platform](https://platform.fullcontact.com/developers/api-keys).
 Once initialized, the client provides the `Enrich` and `Resolve` capabilities of the V3 FullContact API.
 ```python
 from fullcontact import FullContactClient
@@ -192,7 +192,7 @@ The client library provides methods to interact with V3 Person Enrich API throug
 The V3 Person Enrich API can be called synchronously using [enrich()](#fullcontactclientpersonenrich) and asynchronously using [enrich_async()](#fullcontactclientpersonenrich_async).
 Additional headers can be set on a per-request basis by setting the parameter `headers` while calling [enrich()](#fullcontactclientpersonenrich) or [enrich_async()](#fullcontactclientpersonenrich_async).
 Being a request level parameter, this can be used to override any header that has been set on the client level.
-> Person Enrichment API Documentation: https://dashboard.fullcontact.com/api-ref#person-enrichment
+> Person Enrichment API Documentation: https://platform.fullcontact.com/docs/apis/enrich/multi-field-request
 
 ```python
 # Synchronous execution
@@ -304,7 +304,7 @@ The V3 Company Enrich API can be called synchronously using [enrich()](#fullcont
 Similarly, the V3 Company Search API can be called synchronously using [search()](#fullcontactclientcompanysearch) and asynchronously using [search_async()](#fullcontactclientcompanysearch_async).
 Additional headers can be set on a per-request basis by setting the parameter `headers` while calling [enrich()](#fullcontactclientcompanyenrich)), [enrich_async()](#fullcontactclientcompanyenrich_async), [search()](#fullcontactclientcompanysearch) or [search_async()](#fullcontactclientcompanysearch_async).  
 Being a request level parameter, this can be used to override any header that has been set on the client level.
-> Company Enrichment API Documentation: https://dashboard.fullcontact.com/api-ref#company-enrichment
+> Company Enrichment API Documentation: https://platform.fullcontact.com/docs/apis/enrich/company-enrichment
 
 ```python
 # Synchronous enrich execution
@@ -439,7 +439,7 @@ The V3 Resolve API can be accessed using the methods [map()](#fullcontactclienti
 These APIs can be accessed using the async version these functions, [map_async()](#fullcontactclientidentitymap_async), [resolve_async()](#fullcontactclientidentityresolve_async) and [delete_async()](#fullcontactclientidentitydelete_async).
 Additional headers can be set on a per-request basis by setting the parameter `headers` while calling these methods.     
 Being a request level parameter, this can be used to override any header that has been set on the client level.
-> Resolve API Documentation: https://dashboard.fullcontact.com/api-ref#resolve-2
+> Resolve API Documentation: https://platform.fullcontact.com/docs/apis/resolve/multi-field-request
 
 ```python
 # Synchronous map execution
@@ -620,7 +620,7 @@ The Tags API can be accessed using the methods [get()](#fullcontactclienttagsget
 These APIs can be accessed using the async version these functions, [get_async()](#fullcontactclienttagsget_async), [create_async()](#fullcontactclienttagscreate_create) and [delete_async()](#fullcontactclienttagsdelete_async).
 Additional headers can be set on a per-request basis by setting the parameter `headers` while calling these methods.     
 Being a request level parameter, this can be used to override any header that has been set on the client level.
-> Tags API Documentation: https://dashboard.fullcontact.com/api-ref?#customer-tags
+> Tags API Documentation: https://platform.fullcontact.com/docs/apis/resolve/customer-tags
 
 ```python
 # Synchronous create execution
@@ -776,7 +776,7 @@ The Audience API can be accessed using the methods [create()](#fullcontactclient
 These APIs can be accessed using the async version these functions, [create_async()](#fullcontactclientaudiencecreate_create) and [download_async()](#fullcontactclientaudiencedownload_async).
 Additional headers can be set on a per-request basis by setting the parameter `headers` while calling these methods.     
 Being a request level parameter, this can be used to override any header that has been set on the client level.
-> Tags API Documentation: https://dashboard.fullcontact.com/api-ref?#customer-tags
+> Tags API Documentation: https://platform.fullcontact.com/docs/apis/resolve/customer-tags
 
 ```python
 # Synchronous create execution
