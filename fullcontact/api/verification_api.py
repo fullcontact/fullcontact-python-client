@@ -1,11 +1,11 @@
 from concurrent.futures import Future
 
 from .base.base_api import BaseApi
-from ..response.verification import EmailVerificationResponse
+from ..response.verification_response import EmailVerificationResponse
 from ..schema.verification_schema import EmailVerificationRequestSchema
 
 
-class EmailVerificationApi(BaseApi):
+class VerificationApi(BaseApi):
     _BASE_URL = "https://api.fullcontact.com/v2/"
 
     _email_verification_endpoint = "verification/email"
