@@ -5,6 +5,7 @@ from .api.person_api import PersonApi as _PersonApi
 from .api.resolve_api import ResolveApi as _ResolveApi
 from .api.tags_api import TagsApi as _TagsApi
 from .api.audience_api import AudienceApi as _AudienceApi
+from .api.verification import EmailVerificationApi as _EmailVerificationApi
 from .config.client_config import ClientConfig as _ClientConfig
 
 
@@ -43,3 +44,4 @@ class FullContactClient(object):
         self.identity = _ResolveApi(client_config, headers)
         self.tags = _TagsApi(client_config, headers)
         self.audience = _AudienceApi(client_config, headers)
+        self.verification = _EmailVerificationApi(client_config, headers)
