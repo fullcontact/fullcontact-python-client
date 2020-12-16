@@ -8,7 +8,7 @@ __all__ = [
 ]
 
 __name__ = "python-fullcontact"
-__version__ = "2.1.0"
+__version__ = "2.1.1"
 __author__ = "FullContact"
 __author_email__ = "pypy@fullcontact.com"
 __description__ = "Client library for FullContact V3 Enrich and Resolve APIs"
