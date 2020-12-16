@@ -1,0 +1,22 @@
+{
+  "status": 200,
+  "requestId": "5b334bae-e205-423f-8a13-be669ad67806",
+  "emails": {
+    "marquitaross006@gmail.com": {
+      "message": "Valid email address",
+      "address": "marquitaross006@gmail.com",
+      "username": "marquitaross006",
+      "domain": "gmail.com",
+      "corrected": false,
+      "attributes": {
+        "validSyntax": true,
+        "deliverable": true,
+        "catchall": false,
+        "risky": false,
+        "disposable": false
+      },
+      "person": "https://api.fullcontact.com/v2/person.json?email=marquitaross006@gmail.com&apiKey=",
+      "sendSafely": true
+    }
+  }
+}
