@@ -45,6 +45,9 @@ at: https://platform.fullcontact.com/docs
         * [create_async()](fullcontactclientaudiencecreate_async)
         * [download()](fullcontactclientaudiencedownload)
         * [download_async()](fullcontactclientaudiencedownload_async)
+    * [Verification](#verification-api)
+        * [email()](#fullcontactclientverificationemail)
+        * [email_async()](#fullcontactclientverificationemail_async)
 
 # Requirements
 
