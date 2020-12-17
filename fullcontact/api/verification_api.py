@@ -14,7 +14,7 @@ class VerificationApi(BaseApi):
 
     def email(self, email: str, headers: dict = None) -> _email_verification_response:
         r"""
-        POST the email to FullContact email verification API
+        Send a GET request to FullContact email verification API with the email
 
         :param email: The email to be verified
         :param headers: additional_headers to be passed. Authorization and Content-Type
@@ -34,7 +34,7 @@ class VerificationApi(BaseApi):
 
     def email_async(self, email: str, headers: dict = None) -> Future:
         r"""
-        POST the email to FullContact email verification API asynchronously
+        Send a GET request to FullContact email verification API with the email asynchronously
 
         :param email: The email to be verified
         :param headers: additional_headers to be passed. Authorization and Content-Type
