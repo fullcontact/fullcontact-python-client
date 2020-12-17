@@ -15,14 +15,14 @@ SCENARIO_POSITIVE = "positive"
 
 @pytest.fixture
 def mock_good_response(monkeypatch):
-    def mock_post(*args, **kwargs):
+    def mock_get(*args, **kwargs):
         return MockResponse.get_mock_response(
             REQUEST_TYPE,
             method=METHOD_EMAIL,
             test_scenario=SCENARIO_POSITIVE
         )
 
-    monkeypatch.setattr(Session, "get", mock_post)
+    monkeypatch.setattr(Session, "get", mock_get)
 
 
 ########################################################################################################################
