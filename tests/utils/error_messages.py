@@ -22,3 +22,5 @@ class ErrorMessages(object):
 
     AUDIENCE_CREATE_MISSING_ARGUMENT = "create() missing 2 required positional arguments: 'webhookUrl' and 'tags'"
     AUDIENCE_DOWNLOAD_MISSING_ARGUMENT = "download() missing 1 required positional argument: 'requestId'"
+
+    VERIFICATION_EMAIL_MISSING_ARGUMENT = "email() missing 1 required positional argument: 'email'"
