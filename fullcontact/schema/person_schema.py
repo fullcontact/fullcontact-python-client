@@ -88,11 +88,14 @@ class MultiFieldRequestSchema(BaseRequestSchema):
         """
         validated_data = super(MultiFieldRequestSchema, self).validate(data)
 
+        single_queryable_fields = set(self.queryable_fields).difference(["name", "location"])
+
         is_location_present = validated_data.get('location', None) is not None
 
         is_name_present = validated_data.get('name', None) is not None
 
-        if (is_location_present or is_name_present) and \
+        if not self._is_single_queryable(single_queryable_fields, validated_data) and \
+                (is_location_present or is_name_present) and \
                 not (is_location_present and is_name_present):
             raise FullContactException("Location and Name have to be queried together")
 

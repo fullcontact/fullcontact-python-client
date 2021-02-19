@@ -63,6 +63,21 @@ class BaseRequestSchema(object, metaclass=ABCMeta):
             return True
         return False
 
+    def _is_single_queryable(self, single_queryable_fields, validated_data: dict) -> bool:
+        r"""
+        Check if the minimum queryable items are present or not.
+
+        :param validated_data: dict data that has been validated.
+        :return: True if at least 1 queryable item is present
+        """
+        if len(single_queryable_fields) == 0 or len(
+                set.intersection(
+                    set(single_queryable_fields), set(validated_data.keys())
+                )
+        ) > 0:
+            return True
+        return False
+
     def _raise_required_fields_exception(self):
         r"""
         Raise FullContactException if required fields are not provided.
