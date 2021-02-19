@@ -126,7 +126,6 @@ class TestPersonApi(object):
     ])
     def test_enrich_missing_name_or_location(self, scenario):
         query = MockRequest.get_mock_request(REQUEST_TYPE, METHOD_ENRICH, scenario)
-        print(query)
         with pytest.raises(FullContactException) as fc_exception:
             self.fullcontact_client.person.enrich(**query)
         assert str(fc_exception.value).startswith(ErrorMessages.PERSON_ENRICH_INVALID_NAME_LOCATION)
