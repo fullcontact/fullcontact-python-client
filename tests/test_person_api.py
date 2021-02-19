@@ -21,6 +21,10 @@ SCENARIO_GOOD_NAME_NO_LOCATION = "good_name_no_location"
 SCENARIO_GOOD_LOCATION_BAD_NAME = "good_location_bad_name"
 SCENARIO_GOOD_LOCATION_NO_NAME = "good_location_no_name"
 SCENARIO_FULL_SERIALIZATION = "full_serialization"
+SCENARIO_GOOD_LOCATION_NO_NAME_GOOD_EMAIL = "good_location_no_name_good_email"
+SCENARIO_GOOD_NAME_NO_LOCATION_GOOD_PHONE = "good_name_no_location_good_phone"
+SCENARIO_GOOD_LOCATION_BAD_NAME_VALID_INPUT = "good_location_bad_name_valid_input"
+SCENARIO_GOOD_NAME_BAD_LOCATION_VALID_INPUT = "good_name_bad_location_valid_input"
 
 
 # MOCK API CALLS #######################################################################################################
@@ -122,9 +126,33 @@ class TestPersonApi(object):
     ])
     def test_enrich_missing_name_or_location(self, scenario):
         query = MockRequest.get_mock_request(REQUEST_TYPE, METHOD_ENRICH, scenario)
+        print(query)
         with pytest.raises(FullContactException) as fc_exception:
             self.fullcontact_client.person.enrich(**query)
         assert str(fc_exception.value).startswith(ErrorMessages.PERSON_ENRICH_INVALID_NAME_LOCATION)
+
+    # Correct location with no name and correct name with no location with valid queryable input
+    @pytest.mark.parametrize("scenario", [
+        SCENARIO_GOOD_LOCATION_NO_NAME_GOOD_EMAIL,
+        SCENARIO_GOOD_NAME_NO_LOCATION_GOOD_PHONE
+    ])
+    def test_enrich_missing_name_or_location_with_valid_query(self, scenario, mock_good_response):
+        query = MockRequest.get_mock_request(REQUEST_TYPE, METHOD_ENRICH, scenario)
+        self.fullcontact_client.person.enrich(**query) # Should not throw any exception
+
+    # Wrong location data, correct name data and any other valid input
+    @pytest.mark.parametrize("query",
+                             MockRequest.get_mock_request(REQUEST_TYPE, METHOD_ENRICH,
+                                                          SCENARIO_GOOD_NAME_BAD_LOCATION_VALID_INPUT))
+    def test_good_name_bad_location_with_valid_query(self, query):
+        self.fullcontact_client.person.enrich(**query)
+
+    # Wrong name data, correct location data and any other valid input
+    @pytest.mark.parametrize("query",
+                             MockRequest.get_mock_request(REQUEST_TYPE, METHOD_ENRICH,
+                                                          SCENARIO_GOOD_LOCATION_BAD_NAME_VALID_INPUT))
+    def test_enrich_good_name_bad_location_with_valid_query(self, query):
+        self.fullcontact_client.person.enrich(**query)
 
     # Acceptable input query provided
     def test_enrich_good_requests(self, mock_good_response):

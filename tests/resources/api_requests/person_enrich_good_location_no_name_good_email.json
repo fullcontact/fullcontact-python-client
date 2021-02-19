@@ -4,5 +4,6 @@
     "city": "San Francisco",
     "region": "California",
     "regionCode": "CA"
-  }
+  },
+  "email": "test@fullcontact.com"
 }
