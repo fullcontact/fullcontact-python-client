@@ -9,7 +9,7 @@
       "given": "Marquita",
       "family": "Ross",
       "full": "Marquita H Ross"
-    }
+    }, "email": "test@fullcontact.com"
   },
   {
     "location": {
@@ -21,7 +21,7 @@
       "given": "Marquita",
       "family": "Ross",
       "full": "Marquita H Ross"
-    }
+    }, "profiles": [{"service": "linkedin", "username": "test"}]
   },
   {
     "location": {
@@ -32,7 +32,7 @@
       "given": "Marquita",
       "family": "Ross",
       "full": "Marquita H Ross"
-    }
+    }, "maids": ["testmaid"]
   },
   {
     "location": {},
@@ -40,6 +40,6 @@
       "given": "Marquita",
       "family": "Ross",
       "full": "Marquita H Ross"
-    }
+    }, "li_nonid": "test_li_nonid"
   }
 ]

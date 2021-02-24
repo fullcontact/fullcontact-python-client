@@ -63,6 +63,21 @@ class BaseRequestSchema(object, metaclass=ABCMeta):
             return True
         return False
 
+    def _is_single_queryable(self, single_queryable_fields, validated_data: dict) -> bool:
+        r"""
+        Check if the minimum queryable items are present or not.
+
+        :param validated_data: dict data that has been validated.
+        :return: True if at least 1 queryable item is present
+        """
+        if len(single_queryable_fields) == 0 or len(
+                set.intersection(
+                    set(single_queryable_fields), set(validated_data.keys())
+                )
+        ) > 0:
+            return True
+        return False
+
     def _raise_required_fields_exception(self):
         r"""
         Raise FullContactException if required fields are not provided.
@@ -84,6 +99,7 @@ class BaseRequestSchema(object, metaclass=ABCMeta):
         """
         valid_fields = {}
         type_hints = get_type_hints(self.__class__)
+        invalid_fields = {}
 
         # iterate all type hints
         for attr_name, attr_type in type_hints.items():
@@ -107,9 +123,13 @@ class BaseRequestSchema(object, metaclass=ABCMeta):
                     data[attr_name]
                 )
 
-            # If the item is an instance of a schema, call its validate method.
+            # If the item is an instance of a schema, call its validate method (without raising exceptions).
             elif isinstance(attr_type(), BaseRequestSchema):
-                valid_fields[attr_name] = attr_type().validate(data[attr_name])
+                validated_value = attr_type().validate_without_exception(data[attr_name])
+                if validated_value:
+                    valid_fields[attr_name] = validated_value
+                else:
+                    invalid_fields[attr_name] = attr_type
 
             # Raise for type mismatch.
             elif not isinstance(data[attr_name], attr_type):
@@ -121,6 +141,13 @@ class BaseRequestSchema(object, metaclass=ABCMeta):
             else:
                 valid_fields[attr_name] = data[attr_name]
 
+        # If not queryable fields, then we can raise exception for invalid combinations (if any)
+        if not self._is_single_queryable(set(self.queryable_fields).difference(["name", "location"]), valid_fields) and \
+                len(invalid_fields.keys()) > 0:
+            for attr_name, attr_type in invalid_fields.items():
+                valid_fields[attr_name] = attr_type().validate(data[attr_name])
+
+        # No queryable fields available
         if not self._is_queryable(valid_fields):
             raise FullContactException(
                 "No queryable inputs given (for example: %s)" % (', '.join(self.queryable_fields))
@@ -165,6 +192,13 @@ class BaseCombinationRequestSchema(BaseRequestSchema):
         Type validation will be done using the base class, allowed
         combinations will be validated using field_combinations.
         """
+        valid_fields = self.validate_without_exception(data)
+        if len(valid_fields.items()) == 0:
+            self._raise_invalid_combination_exception()
+
+        return valid_fields
+
+    def validate_without_exception(self, data: dict) -> dict:
         valid_fields = {}
         type_validated_data = super().validate(data)
 
@@ -173,8 +207,4 @@ class BaseCombinationRequestSchema(BaseRequestSchema):
             if len(set(field_combination) - set(type_validated_data.keys())) == 0:
                 valid_fields = type_validated_data
                 break
-
-        if len(valid_fields.items()) == 0:
-            self._raise_invalid_combination_exception()
-
         return valid_fields

@@ -8,7 +8,8 @@
     },
     "name": {
       "given": "Marquita"
-    }
+    },
+    "emails": ["test1@fullcontact.com", "test2@fullcontact.com"]
   },
   {
     "location": {
@@ -19,7 +20,8 @@
     },
     "name": {
       "family": "Ross"
-    }
+    },
+    "maids": ["test_maid"]
   },
   {
     "location": {
@@ -28,6 +30,7 @@
       "region": "California",
       "regionCode": "CA"
     },
-    "name": {}
+    "name": {},
+    "recordId": "test_recordId"
   }
 ]
