@@ -288,7 +288,7 @@ Supported fields for query:
 * `maids`: _List[str]_
 * `recordId`: _str_
 * `personId`: _str_
-* `li_nonId`: _str_
+* `li_nonid`: _str_
 * `partnerId`: _str_
 * `webhookUrl`: _str_
 * `confidence`: _str_
@@ -600,7 +600,7 @@ Supported fields for mapping:
     * `url`: _str_
 * `maids`: _List[str]_
 * `recordId`: _str_ - (required)
-* `li_nonId`: _str_
+* `li_nonid`: _str_
 * `partnerId`: _str_
 
 #### Returns:
