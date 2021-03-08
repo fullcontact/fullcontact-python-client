@@ -1,0 +1,203 @@
+[
+    {
+        "permissionType": "create",
+        "permissionId": "0089ced6-eaa8-4ac4-a6b2-de9d16928461",
+        "consentPurposes": [
+            {
+                "ttl": null,
+                "enabled": true,
+                "channel": "web",
+                "purposeId": 6,
+                "purposeName": "Content selection, delivery & reporting",
+                "timestamp": 1614855618604
+            }
+        ],
+        "locale": "US",
+        "ipAddress": "127.0.0.1",
+        "language": "en",
+        "collectionMethod": "cookie",
+        "collectionLocation": "ae",
+        "policyUrl": "http://sdcon.com",
+        "termsService": "http://aef.com",
+        "timestamp": null,
+        "created": 1614855618604
+    },
+    {
+        "permissionType": "create",
+        "permissionId": "1408cb98-f9da-4061-bd20-950936d07d75",
+        "consentPurposes": [
+            {
+                "ttl": 1095,
+                "enabled": true,
+                "channel": "web",
+                "purposeId": 10,
+                "purposeName": "Develop & Improve Products",
+                "timestamp": 1614871655639
+            },
+            {
+                "ttl": 1095,
+                "enabled": true,
+                "channel": "phone",
+                "purposeId": 10,
+                "purposeName": "Develop & Improve Products",
+                "timestamp": 1614871655639
+            },
+            {
+                "ttl": 1095,
+                "enabled": true,
+                "channel": "mobile",
+                "purposeId": 10,
+                "purposeName": "Develop & Improve Products",
+                "timestamp": 1614871655639
+            },
+            {
+                "ttl": 1095,
+                "enabled": true,
+                "channel": "offline",
+                "purposeId": 10,
+                "purposeName": "Develop & Improve Products",
+                "timestamp": 1614871655639
+            },
+            {
+                "ttl": 1095,
+                "enabled": true,
+                "channel": "email",
+                "purposeId": 10,
+                "purposeName": "Develop & Improve Products",
+                "timestamp": 1614871655639
+            }
+        ],
+        "locale": "US",
+        "ipAddress": null,
+        "language": "en",
+        "collectionMethod": "LiveIntent-FCBulkAdd",
+        "collectionLocation": "LiveIntent-FCBulkAdd",
+        "policyUrl": "test",
+        "termsService": "test",
+        "timestamp": null,
+        "created": 1614871655639
+    },
+    {
+        "permissionType": "create",
+        "permissionId": "17254381-1779-467e-9ee2-01729759051a",
+        "consentPurposes": [
+            {
+                "ttl": null,
+                "enabled": true,
+                "channel": "web",
+                "purposeId": 6,
+                "purposeName": "Content selection, delivery & reporting",
+                "timestamp": 1614855307418
+            }
+        ],
+        "locale": "US",
+        "ipAddress": "127.0.0.1",
+        "language": "en",
+        "collectionMethod": "cookie",
+        "collectionLocation": "ae",
+        "policyUrl": "http://sdcon.com",
+        "termsService": "http://aef.com",
+        "timestamp": null,
+        "created": 1614855307418
+    },
+    {
+        "permissionType": "create",
+        "permissionId": "1c6abadc-e9a8-41c3-8183-f06609574302",
+        "consentPurposes": [
+            {
+                "ttl": 2000,
+                "enabled": true,
+                "channel": "web",
+                "purposeId": 1,
+                "purposeName": "Information storage & access",
+                "timestamp": 0
+            },
+            {
+                "ttl": 2000,
+                "enabled": true,
+                "channel": "phone",
+                "purposeId": 1,
+                "purposeName": "Information storage & access",
+                "timestamp": 0
+            }
+        ],
+        "locale": "US",
+        "ipAddress": "127.0.0.1",
+        "language": "en",
+        "collectionMethod": "cookie",
+        "collectionLocation": "ae",
+        "policyUrl": "http://sdcon.com",
+        "termsService": "http://aef.com",
+        "timestamp": 0,
+        "created": 1614681845746
+    },
+    {
+        "permissionType": "create",
+        "permissionId": "304e0331-d14c-4607-850c-26f822d162eb",
+        "consentPurposes": [
+            {
+                "ttl": null,
+                "enabled": true,
+                "channel": "web",
+                "purposeId": 6,
+                "purposeName": "Content selection, delivery & reporting",
+                "timestamp": 1614855433046
+            }
+        ],
+        "locale": "US",
+        "ipAddress": "127.0.0.1",
+        "language": "en",
+        "collectionMethod": "cookie",
+        "collectionLocation": "ae",
+        "policyUrl": "http://sdcon.com",
+        "termsService": "http://aef.com",
+        "timestamp": null,
+        "created": 1614855433046
+    },
+    {
+        "permissionType": "create",
+        "permissionId": "40e20476-1859-4af8-a3db-90d1c580aeb5",
+        "consentPurposes": [
+            {
+                "ttl": null,
+                "enabled": true,
+                "channel": "web",
+                "purposeId": 6,
+                "purposeName": "Content selection, delivery & reporting",
+                "timestamp": 1614855671110
+            }
+        ],
+        "locale": "US",
+        "ipAddress": "127.0.0.1",
+        "language": "en",
+        "collectionMethod": "cookie",
+        "collectionLocation": "ae",
+        "policyUrl": "http://sdcon.com",
+        "termsService": "http://aef.com",
+        "timestamp": null,
+        "created": 1614855671110
+    },
+    {
+        "permissionType": "delete",
+        "permissionId": "d604aabf-9964-43ff-b39b-a89782056902",
+        "consentPurposes": [
+            {
+                "ttl": null,
+                "enabled": true,
+                "channel": "web",
+                "purposeId": 3,
+                "purposeName": "Personalized Content Profile",
+                "timestamp": 1614856125985
+            }
+        ],
+        "locale": "US",
+        "ipAddress": "127.0.0.1",
+        "language": "en",
+        "collectionMethod": "cookie",
+        "collectionLocation": "ae",
+        "policyUrl": "http://sdcon.com",
+        "termsService": "http://aef.com",
+        "timestamp": null,
+        "created": 1614856125985
+    }
+]

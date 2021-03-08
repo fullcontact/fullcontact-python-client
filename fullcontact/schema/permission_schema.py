@@ -64,4 +64,4 @@ class PermissionVerifyRequestSchema(BaseRequestSchema):
     purposeId: int
     channel: str
 
-    required_fields = ("purposeId", "channel")
+    required_fields = ("purposeId", "channel", "query")

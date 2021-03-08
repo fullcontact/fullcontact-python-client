@@ -24,3 +24,7 @@ class ErrorMessages(object):
     AUDIENCE_DOWNLOAD_MISSING_ARGUMENT = "download() missing 1 required positional argument: 'requestId'"
 
     VERIFICATION_EMAIL_MISSING_ARGUMENT = "email() missing 1 required positional argument: 'email'"
+
+    PERMISSION_CREATE_MISSING_REQUIRED_FIELDS = "For Permission Create query, consentPurposes,policyUrl,termsService,collectionMethod,collectionLocation,query are required."
+    PERMISSION_DELETE_MISSING_REQUIRED_FIELDS = "For Permission Delete query, consentPurposes,policyUrl,termsService,collectionMethod,collectionLocation,query are required."
+    PERMISSION_VERIFY_MISSING_REQUIRED_FIELDS = "For Permission Verify query, purposeId,channel,query are required."

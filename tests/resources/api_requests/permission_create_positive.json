@@ -1,0 +1,161 @@
+{
+    "consentPurposes": [
+        {
+            "purposeId": 1,
+            "channel": [
+                "web",
+                "phone",
+                "mobile",
+                "offline",
+                "email"
+            ],
+            "ttl": 1095,
+            "enabled": true
+        },
+        {
+            "purposeId": 2,
+            "channel": [
+                "web",
+                "phone",
+                "mobile",
+                "offline",
+                "email"
+            ],
+            "ttl": 1095,
+            "enabled": true
+        },
+        {
+            "purposeId": 3,
+            "channel": [
+                "web",
+                "phone",
+                "mobile",
+                "offline",
+                "email"
+            ],
+            "ttl": 1095,
+            "enabled": true
+        },
+        {
+            "purposeId": 4,
+            "channel": [
+                "web",
+                "phone",
+                "mobile",
+                "offline",
+                "email"
+            ],
+            "ttl": 1095,
+            "enabled": true
+        },
+        {
+            "purposeId": 5,
+            "channel": [
+                "web",
+                "phone",
+                "mobile",
+                "offline",
+                "email"
+            ],
+            "ttl": 1095,
+            "enabled": true
+        },
+        {
+            "purposeId": 6,
+            "channel": [
+                "web",
+                "phone",
+                "mobile",
+                "offline",
+                "email"
+            ],
+            "ttl": 1095,
+            "enabled": true
+        },
+        {
+            "purposeId": 7,
+            "channel": [
+                "web",
+                "phone",
+                "mobile",
+                "offline",
+                "email"
+            ],
+            "ttl": 1095,
+            "enabled": true
+        },
+        {
+            "purposeId": 8,
+            "channel": [
+                "web",
+                "phone",
+                "mobile",
+                "offline",
+                "email"
+            ],
+            "ttl": 1095,
+            "enabled": true
+        },
+        {
+            "purposeId": 10,
+            "channel": [
+                "web",
+                "phone",
+                "mobile",
+                "offline",
+                "email"
+            ],
+            "ttl": 1095,
+            "enabled": true
+        }
+    ],
+    "locale": "US",
+    "ipAddress": "127.0.0.1",
+    "language": "en",
+    "collectionMethod": "Python client test",
+    "collectionLocation": "Python client test",
+    "policyUrl": "https://www.fullcontact.com/policy/",
+    "termsService": "https://www.fullcontact.com/policy/",
+    "timestamp": 1212902390,
+    "query": {
+          "email": "marquitaross006@gmail.com",
+          "emails": [
+            "marquitaross006@gmail.com"
+          ],
+          "phone": "+14105551773",
+          "phones": [
+            "+14105551773"
+          ],
+          "location": {
+            "addressLine1": "313 North Gainsway Street",
+            "city": "San Francisco",
+            "region": "California",
+            "regionCode": "CA"
+          },
+          "name": {
+            "given": "Marquita",
+            "family": "Ross",
+            "full": "Marquita H Ross"
+          },
+          "profiles": [
+            {
+              "username": "marqross91",
+              "service": "twitter"
+            },
+            {
+              "url": "https://twitter.com/test"
+            },
+            {
+              "username": "marquita-ross-5b6b72192",
+              "service": "linkedin"
+            },
+            {
+              "userid": "761326554",
+              "service": "linkedin"
+            },
+            {
+              "url": "test"
+            }
+          ]
+    }
+}
