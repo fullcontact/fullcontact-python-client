@@ -48,6 +48,13 @@ at: https://platform.fullcontact.com/docs
     * [Verification](#verification-api)
         * [email()](#fullcontactclientverificationemail)
         * [email_async()](#fullcontactclientverificationemail_async)
+    * [Permission](#permission-api)
+        * [create](#fullcontactclientpermissioncreate)
+        * [delete](#fullcontactclientpermissiondelete)
+        * [find](#fullcontactclientpermissionfind)
+        * [current](#fullcontactclientpermissioncurrent)
+        * [verify](#fullcontactclientpermissionverify)
+        * [permission-async](#permission-apis-asynchronous-methods)
 
 # Requirements
 
@@ -59,7 +66,7 @@ To add FullContact Python Client library to your project, add the below line to 
 requirement in the `setup.py` file.
 
 ```
-python-fullcontact==2.1.2
+python-fullcontact==3.0.0
 ```
 
 # Installation
@@ -169,6 +176,52 @@ audience_download_result.write_to_file("<output_file_path>")
 
 # Email Verification
 email_verification_result = fullcontact_client.verification.email(email="marquitaross006@gmail.com")
+
+# Permission Create
+permission_create_result = fullcontact_client.permission.create(
+                                            query={"email": "marquitaross006@gmail.com"},
+                                            consentPurposes=[
+                                                {
+                                                    "purposeId": 2,
+                                                    "channel": ["web","phone","mobile","offline","email"],
+                                                    "ttl": 1095,
+                                                    "enabled": True
+                                                }
+                                            ],
+                                            locale="US",
+                                            language="en",
+                                            collectionMethod="cookie",
+                                            collectionLocation="US",
+                                            policyUrl="https://www.fullcontact-test.com/services-privacy-policy/",
+                                            termsService="https://www.fullcontact-test.com/content-policy/")  
+
+# Permission Delete
+permission_delete_result = fullcontact_client.permission.delete(
+                                            query={"email": "marquitaross006@gmail.com"},
+                                            consentPurposes=[
+                                                {
+                                                    "purposeId": 2,
+                                                    "channel": ["web","phone","mobile","offline","email"],
+                                                    "ttl": 1095,
+                                                    "enabled": True
+                                                }
+                                            ],
+                                            locale="US",
+                                            language="en",
+                                            collectionMethod="cookie",
+                                            collectionLocation="US",
+                                            policyUrl="https://www.fullcontact-test.com/services-privacy-policy/",
+                                            termsService="https://www.fullcontact-test.com/content-policy/")
+# Permission Find
+permission_find_result = fullcontact_client.permission.find(email="marquitaross006@gmail.com")
+
+# Permission Current
+permission_current_result = fullcontact_client.permission.current(email="marquitaross006@gmail.com")
+
+# Permission Verify
+permission_verify_result = fullcontact_client.permission.verify(query={"email": "marquitaross006@gmail.com"},
+                                                                purposeId=6, 
+                                                                channel="web")
 ```
 
 ## Client Configuration
@@ -207,6 +260,36 @@ the `max_retry_count`, `retry_status_codes` and `base_delay` init parameters for
 fullcontact_client = FullContactClient(api_key="<your_api_key>", max_retry_count=3, retry_status_codes=(429, 503, 413),
                                        base_delay=2.5)
 ```
+
+### MultiFieldRequest
+Ability to match on one or many input fields. The more contact data inputs you can provide, the better. 
+By providing more contact inputs, the more accurate and precise we can get with our identity resolution capabilities.
+* `email`: _str_
+* `emails`: _List[str]_
+* `phone`: _str_
+* `phones`: _List[str]_
+* `location`: _dict_
+    * `addressLine1`: _str_
+    * `addressLine2`: _str_
+    * `city`: _str_
+    * `region`: _str_
+    * `regionCode`: _str_
+    * `postalCode`: _str_
+* `name`: _dict_
+    * `full`: _str_
+    * `given`: _str_
+    * `family`: _str_
+* `profiles`: _List[dict]_
+    * `service`: _str_
+    * `username`: _str_
+    * `userid`: _str_
+    * `url`: _str_
+* `maids`: _List[str]_
+* `recordId`: _str_
+* `personId`: _str_
+* `li_nonid`: _str_
+* `partnerId`: _str_
+
 
 ### FullContactClient
 
@@ -263,33 +346,8 @@ class: _fullcontact.api.person_api.PersonApi_
 * `**query`: _kwargs_ - (required)
 * `headers`: _dict_ - [optional]
 
-Supported fields for query:
+`query` takes in [MultiFieldReq](#multifieldrequest). Other supported fields for query:
 
-* `email`: _str_
-* `emails`: _List[str]_
-* `phone`: _str_
-* `phones`: _List[str]_
-* `location`: _dict_
-    * `addressLine1`: _str_
-    * `addressLine2`: _str_
-    * `city`: _str_
-    * `region`: _str_
-    * `regionCode`: _str_
-    * `postalCode`: _str_
-* `name`: _dict_
-    * `full`: _str_
-    * `given`: _str_
-    * `family`: _str_
-* `profiles`: _List[dict]_
-    * `service`: _str_
-    * `username`: _str_
-    * `userid`: _str_
-    * `url`: _str_
-* `maids`: _List[str]_
-* `recordId`: _str_
-* `personId`: _str_
-* `li_nonid`: _str_
-* `partnerId`: _str_
 * `webhookUrl`: _str_
 * `confidence`: _str_
 * `dataFilter`: _List[str]_
@@ -576,32 +634,9 @@ class: _fullcontact.api.resolve_api.ResolveClient_
 * `**fields`: _kwargs_ - (required)
 * `headers`: _dict_ - [optional]
 
-Supported fields for mapping:
+`fields` takes in [MultiFieldReq](#multifieldrequest). Other supported fields for mapping:
 
-* `email`: _str_
-* `emails`: _List[str]_
-* `phone`: _str_
-* `phones`: _List[str]_
-* `location`: _dict_
-    * `addressLine1`: _str_
-    * `addressLine2`: _str_
-    * `city`: _str_
-    * `region`: _str_
-    * `regionCode`: _str_
-    * `postalCode`: _str_
-* `name`: _dict_
-    * `full`: _str_
-    * `given`: _str_
-    * `family`: _str_
-* `profiles`: _List[dict]_
-    * `service`: _str_
-    * `username`: _str_
-    * `userid`: _str_
-    * `url`: _str_
-* `maids`: _List[str]_
-* `recordId`: _str_ - (required)
-* `li_nonid`: _str_
-* `partnerId`: _str_
+* `tags`: _List[str]_
 
 #### Returns:
 
@@ -1213,3 +1248,354 @@ class: _concurrent.Futures.Future_
 * `result()`: _AudienceCreateResponse_ - [EmailVerificationResponse](#emailverificationresponse) object received once
   execution is completed
 * `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
+
+## Permission API
+
+The client library provides methods to interact with Permission
+through `FullContactClient.permission` object. Additional headers can be set on a per-request basis
+by setting the parameter `headers` while calling these methods.     
+Being a request level parameter, this can be used to override any header that has been set on the client level.
+> Permission APIs Documentation: https://platform.fullcontact.com/docs/apis/permission/introduction
+
+class: _fullcontact.api.permission_api.PermissionApi_
+
+```python
+# Synchronous create execution
+permission_create_response = fullcontact_client.permission.create(
+                            query={"email": "cutomer1@fullcontact.com"},
+                            consentPurposes=[
+                                {
+                                    "purposeId": 2,
+                                    "channel": ["web","phone","mobile","offline","email"],
+                                    "ttl": 1095,
+                                    "enabled": True
+                                },
+                                {
+                                    "purposeId": 5,
+                                    "channel": ["web","phone","mobile","offline","email"],
+                                    "ttl": 1095,
+                                    "enabled": True
+                                }
+                            ],
+                            locale="US",
+                            language="en",
+                            collectionMethod="cookie",
+                            collectionLocation="US",
+                            policyUrl="https://www.fullcontact-test.com/services-privacy-policy/",
+                            termsService="https://www.fullcontact-test.com/content-policy/"
+                            )
+print(permission_create_response.get_status_code())
+# Output: 202
+
+# Synchronous delete execution
+permission_delete_response = fullcontact_client.permission.delete(
+                            query={"email": "cutomer1@fullcontact.com"},
+                            consentPurposes=[
+                                {
+                                    "purposeId": 2,
+                                    "channel": ["web","phone","mobile","offline","email"],
+                                    "ttl": 1095,
+                                    "enabled": True
+                                },
+                                {
+                                    "purposeId": 5,
+                                    "channel": ["web","phone","mobile","offline","email"],
+                                    "ttl": 1095,
+                                    "enabled": True
+                                }
+                            ],
+                            locale="US",
+                            language="en",
+                            collectionMethod="cookie",
+                            collectionLocation="US",
+                            policyUrl="https://www.fullcontact-test.com/services-privacy-policy/",
+                            termsService="https://www.fullcontact-test.com/content-policy/"
+                            )
+print(permission_delete_response.get_status_code())
+# Output: 202
+
+# Synchronous find execution
+permission_find_response = fullcontact_client.permission.find(query={"email": "cutomer1@fullcontact.com"})
+print(permission_find_response.json())
+'''
+Output:
+[
+    {
+        "permissionType": "create",
+        "permissionId": "0089ced6-eaa8-4ac4-a6b2-de9d16928461",
+        "consentPurposes": [
+            {
+                "ttl": null,
+                "enabled": True,
+                "channel": "web",
+                "purposeId": 6,
+                "purposeName": "Content selection, delivery & reporting",
+                "timestamp": 1614855618604
+            }
+        ],
+        "locale": "US",
+        "ipAddress": "127.0.0.1",
+        "language": "en",
+        "collectionMethod": "cookie",
+        "collectionLocation": "ae",
+        "policyUrl": "https://www.fullcontact-test.com/services-privacy-policy/",
+        "termsService": "https://www.fullcontact-test.com/content-policy/",
+        "timestamp": None,
+        "created": 1614855618604
+    },
+    {
+        "permissionType": "delete",
+        "permissionId": "0089ced6-eaa8-4ac4-a6b2-de9d169284rt4",
+        "consentPurposes": [
+            {
+                "ttl": null,
+                "enabled": True,
+                "channel": "web",
+                "purposeId": 2,
+                "purposeName": "Content selection, delivery & reporting",
+                "timestamp": 1614855618607
+            }
+        ],
+        "locale": "US",
+        "ipAddress": "127.0.0.1",
+        "language": "en",
+        "collectionMethod": "cookie",
+        "collectionLocation": "ae",
+        "policyUrl": "https://www.fullcontact-test.com/services-privacy-policy/",
+        "termsService": "https://www.fullcontact-test.com/content-policy/",
+        "timestamp": None,
+        "created": 1614855618607
+    }
+]
+'''
+# Synchronous Current execution
+permission_current_response = fullcontact_client.permission.current(query={"email": "cutomer1@fullcontact.com"})
+print(permission_current_response.json())
+'''
+Output:
+{
+    "3": {
+        "offline": {
+            "ttl": 1095,
+            "enabled": True,
+            "channel": "offline",
+            "purposeId": 3,
+            "purposeName": "Personalized Content Profile",
+            "timestamp": 1614837134541
+        },
+        "phone": {
+            "ttl": 1095,
+            "enabled": True,
+            "channel": "phone",
+            "purposeId": 3,
+            "purposeName": "Personalized Content Profile",
+            "timestamp": 1614837134541
+        },
+        "mobile": {
+            "ttl": 1095,
+            "enabled": True,
+            "channel": "mobile",
+            "purposeId": 3,
+            "purposeName": "Personalized Content Profile",
+            "timestamp": 1614837134541
+        },
+        "email": {
+            "ttl": 1095,
+            "enabled": True,
+            "channel": "email",
+            "purposeId": 3,
+            "purposeName": "Personalized Content Profile",
+            "timestamp": 1614837134541
+        }
+    },
+    "6": {
+        "web": {
+            "ttl": null,
+            "enabled": True,
+            "channel": "web",
+            "purposeId": 6,
+            "purposeName": "Content selection, delivery & reporting",
+            "timestamp": 1614856047618
+        }
+    }
+}
+'''
+# Synchronous Verify execution
+permission_verify_response = fullcontact_client.permission.verify(query={"email": "cutomer1@fullcontact.com"},
+                                                                purposeId=6, 
+                                                                channel="web")
+print(permission_verify_response.json())
+'''
+Output:
+{
+    "ttl": 1024,
+    "enabled": true,
+    "channel": "web",
+    "purposeId": 6,
+    "purposeName": "Content selection, delivery & reporting",
+    "timestamp": 1614856047613
+}
+'''
+```
+
+### FullContactClient.permission.create()
+
+class: _fullcontact.schema.permission_schema.PermissionCreateRequestSchema_
+
+#### Parameters:
+
+* `**query`: _kwargs_ - [required]
+* `headers`: _dict_ - [optional]
+
+Supported fields in `query`:
+- `query`: [MultifieldReq](#multifieldrequest) - [required]
+- `consentPurposes`: List[PurposeRequestSchema] - [required]
+- `locale`: str
+- `ipAddress`: str
+- `language`: str
+- `collectionMethod`: str - [required]
+- `collectionLocation`: str - [required]
+- `policyUrl`: str - [required]
+- `termsService`: str - [required]
+- `tcf`: str
+- `timestamp`: int
+
+#### PurposeRequestSchema
+
+- `purposeId`: int - [required]
+- `channel`: List[str]
+- `ttl`: int
+- `enabled`: bool  - [required]
+
+#### Returns:
+
+class: _fullcontact.response.permission_response.PermissionCreateResponse_
+
+A basic API response with response code as `202` if successful.
+
+#### Instance variables
+
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+
+#### Methods:
+
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+
+### FullContactClient.permission.delete()
+
+class: _fullcontact.schema.permission_schema.PermissionDeleteRequestSchema_
+
+#### Parameters:
+
+Same as that of [FullContactClient.permission.create()](#fullcontactclientpermissioncreate)
+
+#### Returns:
+
+class: _fullcontact.response.permission_response.PermissionDeleteResponse_
+
+#### Instance variables
+
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+
+#### Methods:
+
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+
+### FullContactClient.permission.find()
+
+class: _fullcontact.schema.permission_schema.PermissionFindRequestSchema_
+
+#### Parameters:
+
+* `**query`: _kwargs_ - [required]
+* `headers`: _dict_ - [optional]
+
+`query` takes a [MultiFieldReq](#multifieldrequest)
+
+#### Returns:
+
+class: _fullcontact.response.permission_response.PermissionFindResponse_
+
+#### Instance variables
+
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+
+#### Methods:
+
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+
+### FullContactClient.permission.current()
+
+class: _fullcontact.schema.permission_schema.PermissionCurrentRequestSchema_
+
+#### Parameters:
+
+same as that of [FullContactClient.permission.find()](#fullcontactclientpermissionfind)
+
+#### Returns:
+
+class: _fullcontact.response.permission_response.PermissionCurrentResponse_
+
+#### Instance variables
+
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+
+#### Methods:
+
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+* `get_consent_for_purposeId(self, purposeId: int)`: _dict_ - of Consent set for the purposeId
+
+### FullContactClient.permission.verify()
+
+class: _fullcontact.schema.permission_schema.PermissionVerifyRequestSchema_
+
+#### Parameters:
+
+* `**query`: _kwargs_ - [required]
+* `headers`: _dict_ - [optional]
+
+Supported fields in `query`:
+- `query`: [MultifieldReq](#multifieldrequest) - [required]
+- `purposeId`: int - [required]
+- `channel`: str - [required]
+
+#### Returns:
+
+class: _fullcontact.response.permission_response.PermissionVerifyResponse_
+
+#### Instance variables
+
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+
+#### Methods:
+
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+
+### Permission APIs Asynchronous methods
+Client Library also support corresponding async methods for Permission APIs such as:
+- `permission.create_async()`
+- `permission.delete_async()`
+- `permission.find_async()`
+- `permission.current_async()`
+- `permission.verify_async()`
+
+All these takes same parameters as their synchronous counterparts but return a `Future` instead.
+
+class: _concurrent.Futures.Future_
+> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+
