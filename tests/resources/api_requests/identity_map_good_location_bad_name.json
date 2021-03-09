@@ -8,8 +8,7 @@
     },
     "name": {
       "given": "Marquita"
-    },
-  "recordId": "<recordId>"
+    }
   },
   {
     "location": {
@@ -20,8 +19,7 @@
     },
     "name": {
       "family": "Ross"
-    },
-  "recordId": "<recordId>"
+    }
   },
   {
     "location": {
@@ -30,7 +28,6 @@
       "region": "California",
       "regionCode": "CA"
     },
-    "name": {},
-  "recordId": "<recordId>"
+    "name": {}
   }
 ]
