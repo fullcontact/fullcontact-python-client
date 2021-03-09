@@ -69,12 +69,15 @@ class MultiFieldRequestSchema(BaseRequestSchema):
     recordId: str
     li_nonid: str
     partnerId: str
+    recordId: str
+    personId: str
 
     queryable_fields = ("email", "emails",
                         "phone", "phones",
                         "location", "name",
                         "profiles", "maids",
-                        "li_nonid", "partnerId")
+                        "li_nonid", "partnerId",
+                        "recordId", "personId")
 
     def validate(self, data: dict) -> dict:
         r"""
@@ -105,10 +108,7 @@ class MultiFieldRequestSchema(BaseRequestSchema):
 class PersonRequestSchema(MultiFieldRequestSchema):
     schema_name = "Person"
 
-    personId: str
     webhookUrl: str
     confidence: str
     dataFilter: List[str]
     infer: bool
-
-    queryable_fields = MultiFieldRequestSchema.queryable_fields + ("recordId", "personId",)

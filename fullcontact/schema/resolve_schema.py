@@ -20,10 +20,6 @@ class IdentityMapRequestSchema(MultiFieldRequestSchema):
 class IdentityResolveRequestSchema(MultiFieldRequestSchema):
     schema_name = "Identity Resolve"
 
-    personId: str
-
-    queryable_fields = MultiFieldRequestSchema.queryable_fields + ("recordId", "personId",)
-
     def validate(self, data: dict) -> dict:
         validated_data = super(IdentityResolveRequestSchema, self).validate(data)
         if "personId" in validated_data and "recordId" in validated_data:
