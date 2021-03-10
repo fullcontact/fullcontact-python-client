@@ -56,9 +56,9 @@ class PermissionApi(BaseApi):
 
     def delete(self, headers: dict = None, **query) -> _create_response:
         r"""
-        POST Multifield query and consents to FullContact Permission Delete API.
+        POST Multifield query to FullContact Permission Delete API.
 
-        :param query: Multifield query + Consent request.
+        :param query: Multifield query.
         :param headers: Additional_headers to be passed.
         Authorization and Content-Type are added automatically.
 
@@ -146,13 +146,11 @@ class PermissionApi(BaseApi):
     def delete_async(self, headers: dict = None, **query) -> Future:
         r"""
 
-        POST Multifield query and consents to FullContact Permission Delete API Asynchronously.
+        POST Multifield query to FullContact Permission Delete API Asynchronously.
 
-        :param query: Multifield query + Consent request.
+        :param query: Multifield query.
         :param headers: Additional_headers to be passed.
         Authorization and Content-Type are added automatically.
-
-        :return: requests.Response wrapped in _delete_response
 
         :return: Future object. result() will return a requests.Response
         wrapped in _delete_response

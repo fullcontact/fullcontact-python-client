@@ -45,7 +45,7 @@ class PermissionCreateRequestSchema(PermissionRequestSchema):
     required_fields = PermissionRequestSchema.required_fields + ("query",)
 
 
-class PermissionDeleteRequestSchema(PermissionCreateRequestSchema):
+class PermissionDeleteRequestSchema(MultiFieldRequestSchema):
     schema_name = "Permission Delete"
 
 
