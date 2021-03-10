@@ -196,22 +196,7 @@ permission_create_result = fullcontact_client.permission.create(
                                             termsService="https://www.fullcontact-test.com/content-policy/")  
 
 # Permission Delete
-permission_delete_result = fullcontact_client.permission.delete(
-                                            query={"email": "marquitaross006@gmail.com"},
-                                            consentPurposes=[
-                                                {
-                                                    "purposeId": 2,
-                                                    "channel": ["web","phone","mobile","offline","email"],
-                                                    "ttl": 1095,
-                                                    "enabled": True
-                                                }
-                                            ],
-                                            locale="US",
-                                            language="en",
-                                            collectionMethod="cookie",
-                                            collectionLocation="US",
-                                            policyUrl="https://www.fullcontact-test.com/services-privacy-policy/",
-                                            termsService="https://www.fullcontact-test.com/content-policy/")
+permission_delete_result = fullcontact_client.permission.delete({"email": "marquitaross006@gmail.com"})
 # Permission Find
 permission_find_result = fullcontact_client.permission.find(email="marquitaross006@gmail.com")
 
@@ -1288,29 +1273,7 @@ print(permission_create_response.get_status_code())
 # Output: 202
 
 # Synchronous delete execution
-permission_delete_response = fullcontact_client.permission.delete(
-                            query={"email": "cutomer1@fullcontact.com"},
-                            consentPurposes=[
-                                {
-                                    "purposeId": 2,
-                                    "channel": ["web","phone","mobile","offline","email"],
-                                    "ttl": 1095,
-                                    "enabled": True
-                                },
-                                {
-                                    "purposeId": 5,
-                                    "channel": ["web","phone","mobile","offline","email"],
-                                    "ttl": 1095,
-                                    "enabled": True
-                                }
-                            ],
-                            locale="US",
-                            language="en",
-                            collectionMethod="cookie",
-                            collectionLocation="US",
-                            policyUrl="https://www.fullcontact-test.com/services-privacy-policy/",
-                            termsService="https://www.fullcontact-test.com/content-policy/"
-                            )
+permission_delete_response = fullcontact_client.permission.delete(query={"email": "cutomer1@fullcontact.com"})
 print(permission_delete_response.get_status_code())
 # Output: 202
 
@@ -1490,7 +1453,10 @@ class: _fullcontact.schema.permission_schema.PermissionDeleteRequestSchema_
 
 #### Parameters:
 
-Same as that of [FullContactClient.permission.create()](#fullcontactclientpermissioncreate)
+* `**query`: _kwargs_ - [required]
+* `headers`: _dict_ - [optional]
+
+`query` takes a [MultiFieldReq](#multifieldrequest)
 
 #### Returns:
 
