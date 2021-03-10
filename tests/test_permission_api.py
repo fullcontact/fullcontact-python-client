@@ -68,12 +68,9 @@ class TestPermissionApi(object):
             self.fullcontact_client.permission.create(**query)
         assert str(fc_exception.value).startswith(ErrorMessages.PERMISSION_CREATE_MISSING_REQUIRED_FIELDS)
 
-    @pytest.mark.parametrize("query",
-                             MockRequest.get_mock_request(REQUEST_TYPE, METHOD_CREATE,
-                                                          SCENARIO_MISSING_REQUIRED_FIELDS))
-    def test_permission_delete_missing_required(self, query):
+    def test_permission_delete_missing_required(self):
         with pytest.raises(FullContactException) as fc_exception:
-            self.fullcontact_client.permission.delete(**query)
+            self.fullcontact_client.permission.delete({})
         assert str(fc_exception.value).startswith(ErrorMessages.PERMISSION_DELETE_MISSING_REQUIRED_FIELDS)
 
     @pytest.mark.parametrize("query",
@@ -96,7 +93,7 @@ class TestPermissionApi(object):
                result.json() == expected_result.json()
 
     def test_permission_delete_positive(self, mock_good_create_response):
-        query = MockRequest.get_mock_request(REQUEST_TYPE, METHOD_CREATE, SCENARIO_POSITIVE)
+        query = MockRequest.get_mock_request(REQUEST_TYPE, METHOD_DELETE, SCENARIO_POSITIVE)
         result = self.fullcontact_client.permission.delete(**query)
         expected_result = MockResponse.get_mock_response(
             REQUEST_TYPE, method=METHOD_CREATE,
