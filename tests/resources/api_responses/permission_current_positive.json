@@ -1,0 +1,88 @@
+{
+    "3": {
+        "offline": {
+            "ttl": 1095,
+            "enabled": true,
+            "channel": "offline",
+            "purposeId": 3,
+            "purposeName": "Personalized Content Profile",
+            "timestamp": 1614837134541
+        },
+        "phone": {
+            "ttl": 1095,
+            "enabled": true,
+            "channel": "phone",
+            "purposeId": 3,
+            "purposeName": "Personalized Content Profile",
+            "timestamp": 1614837134541
+        },
+        "mobile": {
+            "ttl": 1095,
+            "enabled": true,
+            "channel": "mobile",
+            "purposeId": 3,
+            "purposeName": "Personalized Content Profile",
+            "timestamp": 1614837134541
+        },
+        "email": {
+            "ttl": 1095,
+            "enabled": true,
+            "channel": "email",
+            "purposeId": 3,
+            "purposeName": "Personalized Content Profile",
+            "timestamp": 1614837134541
+        }
+    },
+    "6": {
+        "web": {
+            "ttl": null,
+            "enabled": true,
+            "channel": "web",
+            "purposeId": 6,
+            "purposeName": "Content selection, delivery & reporting",
+            "timestamp": 1614856047618
+        }
+    },
+    "10": {
+        "offline": {
+            "ttl": 1095,
+            "enabled": true,
+            "channel": "offline",
+            "purposeId": 10,
+            "purposeName": "Develop & Improve Products",
+            "timestamp": 1614871655639
+        },
+        "phone": {
+            "ttl": 1095,
+            "enabled": true,
+            "channel": "phone",
+            "purposeId": 10,
+            "purposeName": "Develop & Improve Products",
+            "timestamp": 1614871655639
+        },
+        "web": {
+            "ttl": 1095,
+            "enabled": true,
+            "channel": "web",
+            "purposeId": 10,
+            "purposeName": "Develop & Improve Products",
+            "timestamp": 1614871655639
+        },
+        "mobile": {
+            "ttl": 1095,
+            "enabled": true,
+            "channel": "mobile",
+            "purposeId": 10,
+            "purposeName": "Develop & Improve Products",
+            "timestamp": 1614871655639
+        },
+        "email": {
+            "ttl": 1095,
+            "enabled": true,
+            "channel": "email",
+            "purposeId": 10,
+            "purposeName": "Develop & Improve Products",
+            "timestamp": 1614871655639
+        }
+    }
+}

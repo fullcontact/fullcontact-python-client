@@ -1,0 +1,142 @@
+[{
+    "consentPurposes": [
+        {
+            "purposeId": 1,
+            "channel": [
+                "web",
+                "phone",
+                "mobile",
+                "offline",
+                "email"
+            ],
+            "ttl": 1095,
+            "enabled": true
+        },
+        {
+            "purposeId": 2,
+            "channel": [
+                "web",
+                "phone",
+                "mobile",
+                "offline",
+                "email"
+            ],
+            "ttl": 1095,
+            "enabled": true
+        }
+    ],
+    "locale": "US",
+    "ipAddress": null,
+    "language": "en",
+    "collectionMethod": "test",
+    "collectionLocation": "test",
+    "policyUrl": "test",
+    "termsService": "test",
+    "timestamp": 19236192301
+},
+{   "query": {"email": "test@fullcontact.com"},
+    "locale": "US",
+    "ipAddress": null,
+    "language": "en",
+    "collectionMethod": "test",
+    "collectionLocation": "test",
+    "policyUrl": "test",
+    "termsService": "test",
+    "timestamp": 19236192301
+},
+{
+    "consentPurposes": [
+        {
+            "purposeId": 2,
+            "channel": [
+                "web",
+                "phone",
+                "mobile",
+                "offline",
+                "email"
+            ],
+            "ttl": 1095,
+            "enabled": true
+        }
+    ],
+    "locale": "US",
+    "ipAddress": null,
+    "language": "en",
+    "collectionLocation": "test",
+    "policyUrl": "test",
+    "termsService": "test",
+    "timestamp": 19236192301,
+    "query": {"email": "test@fullcontact.com"}
+},
+{
+    "consentPurposes": [
+        {
+            "purposeId": 2,
+            "channel": [
+                "web",
+                "phone",
+                "mobile",
+                "offline",
+                "email"
+            ],
+            "ttl": 1095,
+            "enabled": true
+        }
+    ],
+    "locale": "US",
+    "ipAddress": null,
+    "language": "en",
+    "collectionMethod": "test",
+    "policyUrl": "test",
+    "termsService": "test",
+    "timestamp": 19236192301,
+    "query": {"email": "test@fullcontact.com"}
+},
+{
+    "consentPurposes": [
+        {
+            "purposeId": 2,
+            "channel": [
+                "web",
+                "phone",
+                "mobile",
+                "offline",
+                "email"
+            ],
+            "ttl": 1095,
+            "enabled": true
+        }
+    ],
+    "locale": "US",
+    "ipAddress": null,
+    "language": "en",
+    "collectionMethod": "test",
+    "collectionLocation": "test",
+    "policyUrl": "test",
+    "timestamp": 19236192301,
+    "query": {"email": "test@fullcontact.com"}
+},
+{
+    "consentPurposes": [
+        {
+            "purposeId": 2,
+            "channel": [
+                "web",
+                "phone",
+                "mobile",
+                "offline",
+                "email"
+            ],
+            "ttl": 1095,
+            "enabled": true
+        }
+    ],
+    "locale": "US",
+    "ipAddress": null,
+    "language": "en",
+    "collectionMethod": "test",
+    "collectionLocation": "test",
+    "termsService": "test",
+    "timestamp": 19236192301,
+    "query": {"email": "test@fullcontact.com"}
+}]

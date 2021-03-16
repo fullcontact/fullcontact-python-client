@@ -1,0 +1,13 @@
+[
+{
+    "channel": "web",
+    "query": {"email": "test@fullcontact.com"}
+},
+{
+    "purposeId": 2,
+    "query": {"email": "test@fullcontact.com"}
+},
+{
+    "purposeId": 2,
+    "channel": "web"
+}]

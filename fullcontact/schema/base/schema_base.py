@@ -124,12 +124,15 @@ class BaseRequestSchema(object, metaclass=ABCMeta):
                 )
 
             # If the item is an instance of a schema, call its validate method (without raising exceptions).
-            elif isinstance(attr_type(), BaseRequestSchema):
+            elif isinstance(attr_type(), BaseCombinationRequestSchema):
                 validated_value = attr_type().validate_without_exception(data[attr_name])
                 if validated_value:
                     valid_fields[attr_name] = validated_value
                 else:
                     invalid_fields[attr_name] = attr_type
+
+            elif isinstance(attr_type(), BaseRequestSchema):
+                valid_fields[attr_name] = attr_type().validate(data[attr_name])
 
             # Raise for type mismatch.
             elif not isinstance(data[attr_name], attr_type):
