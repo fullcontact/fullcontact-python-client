@@ -13,7 +13,7 @@ class ErrorMessages(object):
                                  "given + family\n" \
                                  "full"
 
-    PERSON_ENRICH_INVALID_NAME_LOCATION = "Location and Name have to be queried together"
+    PERSON_ENRICH_INVALID_NAME_LOCATION = "Location (or Placekey) and Name have to be queried together"
 
     IDENTITY_DELETE_MISSING_ARGUMENT = "delete() missing 1 required positional argument: 'recordId'"
 
@@ -26,5 +26,5 @@ class ErrorMessages(object):
     VERIFICATION_EMAIL_MISSING_ARGUMENT = "email() missing 1 required positional argument: 'email'"
 
     PERMISSION_CREATE_MISSING_REQUIRED_FIELDS = "For Permission Create query, consentPurposes,policyUrl,termsService,collectionMethod,collectionLocation,query are required."
-    PERMISSION_DELETE_MISSING_REQUIRED_FIELDS = "No queryable inputs given (for example: email, emails, phone, phones, location, name, profiles, maids, li_nonid, partnerId, recordId, personId)"
+    PERMISSION_DELETE_MISSING_REQUIRED_FIELDS = "No queryable inputs given (for example: email, emails, phone, phones, location, name, profiles, maids, placekey, li_nonid, partnerId, recordId, personId)"
     PERMISSION_VERIFY_MISSING_REQUIRED_FIELDS = "For Permission Verify query, purposeId,channel,query are required."
