@@ -145,7 +145,7 @@ class BaseRequestSchema(object, metaclass=ABCMeta):
                 valid_fields[attr_name] = data[attr_name]
 
         # If not queryable fields, then we can raise exception for invalid combinations (if any)
-        if not self._is_single_queryable(set(self.queryable_fields).difference(["name", "location"]), valid_fields) and \
+        if not self._is_single_queryable(set(self.queryable_fields).difference(["name", "location", "placekey"]), valid_fields) and \
                 len(invalid_fields.keys()) > 0:
             for attr_name, attr_type in invalid_fields.items():
                 valid_fields[attr_name] = attr_type().validate(data[attr_name])

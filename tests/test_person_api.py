@@ -18,6 +18,7 @@ SCENARIO_VALID_WEBHOOK = "valid_webhook"
 SCENARIO_INVALID_WEBHOOK = "invalid_webhook"
 SCENARIO_GOOD_NAME_BAD_LOCATION = "good_name_bad_location"
 SCENARIO_GOOD_NAME_NO_LOCATION = "good_name_no_location"
+SCENARIO_GOOD_NAME_NO_LOCATION_WITH_PLACEKEY = "good_name_no_location_with_placekey"
 SCENARIO_GOOD_LOCATION_BAD_NAME = "good_location_bad_name"
 SCENARIO_GOOD_LOCATION_NO_NAME = "good_location_no_name"
 SCENARIO_FULL_SERIALIZATION = "full_serialization"
@@ -129,6 +130,13 @@ class TestPersonApi(object):
         with pytest.raises(FullContactException) as fc_exception:
             self.fullcontact_client.person.enrich(**query)
         assert str(fc_exception.value).startswith(ErrorMessages.PERSON_ENRICH_INVALID_NAME_LOCATION)
+
+    # Correct name with no location and with Placekey
+    @pytest.mark.parametrize("query",
+                             MockRequest.get_mock_request(REQUEST_TYPE, METHOD_ENRICH,
+                                                          SCENARIO_GOOD_NAME_NO_LOCATION_WITH_PLACEKEY))
+    def test_enrich_with_name_and_placekey(self, query):
+        self.fullcontact_client.person.enrich(**query)
 
     # Correct location with no name and correct name with no location with valid queryable input
     @pytest.mark.parametrize("scenario", [

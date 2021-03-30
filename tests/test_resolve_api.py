@@ -16,6 +16,7 @@ SCENARIO_404 = "404"
 SCENARIO_401 = "401"
 SCENARIO_GOOD_NAME_BAD_LOCATION = "good_name_bad_location"
 SCENARIO_GOOD_NAME_NO_LOCATION = "good_name_no_location"
+SCENARIO_GOOD_NAME_NO_LOCATION_WITH_PLACEKEY = "good_name_no_location_with_placekey"
 SCENARIO_GOOD_LOCATION_BAD_NAME = "good_location_bad_name"
 SCENARIO_GOOD_LOCATION_NO_NAME = "good_location_no_name"
 SCENARIO_FULL_SERIALIZATION = "full_serialization"
@@ -119,6 +120,13 @@ class TestResolveApi(object):
             with pytest.raises(FullContactException) as fc_exception:
                 getattr(self.fullcontact_client.identity, method)(**query)
             assert str(fc_exception.value).startswith(expected_error)
+
+    # Correct name with no location and with Placekey
+    @pytest.mark.parametrize("query",
+                             MockRequest.get_mock_request(REQUEST_TYPE, METHOD_MAP,
+                                                          SCENARIO_GOOD_NAME_NO_LOCATION_WITH_PLACEKEY))
+    def test_identity_map_with_name_and_placekey(self, query):
+        self.fullcontact_client.identity.map(**query)
 
     # Full serialization
     @pytest.mark.parametrize("method", [METHOD_MAP, METHOD_RESOLVE, METHOD_DELETE])

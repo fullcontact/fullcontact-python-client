@@ -66,7 +66,7 @@ To add FullContact Python Client library to your project, add the below line to 
 requirement in the `setup.py` file.
 
 ```
-python-fullcontact==3.0.0
+python-fullcontact==3.0.1
 ```
 
 # Installation
@@ -253,6 +253,7 @@ By providing more contact inputs, the more accurate and precise we can get with 
 * `emails`: _List[str]_
 * `phone`: _str_
 * `phones`: _List[str]_
+* `placekey`: _str_
 * `location`: _dict_
     * `addressLine1`: _str_
     * `addressLine2`: _str_

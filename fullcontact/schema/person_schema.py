@@ -66,6 +66,7 @@ class MultiFieldRequestSchema(BaseRequestSchema):
     name: NameRequestSchema
     profiles: List[ProfileRequestSchema]
     maids: List[str]
+    placekey: str
     recordId: str
     li_nonid: str
     partnerId: str
@@ -75,7 +76,7 @@ class MultiFieldRequestSchema(BaseRequestSchema):
     queryable_fields = ("email", "emails",
                         "phone", "phones",
                         "location", "name",
-                        "profiles", "maids",
+                        "profiles", "maids", "placekey",
                         "li_nonid", "partnerId",
                         "recordId", "personId")
 
@@ -97,10 +98,12 @@ class MultiFieldRequestSchema(BaseRequestSchema):
 
         is_name_present = validated_data.get('name', None) is not None
 
+        is_placekey_present = validated_data.get('placekey', None) is not None
+
         if not self._is_single_queryable(single_queryable_fields, validated_data) and \
-                (is_location_present or is_name_present) and \
-                not (is_location_present and is_name_present):
-            raise FullContactException("Location and Name have to be queried together")
+                (is_location_present or is_name_present or is_placekey_present) and \
+                not ((is_location_present or is_placekey_present) and is_name_present):
+            raise FullContactException("Location (or Placekey) and Name have to be queried together")
 
         return validated_data
 
