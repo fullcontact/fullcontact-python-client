@@ -3,9 +3,6 @@ from setuptools import setup, find_packages
 from fullcontact.__about__ import *
 
 requirements = [
-    # Test
-    "pytest==5.4.1",
-    # Prod
     "requests==2.23.0",
     "urllib3==1.25.7"
 ]
@@ -32,5 +29,8 @@ setup(
 
     python_requires='~=3.5',
     install_requires=requirements,
+    extras_require={
+        'develop': [ "pytest==5.4.1" ]
+    },
     license=__license__
 )
