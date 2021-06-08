@@ -78,6 +78,12 @@ command.
 pip install python-fullcontact
 ```
 
+If you'd like to install the development version (with `pytest`), run instead:
+
+```shell
+pip install 'python-fullcontact[develop]'
+```
+
 It is also possible to install the package from this repo, by running the below commands.
 
 ```
