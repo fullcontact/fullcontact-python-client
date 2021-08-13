@@ -115,3 +115,6 @@ class PersonRequestSchema(MultiFieldRequestSchema):
     confidence: str
     dataFilter: List[str]
     infer: bool
+    verifiedPhysical: bool
+    expandedInterests: bool
+    maxMaids: int
