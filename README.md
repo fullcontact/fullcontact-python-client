@@ -66,7 +66,7 @@ To add FullContact Python Client library to your project, add the below line to 
 requirement in the `setup.py` file.
 
 ```
-python-fullcontact==3.0.2
+python-fullcontact==3.0.3
 ```
 
 # Installation
@@ -344,6 +344,9 @@ class: _fullcontact.api.person_api.PersonApi_
 * `confidence`: _str_
 * `dataFilter`: _List[str]_
 * `infer`: _bool_
+* `expandedInterests`: _bool_
+* `verifiedPhysical`: _bool_
+* `maxMaids`: _int_
 
 #### Returns:
 
@@ -380,6 +383,8 @@ class: _fullcontact.response.person_response.PersonEnrichResponse_
 * `get_finance()`: _dict_ - Finance details from Person Enrich Response
 * `get_census()`: _dict_ - Census details from Person Enrich Response
 * `get_identifiers()`: _dict_ - Identifiers from Person Enrich Response
+* `get_verifiedPhysical()`: _dict_ - Flag if response is verified physical
+* `get_epsilon()`: _dict_ - All Epsilon data
 
 ### FullContactClient.person.enrich_async()
 
