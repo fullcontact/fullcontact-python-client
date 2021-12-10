@@ -21,14 +21,17 @@ class ResolveApi(BaseApi):
     _map_endpoint = "identity.map"
     _resolve_endpoint = "identity.resolve"
     _delete_endpoint = "identity.delete"
+    _map_resolve_endpoint = "identity.mapResolve"
 
     _map_request = IdentityMapRequestSchema()
     _resolve_request = IdentityResolveRequestSchema()
     _delete_request = IdentityDeleteRequestSchema()
+    _map_resolve_request = IdentityMapRequestSchema()
 
     _map_response = IdentityMapResponse
     _resolve_response = IdentityResolveResponse
     _delete_response = IdentityDeleteResponse
+    _map_resolve_response = IdentityResolveResponse
 
     def map(self, headers: dict = None, **fields) -> _map_response:
         r"""
@@ -90,6 +93,24 @@ class ResolveApi(BaseApi):
             headers
         )
 
+    def mapResolve(self, headers: dict = None, **fields) -> _map_resolve_response:
+        r"""
+        POST query to FullContact Identity MapResolve API.
+
+        :param fields: Fields to be used for identity.mapResolve
+        :param headers: Additional_headers to be passed.
+        Authorization and Content-Type are added automatically.
+
+        :return: requests.Response wrapped in _map_resolve_response
+        """
+        return self._validate_and_post_to_api(
+            self._map_resolve_request,
+            self._map_resolve_response,
+            self._map_resolve_endpoint,
+            fields,
+            headers
+        )
+
     def map_async(self, headers: dict = None, **fields) -> Future:
         r"""
         POST query to FullContact Identity Map API asynchronously.
@@ -127,3 +148,15 @@ class ResolveApi(BaseApi):
         wrapped in self._delete_response
         """
         return self.config.get_executor().submit(self.delete, recordId, headers)
+
+    def mapResolve_async(self, headers: dict = None, **fields) -> Future:
+        r"""
+        POST query to FullContact Identity MapResolve API asynchronously.
+
+        :param fields: fields to be used for identity.mapResolve
+        :param headers: additional_headers to be passed. Authorization and Content-Type
+        are added automatically.
+        :return: Future object. result() will return a requests.Response
+        wrapped in self._map_resolve_response
+        """
+        return self.config.get_executor().submit(self.mapResolve, headers, **fields)
