@@ -66,7 +66,7 @@ To add FullContact Python Client library to your project, add the below line to 
 requirement in the `setup.py` file.
 
 ```
-python-fullcontact==3.0.3
+python-fullcontact==3.1.0
 ```
 
 # Installation
@@ -157,6 +157,9 @@ identity_map_result = fullcontact_client.identity.map(email="marquitaross006@gma
 
 # Identity Resolve
 identity_resolve_result = fullcontact_client.identity.resolve(recordId="customer123")
+
+# Identity Map Resolve
+identity_mapResolve_result = fullcontact_client.identity.mapResolve(email="marquitaross006@gmail.com", recordId="customer123", generatePid=True)
 
 # Identity Delete
 identity_delete_result = fullcontact_client.identity.delete(recordId="customer123")
@@ -281,6 +284,7 @@ By providing more contact inputs, the more accurate and precise we can get with 
 * `personId`: _str_
 * `li_nonid`: _str_
 * `partnerId`: _str_
+* `panoramaId`: _str_
 
 
 ### FullContactClient
@@ -575,12 +579,12 @@ class: _concurrent.Futures.Future_
 
 ## Resolve API
 
-The client library provides methods to interact with V3 Resolve API (`identity.map`, `identity.resolve`
+The client library provides methods to interact with V3 Resolve API (`identity.map`, `identity.resolve`, `identity.mapResolve`,
 and `identity.delete` endpoints) through `FullContactClient.identity` object. The V3 Resolve API can be accessed using
-the methods [map()](#fullcontactclientidentitymap), [resolve()](#fullcontactclientidentityresolve)
+the methods [map()](#fullcontactclientidentitymap), [resolve()](#fullcontactclientidentityresolve), [mapResolve()](#fullcontactclientidentitymapresolve),
 and [delete()](#fullcontactclientidentitydelete), respectively. These APIs can be accessed using the async version these
 functions, [map_async()](#fullcontactclientidentitymap_async)
-, [resolve_async()](#fullcontactclientidentityresolve_async)
+, [resolve_async()](#fullcontactclientidentityresolve_async), [mapResolve_async()](#fullcontactclientidentitymapresolve_async),
 and [delete_async()](#fullcontactclientidentitydelete_async). Additional headers can be set on a per-request basis by
 setting the parameter `headers` while calling these methods.     
 Being a request level parameter, this can be used to override any header that has been set on the client level.
@@ -595,6 +599,11 @@ print(map_response.get_recordIds())
 # Synchronous resolve execution
 resolve_response = fullcontact_client.identity.resolve(email="marquitaross006@gmail.com")
 print(resolve_response.get_recordIds())
+# Output: ['customer123']
+
+# Synchronous mapResolve execution
+mapResolve_response = fullcontact_client.identity.mapResolve(email="marquitaross006@gmail.com", recordId="customer123")
+print(mapResolve_response.get_recordIds())
 # Output: ['customer123']
 
 # Synchronous delete execution
@@ -612,6 +621,12 @@ print(map_response.get_recordIds())
 resolve_async_response = fullcontact_client.identity.resolve_async(email="marquitaross006@gmail.com")
 resolve_response = resolve_async_response.result()
 print(resolve_response.get_recordIds())
+# Output: ['customer123']
+
+# Asynchronous mapResolve execution
+mapResolve_async_response = fullcontact_client.identity.mapResolve_async(email="marquitaross006@gmail.com", recordId="customer123")
+mapResolve_response = mapResolve_async_response.result()
+print(mapResolve_response.get_recordIds())
 # Output: ['customer123']
 
 # Asynchronous delete execution
@@ -633,6 +648,7 @@ class: _fullcontact.api.resolve_api.ResolveClient_
 `fields` takes in [MultiFieldReq](#multifieldrequest). Other supported fields for mapping:
 
 * `tags`: _List[str]_
+* `generatePid`: bool
 
 #### Returns:
 
@@ -731,6 +747,60 @@ class: _concurrent.Futures.Future_
 
 * `result()`: _IdentityResolveResponse_ - [IdentityResolveResponse](#identityresolveresponse) object received once
   execution is completed
+* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
+
+
+### FullContactClient.identity.mapResolve()
+
+class: _fullcontact.api.resolve_api.ResolveClient_
+
+#### Parameters:
+
+* `**fields`: _kwargs_ - (required)
+* `headers`: _dict_ - [optional]
+
+`fields` takes in [MultiFieldReq](#multifieldrequest). Other supported fields for mapping:
+
+* `tags`: _List[str]_
+* `generatePid`: bool
+
+#### Returns:
+
+#### IdentityResolveResponse
+
+class: _fullcontact.response.resolve_response.IdentityResolveResponse_
+
+#### Instance variables
+
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+
+#### Methods:
+
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+* `get_recordIds()`: _List[str]_ - List of recordIds from Map response
+
+### FullContactClient.identity.mapResolve_async()
+
+class: _fullcontact.api.resolve_api.ResolveClient_
+
+#### Parameters:
+
+Same as that of [FullContactClient.identity.mapResolve()](#fullcontactclientidentitymapresolve)
+
+#### Returns:
+
+#### Future[IdentityResolveResponse]
+
+class: _concurrent.Futures.Future_
+> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+
+#### Useful Methods:
+
+* `result()`: _IdentityResolveResponse_ - [IdentityResolveResponse](#identityresolveresponse) object received once execution is
+  completed
 * `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
 
 ### FullContactClient.identity.delete()
