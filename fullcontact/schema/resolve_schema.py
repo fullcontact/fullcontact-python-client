@@ -15,6 +15,7 @@ from ..exceptions import FullContactException
 class IdentityMapRequestSchema(MultiFieldRequestSchema):
     schema_name = "Identity Map"
     tags: List[TagRequestSchema]
+    generatePid: bool
 
 
 class IdentityResolveRequestSchema(MultiFieldRequestSchema):

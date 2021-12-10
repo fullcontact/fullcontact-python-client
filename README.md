@@ -344,7 +344,6 @@ class: _fullcontact.api.person_api.PersonApi_
 * `confidence`: _str_
 * `dataFilter`: _List[str]_
 * `infer`: _bool_
-* `expandedInterests`: _bool_
 * `verifiedPhysical`: _bool_
 * `maxMaids`: _int_
 
