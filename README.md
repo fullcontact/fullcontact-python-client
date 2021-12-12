@@ -31,6 +31,8 @@ at: https://platform.fullcontact.com/docs
         * [map_async()](#fullcontactclientidentitymap_async)
         * [resolve()](#fullcontactclientidentityresolve)
         * [resolve_async()](#fullcontactclientidentityresolve_async)
+        * [mapResolve()](#fullcontactclientidentitymapresolve)
+        * [mapResolve_async()](#fullcontactclientidentitymapresolve_async)
         * [delete()](#fullcontactclientidentitydelete)
         * [delete_async()](#fullcontactclientidentitydelete_async)
     * [Tags API](#tags-api)
@@ -604,7 +606,10 @@ print(resolve_response.get_recordIds())
 # Synchronous mapResolve execution
 mapResolve_response = fullcontact_client.identity.mapResolve(email="marquitaross006@gmail.com", recordId="customer123")
 print(mapResolve_response.get_recordIds())
-# Output: ['customer123']
+print(mapResolve_response.get_personIds())
+# Output: 
+# ['customer123']
+# ['OdcKOTonyt5diGjjf-CXHrn84Zr_PcPGmqj1NYSiCR_U-J7v']
 
 # Synchronous delete execution
 delete_response = fullcontact_client.identity.delete(recordId="customer123")
