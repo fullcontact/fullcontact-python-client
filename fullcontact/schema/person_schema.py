@@ -72,6 +72,7 @@ class MultiFieldRequestSchema(BaseRequestSchema):
     partnerId: str
     recordId: str
     personId: str
+    panoramaId: str
 
     queryable_fields = ("email", "emails",
                         "phone", "phones",
@@ -116,5 +117,4 @@ class PersonRequestSchema(MultiFieldRequestSchema):
     dataFilter: List[str]
     infer: bool
     verifiedPhysical: bool
-    expandedInterests: bool
     maxMaids: int

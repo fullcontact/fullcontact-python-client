@@ -11,6 +11,7 @@ REQUEST_TYPE = "identity"
 METHOD_MAP = "map"
 METHOD_RESOLVE = "resolve"
 METHOD_DELETE = "delete"
+METHOD_MAP_RESOLVE = "mapResolve"
 SCENARIO_POSITIVE = "positive"
 SCENARIO_404 = "404"
 SCENARIO_401 = "401"
@@ -26,6 +27,8 @@ def get_method_from_request(request_data):
     url = request_data.get("url", "")
     if url.endswith("map/"):
         return METHOD_MAP
+    elif url.endswith("mapResolve/"):
+        return METHOD_MAP_RESOLVE
     elif url.endswith("resolve/"):
         return METHOD_RESOLVE
     else:
@@ -129,13 +132,13 @@ class TestResolveApi(object):
         self.fullcontact_client.identity.map(**query)
 
     # Full serialization
-    @pytest.mark.parametrize("method", [METHOD_MAP, METHOD_RESOLVE, METHOD_DELETE])
+    @pytest.mark.parametrize("method", [METHOD_MAP, METHOD_MAP_RESOLVE, METHOD_RESOLVE, METHOD_DELETE])
     def test_full_serialization(self, mock_good_response, method):
         query = MockRequest.get_mock_request(REQUEST_TYPE, method, SCENARIO_FULL_SERIALIZATION)
         getattr(self.fullcontact_client.identity, method)(**query)
 
     # Positive input parameters
-    @pytest.mark.parametrize("method", [METHOD_MAP, METHOD_RESOLVE, METHOD_DELETE])
+    @pytest.mark.parametrize("method", [METHOD_MAP, METHOD_MAP_RESOLVE, METHOD_RESOLVE, METHOD_DELETE])
     def test_good_requests(self, mock_good_response, method):
         query = MockRequest.get_mock_request(REQUEST_TYPE, method, SCENARIO_POSITIVE)
         expected_result = MockResponse.get_mock_response(
@@ -173,7 +176,7 @@ class TestResolveApi(object):
                result.get_status_code() == expected_result.status_code
 
     # Parsing 401 response
-    @pytest.mark.parametrize("method", [METHOD_MAP, METHOD_RESOLVE, METHOD_DELETE])
+    @pytest.mark.parametrize("method", [METHOD_MAP, METHOD_MAP_RESOLVE, METHOD_RESOLVE, METHOD_DELETE])
     def test_401_requests(self, mock_401_response, method):
         query = MockRequest.get_mock_request(REQUEST_TYPE, method, SCENARIO_POSITIVE)
         expected_result = MockResponse.get_mock_response(
