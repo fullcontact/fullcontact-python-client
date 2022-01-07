@@ -3,8 +3,8 @@ from setuptools import setup, find_packages
 from fullcontact.__about__ import *
 
 requirements = [
-    "requests==2.23.0",
-    "urllib3==1.25.7"
+    "requests>=2.23.0,<3",
+    "urllib3>=1.25.7,<2"
 ]
 
 with open("README.md", "r") as readme:
