@@ -1,5 +1,8 @@
 """ Recipe script which uses the FullContact Python library to resolve contact identifiers to personIds. In this case, the input file is presumed to have a header representing a valid Multifield request (https://github.com/fullcontact/fullcontact-python-client#multifieldrequest).
 
+This script assumes the names of the input and output are "input.csv" and "output.csv", respectively.
+"""
+
 #!/usr/bin/env python3
 import csv
 import os
@@ -9,7 +12,7 @@ from fullcontact import FullContactClient
 # Fetch API Key from env variable "FC_API_KEY"
 API_KEY = os.environ.get('FC_API_KEY')
 
-# Define input, output
+# Define input, output file names
 input_file = './input.csv'
 output_filename= './output.csv'
 outputs = []
