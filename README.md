@@ -24,8 +24,6 @@ at: https://platform.fullcontact.com/docs
     * [Company API](#company-api)
         * [enrich()](#fullcontactclientcompanyenrich)
         * [enrich_async](#fullcontactclientcompanyenrich_async)
-        * [search()](#fullcontactclientcompanysearch)
-        * [search_async()](#fullcontactclientcompanysearch_async)
     * [Resolve API](#resolve-api)
         * [map()](#fullcontactclientidentitymap)
         * [map_async()](#fullcontactclientidentitymap_async)
@@ -108,7 +106,6 @@ person_client = PersonClient("<your_api_key>")
 company_client = CompanyClient("<your_api_key>")
 person_client.enrich(**query)
 company_client.enrich(**query)
-company_client.search(**query)
 ```
 
 This would be changed as below in V2.0.0
@@ -121,7 +118,6 @@ from fullcontact import FullContactClient
 fullcontact_client = FullContactClient("<your_api_key>")
 fullcontact_client.person.enrich(**query)
 fullcontact_client.company.enrich(**query)
-fullcontact_client.company.search(**query)
 ```
 
 # Usage
@@ -150,9 +146,6 @@ person_enrich_result = fullcontact_client.person.enrich(email="marquitaross006@g
 
 # Company Enrich
 company_enrich_result = fullcontact_client.company.enrich(domain="fullcontact.com")
-
-# Company Search
-company_search_results = fullcontact_client.company.search(companyName="fullcontact")
 
 # Identity Map
 identity_map_result = fullcontact_client.identity.map(email="marquitaross006@gmail.com", recordId="customer123")
@@ -409,15 +402,13 @@ class: _concurrent.Futures.Future_
 
 ## Company API
 
-The client library provides methods to interact with V3 Company Enrich and Search APIs
+The client library provides methods to interact with V3 Company Enrich API
 through `FullContactClient.company` object. The V3 Company Enrich API can be called synchronously
 using [enrich()](#fullcontactclientcompanyenrich) and asynchronously
-using [enrich_async()](#fullcontactclientcompanyenrich_async). Similarly, the V3 Company Search API can be called
-synchronously using [search()](#fullcontactclientcompanysearch) and asynchronously
-using [search_async()](#fullcontactclientcompanysearch_async). Additional headers can be set on a per-request basis by
+using [enrich_async()](#fullcontactclientcompanyenrich_async).
+Additional headers can be set on a per-request basis by
 setting the parameter `headers` while calling [enrich()](#fullcontactclientcompanyenrich))
-, [enrich_async()](#fullcontactclientcompanyenrich_async), [search()](#fullcontactclientcompanysearch)
-or [search_async()](#fullcontactclientcompanysearch_async).  
+
 Being a request level parameter, this can be used to override any header that has been set on the client level.
 > Company Enrichment API Documentation: https://platform.fullcontact.com/docs/apis/enrich/company-enrichment
 
@@ -445,25 +436,10 @@ print(enrich_response.get_summary())
    'docLink': 'http://docs.fullcontact.com/api/#key-people'}],
  'updated': '2020-05-31'} """
 
-# Synchronous search execution
-search_response = fullcontact_client.company.search(companyName="fullcontact")
-print(search_response.json()[0])
-""" Output: {'lookupDomain': 'fullcontact.com',
- 'orgName': 'FullContact Inc',
- 'logo': 'https://d2ojpxxtu63wzl.cloudfront.net/v1/thumbnail?size=128&url=https://img.fullcontact.com/static/7329d91237b7970b984d56c2497c80c0_7abd96cd75e5587b39b9f15dce07d7ebe8dc31accecf1b0f2a617ada34498633',
- 'location': {'locality': 'Denver',
-  'region': {'name': 'CO'},
-  'country': {'name': 'USA'}}} """
-
 # Asynchronous enrich execution
 enrich_async_response = fullcontact_client.company.enrich_async(domain="fullcontact.com")
 enrich_result = enrich_async_response.result()
 print(enrich_result.get_summary())
-
-# Asynchronous search execution
-search_async_response = fullcontact_client.company.search_async(companyName="fullcontact")
-search_result = search_async_response.result()
-print(search_result.json()[0])
 ```
 
 ### FullContactClient.company.enrich()
@@ -517,63 +493,6 @@ class: _concurrent.Futures.Future_
 #### Useful Methods:
 
 * `result()`: _CompanyEnrichResponse_ - [CompanyEnrichResponse](#companyenrichresponse) object received once execution
-  is completed
-* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
-
-### FullContactClient.company.search()
-
-class: _fullcontact.api.company_api.CompanyApi_
-
-#### Parameters:
-
-* `**query`: _kwargs_ - (required)
-* `headers`: _dict_ - [optional]
-
-Supported fields for query:
-
-* `companyName`: _str_
-* `sort`: _str_
-* `location`: _str_
-* `locality`: _str_
-* `region`: _str_
-* `country`: _str_
-* `webhookUrl`: _str_
-
-#### Returns:
-
-#### CompanySearchResponse
-
-class: _fullcontact.response.company_response.CompanySearchResponse_
-
-#### Instance variables
-
-* `is_successful`: _bool_ - Success flag
-* `response`: _requests.Response_ - Raw _requests.Response_ object
-
-#### Methods:
-
-* `json()`: _dict_ - Response JSON as dict
-* `get_message()`: _str_ - Response message or HTTP status message
-* `get_headers()`: _dict_ - Response headers
-
-### FullContactClient.company.search_async()
-
-class: _fullcontact.api.company_api.CompanyClient_
-
-#### Parameters:
-
-Same as that of [FullContactClient.company.search()](#fullcontactclientcompanysearch)
-
-#### Returns:
-
-#### Future[CompanySearchResponse]
-
-class: _concurrent.Futures.Future_
-> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
-
-#### Useful Methods:
-
-* `result()`: _CompanySearchResponse_ - [CompanySearchResponse](#companysearchresponse) object received once execution
   is completed
 * `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
 

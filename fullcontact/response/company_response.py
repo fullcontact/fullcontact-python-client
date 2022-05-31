@@ -2,7 +2,7 @@
 
 """
 This module serves the class for wrapping
-FullContact Company Enrich and Search
+FullContact Company Enrich
 API Responses.
 """
 
@@ -11,8 +11,4 @@ from .base.enrich_base import BaseEnrichResponse
 
 
 class CompanyEnrichResponse(BaseEnrichResponse):
-    pass
-
-
-class CompanySearchResponse(BaseApiResponse):
     pass
