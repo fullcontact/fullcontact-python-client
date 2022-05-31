@@ -5,7 +5,7 @@
 ![pytest](https://github.com/fullcontact/fullcontact-python-client/workflows/pytest/badge.svg)
 
 The official python client library for FullContact V3 API. This client provides an interface to interact with Enrich,
-Resolve, Tags, Audience and Verification APIs. FullContact API Documentation is available
+Resolve, Tags, Audience APIs. FullContact API Documentation is available
 at: https://platform.fullcontact.com/docs
 
 # Table of contents
@@ -45,9 +45,6 @@ at: https://platform.fullcontact.com/docs
         * [create_async()](fullcontactclientaudiencecreate_async)
         * [download()](fullcontactclientaudiencedownload)
         * [download_async()](fullcontactclientaudiencedownload_async)
-    * [Verification](#verification-api)
-        * [email()](#fullcontactclientverificationemail)
-        * [email_async()](#fullcontactclientverificationemail_async)
     * [Permission](#permission-api)
         * [create](#fullcontactclientpermissioncreate)
         * [delete](#fullcontactclientpermissiondelete)
@@ -177,9 +174,6 @@ audience_create_result = fullcontact_client.audience.create(webhookUrl="http://y
 # Audience Download
 audience_download_result = fullcontact_client.audience.download(requestId="<your_requestId>")
 audience_download_result.write_to_file("<output_file_path>")
-
-# Email Verification
-email_verification_result = fullcontact_client.verification.email(email="marquitaross006@gmail.com")
 
 # Permission Create
 permission_create_result = fullcontact_client.permission.create(
@@ -1113,127 +1107,6 @@ class: _concurrent.Futures.Future_
 #### Useful Methods:
 
 * `result()`: _AudienceDownloadResponse_ - [AudienceDownloadResponse](#audiencedownloadresponse) object received once
-  execution is completed
-* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
-
-## Verification API
-
-The client library provides methods to interact with Email Verification API (`v2/verification/email` endpoint)
-through `FullContactClient.verification` object. The Email Verification API can be accessed using the
-method [email()](#fullcontactclientverificationemail). This API can be accessed using the async version the function as
-well, [email_async()](#fullcontactclientverificationemail_async). Additional headers can be set on a per-request basis
-by setting the parameter `headers` while calling these methods.     
-Being a request level parameter, this can be used to override any header that has been set on the client level.
-> Verification API Documentation: https://platform.fullcontact.com/docs/apis/verification/introduction
-
-```python
-import json
-
-# Synchronous email verification
-email_verification_response = fullcontact_client.verification.email(email="marquitaross006@gmail.com")
-print(json.dumps(email_verification_response.json(), indent=4, sort_keys=True))
-"""
-Output:
-{
-    "emails": {
-        "marquitaross006@gmail.com": {
-            "address": "marquitaross006@gmail.com",
-            "attributes": {
-                "catchall": false,
-                "deliverable": true,
-                "disposable": false,
-                "risky": false,
-                "validSyntax": true
-            },
-            "corrected": false,
-            "domain": "gmail.com",
-            "message": "Valid email address",
-            "person": "https://api.fullcontact.com/v2/person.json?email=marquitaross006@gmail.com&apiKey=",
-            "sendSafely": true,
-            "username": "marquitaross006"
-        }
-    },
-    "requestId": "5b334bae-e205-423f-8a13-be669ad67806",
-    "status": 200
-}
-"""
-
-# Asynchronous email verification
-
-email_verification_async_response = fullcontact_client.verification.email_async(email="marquitaross006@gmail.com")
-email_verification_response = email_verification_async_response.result()
-print(json.dumps(email_verification_response.json(), indent=4, sort_keys=True))
-"""
-Output:
-{
-    "emails": {
-        "marquitaross006@gmail.com": {
-            "address": "marquitaross006@gmail.com",
-            "attributes": {
-                "catchall": false,
-                "deliverable": true,
-                "disposable": false,
-                "risky": false,
-                "validSyntax": true
-            },
-            "corrected": false,
-            "domain": "gmail.com",
-            "message": "Valid email address",
-            "person": "https://api.fullcontact.com/v2/person.json?email=marquitaross006@gmail.com&apiKey=",
-            "sendSafely": true,
-            "username": "marquitaross006"
-        }
-    },
-    "requestId": "5b334bae-e205-423f-8a13-be669ad67806",
-    "status": 200
-}
-"""
-```
-
-### FullContactClient.verification.email()
-
-class: _fullcontact.api.verification_api.VerificationApi_
-
-#### Parameters:
-
-* `email`: _str_ - [required]
-* `headers`: _dict_ - [optional]
-
-#### Returns:
-
-#### EmailVerificationResponse
-
-class: _fullcontact.response.verification_response.EmailVerificationResponse_
-
-#### Instance variables
-
-* `is_successful`: _bool_ - Success flag
-* `response`: _requests.Response_ - Raw _requests.Response_ object
-
-#### Methods:
-
-* `json()`: _dict_ - Response JSON as dict
-* `get_message()`: _str_ - Response message or HTTP status message
-* `get_headers()`: _dict_ - Response headers
-
-### FullContactClient.verification.email_async()
-
-class: _fullcontact.api.verification_api.VerificationApi_
-
-#### Parameters:
-
-Same as that of [FullContactClient.verification.email()](#fullcontactclientverificationemail)
-
-#### Returns:
-
-#### Future[EmailVerificationResponse]
-
-class: _concurrent.Futures.Future_
-> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
-
-#### Useful Methods:
-
-* `result()`: _AudienceCreateResponse_ - [EmailVerificationResponse](#emailverificationresponse) object received once
   execution is completed
 * `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
 
