@@ -66,6 +66,3 @@ class PersonEnrichResponse(BaseEnrichResponse):
 
     def get_epsilon(self) -> dict:
         return self.get_summary().get("epsilon", None) or {}
-
-    def get_verifiedPhysical(self) -> bool:
-        return self.get_summary().get("verifiedPhysical", None) or None
