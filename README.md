@@ -1459,7 +1459,7 @@ class: _concurrent.Futures.Future_
 
 ## Verify API
 
-The client library provides methods to interact with V3 Verfiy API (`verify.match`, `verify.activity` and `verify.signals` 
+The client library provides methods to interact with V3 Verfiy API (`verify.match`, `verify.signals` and `verify.activity` 
 endpoints) through `FullContactClient.verify` object. The V3 Verify API can be accessed using
 the methods [match()](#fullcontactclientverifymatch), [signals()](#fullcontactclientverifysignals) and 
 [activity()](#fullcontactclientverifyactivity), respectively. These APIs can be accessed using the async version these
@@ -1467,7 +1467,7 @@ functions, [match_async()](#fullcontactclientverifymatch_async), [signals_async(
 [activity_async()](#fullcontactclientverifyactivity_async). Additional headers can be set on a per-request basis by
 setting the parameter `headers` while calling these methods.     
 Being a request level parameter, this can be used to override any header that has been set on the client level.
-> Resolve API Documentation: https://docs.fullcontact.com/docs/multi-field-request-verify
+> Verify API Documentation: https://docs.fullcontact.com/docs/multi-field-request-verify
 
 ```python
 # Synchronous match execution
@@ -1688,6 +1688,6 @@ class: _concurrent.Futures.Future_
 
 #### Useful Methods:
 
-* `result()`: _IdentityResolveResponse_ - [VerifyActivityResponse](#verifyactivityresponse) object received once execution is
+* `result()`: _VerifyActivityResponse_ - [VerifyActivityResponse](#verifyactivityresponse) object received once execution is
   completed
 * `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
