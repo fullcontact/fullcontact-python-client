@@ -1552,18 +1552,18 @@ class: _fullcontact.response.verify_response.MatchResponse_
 * `json()`: _dict_ - Response JSON as dict
 * `get_message()`: _str_ - Response message or HTTP status message
 * `get_headers()`: _dict_ - Response headers
-* `get_city()`: _bool_ - city flag from Match Response
-* `get_region()`: _bool_ - region flag from Match Response
-* `get_country()`: _bool_ - country flag from Match Response
-* `get_continent()`: _bool_ - continent flag from Match Response
-* `get_postalCode()`: _bool_ - postalCode flag from Match Response
-* `get_familyName()`: _bool_ - familyName flag from Match Response
-* `get_givenName()`: _bool_ - givenName flag from Match Response
-* `get_phone()`: _bool_ - phone flag from Match Response
-* `get_maid()`: _bool_ - maid flag from Match Response
-* `get_email()`: _bool_ - email flag from Match Response
-* `get_social()`: _bool_ - social flag from Match Response
-* `get_nonId()`: _bool_ - nonId flag from Match Response
+* `get_city()`: _bool_ - city flag from Verify Match Response
+* `get_region()`: _bool_ - region flag from Verify Match Response
+* `get_country()`: _bool_ - country flag from Verify Match Response
+* `get_continent()`: _bool_ - continent flag from Verify Match Response
+* `get_postalCode()`: _bool_ - postalCode flag from Verify Match Response
+* `get_familyName()`: _bool_ - familyName flag from Verify Match Response
+* `get_givenName()`: _bool_ - givenName flag from Verify Match Response
+* `get_phone()`: _bool_ - phone flag from Verify Match Response
+* `get_maid()`: _bool_ - maid flag from Verify Match Response
+* `get_email()`: _bool_ - email flag from Verify Match Response
+* `get_social()`: _bool_ - social flag from Verify Match Response
+* `get_nonId()`: _bool_ - nonId flag from Verify Match Response
 
 ### FullContactClient.verify.match_async()
 
@@ -1582,7 +1582,7 @@ class: _concurrent.Futures.Future_
 
 #### Useful Methods:
 
-* `result()`: _IdentityMapResponse_ - [VerifyMatchResponse](#verifymatchresponse) object received once execution is
+* `result()`: _VerifyMatchResponse_ - [VerifyMatchResponse](#verifymatchresponse) object received once execution is
   completed
 * `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
 
@@ -1614,17 +1614,17 @@ class: _fullcontact.response.verify_response.VerifySignalResponse_
 * `get_message()`: _str_ - Response message or HTTP status message
 * `get_headers()`: _dict_ - Response headers
 * `get_personIds()`: List[str] - List of personIds from Signals response
-* `get_name()`: _dict_ - The name from Signals response
-* `get_emails()`: List[_dict_] - List of email objects from Signals response
-* `get_phones()`: List[_dict_] - List of phone objects from Signals response
-* `get_maids()`: List[_dict_] - List of maids objects from Signals response
-* `get_nonIds()`: List[_dict_] - List of nonIds objects from Signals response
-* `get_panoIds()`: List[_dict_] - List of panoIds objects from Signals response
-* `get_ipAddresses()`: List[_dict_] - List of ipAddress objects from Signals response
-* `get_socialProfiles()`: List[str] - List of Social Profiles from Signals response
-* `get_demographics()`: _dict_ - Demographics from Signals response
-* `get_employment()`: _dict_ - Employment from Signals response
-* `get_locations()`: List[_dict_] - List of location object from Signals response
+* `get_name()`: _dict_ - Name from Verify Signals response
+* `get_emails()`: List[_dict_] - List of email objects from Verify Signals response
+* `get_phones()`: List[_dict_] - List of phone objects from Verify Signals response
+* `get_maids()`: List[_dict_] - List of maids objects from Verify Signals response
+* `get_nonIds()`: List[_dict_] - List of nonIds objects from Verify Signals response
+* `get_panoIds()`: List[_dict_] - List of panoIds objects from Verify Signals response
+* `get_ipAddresses()`: List[_dict_] - List of ipAddress objects from Verify Signals response
+* `get_socialProfiles()`: List[str] - List of Social Profiles from Verify Signals response
+* `get_demographics()`: _dict_ - Demographics from Verify Signals response
+* `get_employment()`: _dict_ - Employment from Verify Signals response
+* `get_locations()`: List[_dict_] - List of location object from Verify Signals response
 
 ### FullContactClient.verify.signals_async()
 
@@ -1675,7 +1675,7 @@ class: _fullcontact.response.verify_response.VerifyActivityResponse_
 * `json()`: _dict_ - Response JSON as dict
 * `get_message()`: _str_ - Response message or HTTP status message
 * `get_headers()`: _dict_ - Response headers
-* `get_emails()`: _float_ - email activity score from Activity Response
+* `get_emails()`: _float_ - email activity score from Verify Activity Response
 
 ### FullContactClient.verify.activity_async()
 
