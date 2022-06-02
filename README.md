@@ -1552,18 +1552,18 @@ class: _fullcontact.response.verify_response.MatchResponse_
 * `json()`: _dict_ - Response JSON as dict
 * `get_message()`: _str_ - Response message or HTTP status message
 * `get_headers()`: _dict_ - Response headers
-* `get_city()`: _bool_ - Indicates whether the inputted city matches to FullContact's Identity Graph and the other identifiers included in the request
-* `get_region()`: _bool_ - Indicates whether the inputted region matches to FullContact's Identity Graph and the other identifiers included in the request
-* `get_country()`: _bool_ - Indicates whether the inputted country matches to FullContact's Identity Graph and the other identifiers included in the request
-* `get_continent()`: _bool_ - Indicates whether the inputted continent matches to FullContact's Identity Graph and the other identifiers included in the request
-* `get_postalCode()`: _bool_ - Indicates whether the inputted postalCode matches to FullContact's Identity Graph and the other identifiers included in the request
-* `get_familyName()`: _bool_ - Indicates whether the inputted familyName matches to FullContact's Identity Graph and the other identifiers included in the request
-* `get_givenName()`: _bool_ - Indicates whether the inputted givenName matches to FullContact's Identity Graph and the other identifiers included in the request
-* `get_phone()`: _bool_ - Indicates whether the inputted phone matches to FullContact's Identity Graph and the other identifiers included in the request
-* `get_maid()`: _bool_ - Indicates whether the inputted maid matches to FullContact's Identity Graph and the other identifiers included in the request
-* `get_email()`: _bool_ - Indicates whether the inputted email matches to FullContact's Identity Graph and the other identifiers included in the request
-* `get_social()`: _bool_ - Indicates whether the inputted social matches to FullContact's Identity Graph and the other identifiers included in the request
-* `get_nonId()`: _bool_ - Indicates whether the inputted nonId matches to FullContact's Identity Graph and the other identifiers included in the request
+* `get_city()`: _bool_ - city flag from Match Response
+* `get_region()`: _bool_ - region flag from Match Response
+* `get_country()`: _bool_ - country flag from Match Response
+* `get_continent()`: _bool_ - continent flag from Match Response
+* `get_postalCode()`: _bool_ - postalCode flag from Match Response
+* `get_familyName()`: _bool_ - familyName flag from Match Response
+* `get_givenName()`: _bool_ - givenName flag from Match Response
+* `get_phone()`: _bool_ - phone flag from Match Response
+* `get_maid()`: _bool_ - maid flag from Match Response
+* `get_email()`: _bool_ - email flag from Match Response
+* `get_social()`: _bool_ - social flag from Match Response
+* `get_nonId()`: _bool_ - nonId flag from Match Response
 
 ### FullContactClient.verify.match_async()
 
