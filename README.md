@@ -1478,14 +1478,17 @@ print(match_response.json())
 # Synchronous signals execution
 signals_response = fullcontact_client.verify.signals(email="marquitaross006@gmail.com")
 print(signals_response.json())
-# Output: {'personIds': ['L0yG2Mp8Z4TVHxJK92GAxjWsTX6lrSfMBsQKvRsy5NzKnTm6'], 
-#           'maids': [{'id': '0N3ZIUBF-RPCI-GO59-O29M-S3I3U0A8I9WUN', 'type': 'idfa', 'firstSeenMs': 0, 'lastSeenMs': 0, 'observations': 1, 'confidence': 1.0}], 
-#           'name': {'givenName': 'Marquita', 'familyName': 'Ross'}, 
-#           'nonIds': [{'id': '0C-83f57c786a0b_-4a39efab23731c7EBC', 'firstSeenMs': 0, 'lastSeenMs': 0, 'observations': 1, 'confidence': 1.0}], 
-#           'socialProfiles': {'twitterUrl': 'https://twitter.com/marqross91', 'linkedInUrl': 'https://www.linkedin.com/in/marquita-ross-5b6b72192'}, 
-#           'demographics': {'age': 42, 'ageRange': '40-49', 'gender': 'Female'}, 
-#           'employment': {'current': True, 'company': 'Mostow Co.', 'title': 'Senior Petroleum Manager'}
-#          }
+'''
+Output: 
+{ 'personIds': ['L0yG2Mp8Z4TVHxJK92GAxjWsTX6lrSfMBsQKvRsy5NzKnTm6'], 
+  'maids': [{'id': '0N3ZIUBF-RPCI-GO59-O29M-S3I3U0A8I9WUN', 'type': 'idfa', 'firstSeenMs': 0, 'lastSeenMs': 0, 'observations': 1, 'confidence': 1.0}], 
+  'name': {'givenName': 'Marquita', 'familyName': 'Ross'}, 
+  'nonIds': [{'id': '0C-83f57c786a0b_-4a39efab23731c7EBC', 'firstSeenMs': 0, 'lastSeenMs': 0, 'observations': 1, 'confidence': 1.0}], 
+  'socialProfiles': {'twitterUrl': 'https://twitter.com/marqross91', 'linkedInUrl': 'https://www.linkedin.com/in/marquita-ross-5b6b72192'}, 
+  'demographics': {'age': 42, 'ageRange': '40-49', 'gender': 'Female'}, 
+  'employment': {'current': True, 'company': 'Mostow Co.', 'title': 'Senior Petroleum Manager'}
+}
+'''
 
 # Synchronous activity execution
 activity_response = fullcontact_client.verify.activity(email="bart.lorang@fullcontact.com")
@@ -1502,14 +1505,17 @@ print(match_response.json())
 signals_async_response = fullcontact_client.verify.signals_async(email="marquitaross006@gmail.com")
 signals_response = signals_async_response.result()
 print(signals_response.json())
-# Output: {'personIds': ['L0yG2Mp8Z4TVHxJK92GAxjWsTX6lrSfMBsQKvRsy5NzKnTm6'], 
-#           'maids': [{'id': '0N3ZIUBF-RPCI-GO59-O29M-S3I3U0A8I9WUN', 'type': 'idfa', 'firstSeenMs': 0, 'lastSeenMs': 0, 'observations': 1, 'confidence': 1.0}], 
-#           'name': {'givenName': 'Marquita', 'familyName': 'Ross'}, 
-#           'nonIds': [{'id': '0C-83f57c786a0b_-4a39efab23731c7EBC', 'firstSeenMs': 0, 'lastSeenMs': 0, 'observations': 1, 'confidence': 1.0}], 
-#           'socialProfiles': {'twitterUrl': 'https://twitter.com/marqross91', 'linkedInUrl': 'https://www.linkedin.com/in/marquita-ross-5b6b72192'}, 
-#           'demographics': {'age': 42, 'ageRange': '40-49', 'gender': 'Female'}, 
-#           'employment': {'current': True, 'company': 'Mostow Co.', 'title': 'Senior Petroleum Manager'}
-#          }
+'''
+Output: 
+{ 'personIds': ['L0yG2Mp8Z4TVHxJK92GAxjWsTX6lrSfMBsQKvRsy5NzKnTm6'], 
+  'maids': [{'id': '0N3ZIUBF-RPCI-GO59-O29M-S3I3U0A8I9WUN', 'type': 'idfa', 'firstSeenMs': 0, 'lastSeenMs': 0, 'observations': 1, 'confidence': 1.0}], 
+  'name': {'givenName': 'Marquita', 'familyName': 'Ross'}, 
+  'nonIds': [{'id': '0C-83f57c786a0b_-4a39efab23731c7EBC', 'firstSeenMs': 0, 'lastSeenMs': 0, 'observations': 1, 'confidence': 1.0}], 
+  'socialProfiles': {'twitterUrl': 'https://twitter.com/marqross91', 'linkedInUrl': 'https://www.linkedin.com/in/marquita-ross-5b6b72192'}, 
+  'demographics': {'age': 42, 'ageRange': '40-49', 'gender': 'Female'}, 
+  'employment': {'current': True, 'company': 'Mostow Co.', 'title': 'Senior Petroleum Manager'}
+}
+'''
 
 # Asynchronous activity execution
 activity_async_response = fullcontact_client.verify.activity_async(email="bart.lorang@fullcontact.com")
@@ -1607,18 +1613,18 @@ class: _fullcontact.response.verify_response.VerifySignalResponse_
 * `json()`: _dict_ - Response JSON as dict
 * `get_message()`: _str_ - Response message or HTTP status message
 * `get_headers()`: _dict_ - Response headers
-* `get_personIds()`: _List[str]_ - List of personIds from Signals response
+* `get_personIds()`: List[str] - List of personIds from Signals response
 * `get_name()`: _dict_ - The name from Signals response
-* `get_emails()`: _List[_dict_] - List of email objects from Signals response
-* `get_phones()`: _List[_dict_] - List of phone objects from Signals response
-* `get_maids()`: _List[_dict_] - List of maids objects from Signals response
-* `get_nonIds()`: _List[_dict_] - List of nonIds objects from Signals response
-* `get_panoIds()`: _List[_dict_] - List of panoIds objects from Signals response
-* `get_ipAddresses()`: _List[_dict_] - List of ipAddress objects from Signals response
-* `get_socialProfiles()`: _List[str] - List of Social Profiles from Signals response
+* `get_emails()`: List[_dict_] - List of email objects from Signals response
+* `get_phones()`: List[_dict_] - List of phone objects from Signals response
+* `get_maids()`: List[_dict_] - List of maids objects from Signals response
+* `get_nonIds()`: List[_dict_] - List of nonIds objects from Signals response
+* `get_panoIds()`: List[_dict_] - List of panoIds objects from Signals response
+* `get_ipAddresses()`: List[_dict_] - List of ipAddress objects from Signals response
+* `get_socialProfiles()`: List[str] - List of Social Profiles from Signals response
 * `get_demographics()`: _dict_ - Demographics from Signals response
 * `get_employment()`: _dict_ - Employment from Signals response
-* `get_locations()`: _List[_dict_] - List of location object from Signals response
+* `get_locations()`: List[_dict_] - List of location object from Signals response
 
 ### FullContactClient.verify.signals_async()
 
