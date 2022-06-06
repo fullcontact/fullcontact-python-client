@@ -29,15 +29,15 @@ class VerifyMatchResponse(BaseApiResponse):
 
 
 class VerifySignalResponse(BaseApiResponse):
-    def get_emails(self): return self.json().get("emails", None) or None
-    def get_name(self): return self.json().get("name", None) or None
-    def get_personIds(self): return self.json().get("personIds", None) or None
-    def get_phones(self): return self.json().get("phones", None) or None
-    def get_maids(self): return self.json().get("maids", None) or None
-    def get_nonIds(self): return self.json().get("nonIds", None) or None
-    def get_panoIds(self): return self.json().get("panoIds", None) or None
-    def get_ipAddresses(self): return self.json().get("ipAddresses", None) or None
-    def get_socialProfiles(self): return self.json().get("socialProfiles", None) or None
-    def get_demographics(self): return self.json().get("demographics", None) or None
-    def get_employment(self): return self.json().get("employment", None) or None
-    def get_locations(self): return self.json().get("locations", None) or None
+    def get_emails(self): return self.json().get("emails", None) or []
+    def get_name(self): return self.json().get("name", None) or {}
+    def get_personIds(self): return self.json().get("personIds", None) or []
+    def get_phones(self): return self.json().get("phones", None) or []
+    def get_maids(self): return self.json().get("maids", None) or []
+    def get_nonIds(self): return self.json().get("nonIds", None) or []
+    def get_panoIds(self): return self.json().get("panoIds", None) or []
+    def get_ipAddresses(self): return self.json().get("ipAddresses", None) or []
+    def get_socialProfiles(self): return self.json().get("socialProfiles", None) or {}
+    def get_demographics(self): return self.json().get("demographics", None) or {}
+    def get_employment(self): return self.json().get("employment", None) or {}
+    def get_locations(self): return self.json().get("locations", None) or []
