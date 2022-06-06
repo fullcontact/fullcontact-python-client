@@ -1,0 +1,20 @@
+{
+  "email": "chipshipperman@gmail.com",
+  "phones": [
+    "+17316587473"
+  ],
+  "name": {
+    "given": "Chip",
+    "family": "Shipperman",
+    "full": "Chip Shipperman"
+  },
+  "profiles": [
+    {
+      "username": "chipshipperman",
+      "service": "linkedin"
+    },
+    {
+      "url": "https://www.linkedin.com/in/chipshipperman"
+    }
+  ]
+}

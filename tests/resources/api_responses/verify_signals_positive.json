@@ -1,0 +1,85 @@
+{
+  "emails": [
+    {
+      "md5": "600d8663403ca772e503ffa53fab5773",
+      "sha1": "96334fb5660e082d5245968e4feb9a726d2554b7",
+      "sha256": "2f25bbfb3e3c05a83cb23db4daaf3da6a255251fd22ca3068d121d26d66587e0",
+      "firstSeenMs": 1639001949000,
+      "lastSeenMs": 1648537498000,
+      "observations": 207,
+      "confidence": 1.0
+    },
+    {
+      "md5": "f835b481c3a77d60685de36d06f1cfc5",
+      "sha1": "935d55eb8ec1be8cecaaed0b43d8a448d31a4cdc",
+      "sha256": "115184e2cfeda115ae936e582b0140650beed6ca2d0f86e898ec92be545697c4",
+      "firstSeenMs": 1447983491659,
+      "lastSeenMs": 1573232192985,
+      "observations": 207,
+      "confidence": 0.955
+    },
+    {
+      "md5": "8341b927e2f51099ddce0b441d6f1e4e",
+      "sha1": "58923548a149a33a8c90f889b88ad61517da08cd",
+      "sha256": "bcedce105a9674bbb475f47e6a162048d39fd4b875a5a9a6391327940484c9c2",
+      "firstSeenMs": 1481553431413,
+      "lastSeenMs": 1561489634871,
+      "observations": 1,
+      "confidence": 1.0
+    },
+    {
+      "md5": "a899b90d87ff2dd90520c8598c4367a1",
+      "sha1": "228292606bcf75d651d60bfb5f8fccfc0cfbdeaa",
+      "sha256": "97c75668d031d72c7a4cdf7d938125a555480dea1ad13a4e9174322b61507de5",
+      "firstSeenMs": 1478712618560,
+      "lastSeenMs": 1573232192985,
+      "observations": 207,
+      "confidence": 0.955
+    },
+    {
+      "md5": "4c15e0ae3910cc0c941e73df6490490a",
+      "sha1": "7e96ad7188ebc4a17a38ccd877e55a47625d500e",
+      "sha256": "6f68cb4ac21d6bfe3d7e4dba8389af0aa722b79b0601eae54486a19293cb04f2",
+      "firstSeenMs": 1478712618633,
+      "lastSeenMs": 1638332217413,
+      "observations": 207,
+      "confidence": 0.95
+    },
+    {
+      "md5": "a31305fb1a91417ac7eb9995b6649095",
+      "sha1": "6b71a96d93302443eaf456b7c59da7ccfc67e4d4",
+      "sha256": "4a109af568a1fe4822d06810849e34962d067969fd14952efa4438068bbd3ecd",
+      "firstSeenMs": 1470666062416,
+      "lastSeenMs": 1573232192985,
+      "observations": 1,
+      "confidence": 1.0
+    },
+    {
+      "md5": "a329ccc5f1de63587a3c14a614ea70a7",
+      "sha1": "41d7b10e9ee8242ec302d7e172c91d2ad0f668fa",
+      "sha256": "d3bdc0a749fc9dbbfc4fb4cf90559fc8e127a4a984b8f267b94466074162ba72",
+      "firstSeenMs": 1468064796602,
+      "lastSeenMs": 1573232192985,
+      "observations": 207,
+      "confidence": 0.9839
+    }
+  ],
+  "name": {
+    "givenName": "Chip",
+    "familyName": "Shipperman"
+  },
+  "socialProfiles": {
+    "twitterUrl": "https://twitter.com/ChipShipperman",
+    "linkedInUrl": "https://www.linkedin.com/in/chipshipperman"
+  },
+  "demographics": {
+    "age": 55,
+    "ageRange": "50-59",
+    "gender": "Male"
+  },
+  "employment": {
+    "current": false,
+    "company": "Electronic Arts (EA)",
+    "title": "Mobile Application Developer"
+  }
+}

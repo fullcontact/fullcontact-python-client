@@ -1,0 +1,26 @@
+{
+  "email": "chipshipperman@gmail.com",
+  "phones": [
+    "+17316587473"
+  ],
+  "location": {
+    "addressLine1": "1234 Main Street",
+    "city": "Stafford",
+    "region": "Staffordshire, United Kingdom",
+    "regionCode": "United States"
+  },
+  "name": {
+    "given": "Chip",
+    "family": "Shipperman",
+    "full": "Chip Shipperman"
+  },
+  "profiles": [
+    {
+      "username": "chipshipperman",
+      "service": "linkedin"
+    },
+    {
+      "url": "https://www.linkedin.com/in/chipshipperman"
+    }
+  ]
+}
