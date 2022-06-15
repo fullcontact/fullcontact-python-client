@@ -390,7 +390,7 @@ class: _fullcontact.response.person_response.PersonEnrichResponse_
 * `get_finance()`: _dict_ - Finance details from Person Enrich Response
 * `get_census()`: _dict_ - Census details from Person Enrich Response
 * `get_identifiers()`: _dict_ - Identifiers from Person Enrich Response
-* `get_epsilon()`: _dict_ - All Epsilon data
+* `get_extended()`: _dict_ - All Epsilon data
 
 ### FullContactClient.person.enrich_async()
 

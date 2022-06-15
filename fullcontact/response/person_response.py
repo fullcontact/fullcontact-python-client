@@ -64,5 +64,5 @@ class PersonEnrichResponse(BaseEnrichResponse):
     def get_identifiers(self) -> dict:
         return self.get_details().get("identifiers", None) or {}
 
-    def get_epsilon(self) -> dict:
-        return self.get_summary().get("epsilon", None) or {}
+    def get_extended(self) -> dict:
+        return self.get_summary().get("extended", None) or {}
