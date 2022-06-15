@@ -438,12 +438,6 @@ print(enrich_response.get_summary())
  'employees': 300,
  'locale': 'en',
  'category': 'Other',
- 'dataAddOns': [{'id': 'keypeople',
-   'name': 'Key People',
-   'enabled': True,
-   'applied': True,
-   'description': 'Displays information about people of interest at this company.',
-   'docLink': 'http://docs.fullcontact.com/api/#key-people'}],
  'updated': '2020-05-31'} """
 
 # Asynchronous enrich execution
