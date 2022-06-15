@@ -5,7 +5,7 @@
 ![pytest](https://github.com/fullcontact/fullcontact-python-client/workflows/pytest/badge.svg)
 
 The official python client library for FullContact V3 API. This client provides an interface to interact with Enrich,
-Resolve, Tags, Audience APIs. FullContact API Documentation is available
+Resolve, Tags, Audience, Verify and Permission APIs. FullContact API Documentation is available
 at: https://platform.fullcontact.com/docs
 
 # Table of contents
@@ -1467,7 +1467,7 @@ functions, [match_async()](#fullcontactclientverifymatch_async), [signals_async(
 [activity_async()](#fullcontactclientverifyactivity_async). Additional headers can be set on a per-request basis by
 setting the parameter `headers` while calling these methods.     
 Being a request level parameter, this can be used to override any header that has been set on the client level.
-> Verify API Documentation: https://docs.fullcontact.com/docs/multi-field-request-verify
+> Verify API Documentation: https://docs.fullcontact.com/docs/verify-overview
 
 ```python
 # Synchronous match execution
