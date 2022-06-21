@@ -28,3 +28,12 @@ class ErrorMessages(object):
                                                 "phones, location, name, profiles, maids, placekey, li_nonid, " \
                                                 "partnerId, recordId, personId)"
     PERMISSION_VERIFY_MISSING_REQUIRED_FIELDS = "For Permission Verify query, purposeId,channel,query are required."
+    VERIFY_INVALID_NAME = "Possible combinations to query by Name are:\n" \
+                          "given + family\n" \
+                          "full"
+    VERIFY_INVALID_LOCATION = "Possible combinations to query by Location are:\n" \
+                              "addressLine1 + city + region\n" \
+                              "addressLine1 + city + regionCode\n" \
+                              "addressLine1 + postalCode"
+
+    VERIFY_INVALID_NAME_LOCATION = "Location (or Placekey) and Name have to be queried together"

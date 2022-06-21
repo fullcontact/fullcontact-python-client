@@ -1,0 +1,45 @@
+[
+  {
+    "location": {
+      "city": "San Francisco",
+      "region": "California",
+      "regionCode": "CA"
+    },
+    "name": {
+      "given": "Marquita",
+      "family": "Ross",
+      "full": "Marquita H Ross"
+    }, "email": "test@fullcontact.com"
+  },
+  {
+    "location": {
+      "addressLine1": "313 North Gainsway Street",
+      "region": "California",
+      "regionCode": "CA"
+    },
+    "name": {
+      "given": "Marquita",
+      "family": "Ross",
+      "full": "Marquita H Ross"
+    }, "profiles": [{"service": "linkedin", "username": "test"}]
+  },
+  {
+    "location": {
+      "addressLine1": "313 North Gainsway Street",
+      "city": "San Francisco"
+    },
+    "name": {
+      "given": "Marquita",
+      "family": "Ross",
+      "full": "Marquita H Ross"
+    }, "maids": ["testmaid"]
+  },
+  {
+    "location": {},
+    "name": {
+      "given": "Marquita",
+      "family": "Ross",
+      "full": "Marquita H Ross"
+    }, "li_nonid": "test_li_nonid"
+  }
+]
