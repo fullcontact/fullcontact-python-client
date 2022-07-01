@@ -70,7 +70,7 @@ To add FullContact Python Client library to your project, add the below line to 
 requirement in the `setup.py` file.
 
 ```
-python-fullcontact==3.1.0
+python-fullcontact==4.0.0
 ```
 
 # Installation
