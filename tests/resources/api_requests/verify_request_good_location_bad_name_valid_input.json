@@ -1,0 +1,36 @@
+[
+  {
+    "location": {
+      "addressLine1": "313 North Gainsway Street",
+      "city": "San Francisco",
+      "region": "California",
+      "regionCode": "CA"
+    },
+    "name": {
+      "given": "Marquita"
+    },
+    "emails": ["test1@fullcontact.com", "test2@fullcontact.com"]
+  },
+  {
+    "location": {
+      "addressLine1": "313 North Gainsway Street",
+      "city": "San Francisco",
+      "region": "California",
+      "regionCode": "CA"
+    },
+    "name": {
+      "family": "Ross"
+    },
+    "maids": ["test_maid"]
+  },
+  {
+    "location": {
+      "addressLine1": "313 North Gainsway Street",
+      "city": "San Francisco",
+      "region": "California",
+      "regionCode": "CA"
+    },
+    "name": {},
+    "recordId": "test_recordId"
+  }
+]

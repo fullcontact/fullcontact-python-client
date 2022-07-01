@@ -5,7 +5,7 @@
 ![pytest](https://github.com/fullcontact/fullcontact-python-client/workflows/pytest/badge.svg)
 
 The official python client library for FullContact V3 API. This client provides an interface to interact with Enrich,
-Resolve, Tags, Audience and Verification APIs. FullContact API Documentation is available
+Resolve, Tags, Audience, Verify and Permission APIs. FullContact API Documentation is available
 at: https://platform.fullcontact.com/docs
 
 # Table of contents
@@ -24,8 +24,6 @@ at: https://platform.fullcontact.com/docs
     * [Company API](#company-api)
         * [enrich()](#fullcontactclientcompanyenrich)
         * [enrich_async](#fullcontactclientcompanyenrich_async)
-        * [search()](#fullcontactclientcompanysearch)
-        * [search_async()](#fullcontactclientcompanysearch_async)
     * [Resolve API](#resolve-api)
         * [map()](#fullcontactclientidentitymap)
         * [map_async()](#fullcontactclientidentitymap_async)
@@ -47,9 +45,6 @@ at: https://platform.fullcontact.com/docs
         * [create_async()](fullcontactclientaudiencecreate_async)
         * [download()](fullcontactclientaudiencedownload)
         * [download_async()](fullcontactclientaudiencedownload_async)
-    * [Verification](#verification-api)
-        * [email()](#fullcontactclientverificationemail)
-        * [email_async()](#fullcontactclientverificationemail_async)
     * [Permission](#permission-api)
         * [create](#fullcontactclientpermissioncreate)
         * [delete](#fullcontactclientpermissiondelete)
@@ -57,6 +52,13 @@ at: https://platform.fullcontact.com/docs
         * [current](#fullcontactclientpermissioncurrent)
         * [verify](#fullcontactclientpermissionverify)
         * [permission-async](#permission-apis-asynchronous-methods)
+    * [Verify](#verify-api)
+        * [match](#fullcontactclientverifymatch)
+        * [match_async](#fullcontactclientverifymatch_async)
+        * [signals](#fullcontactclientverifysignals)
+        * [signals_async](#fullcontactclientverifysignals_async)
+        * [activity](#fullcontactclientverifyactivity)
+        * [activity_async](#fullcontactclientverifyactivity_async)
 
 # Requirements
 
@@ -108,7 +110,6 @@ person_client = PersonClient("<your_api_key>")
 company_client = CompanyClient("<your_api_key>")
 person_client.enrich(**query)
 company_client.enrich(**query)
-company_client.search(**query)
 ```
 
 This would be changed as below in V2.0.0
@@ -121,7 +122,6 @@ from fullcontact import FullContactClient
 fullcontact_client = FullContactClient("<your_api_key>")
 fullcontact_client.person.enrich(**query)
 fullcontact_client.company.enrich(**query)
-fullcontact_client.company.search(**query)
 ```
 
 # Usage
@@ -150,9 +150,6 @@ person_enrich_result = fullcontact_client.person.enrich(email="marquitaross006@g
 
 # Company Enrich
 company_enrich_result = fullcontact_client.company.enrich(domain="fullcontact.com")
-
-# Company Search
-company_search_results = fullcontact_client.company.search(companyName="fullcontact")
 
 # Identity Map
 identity_map_result = fullcontact_client.identity.map(email="marquitaross006@gmail.com", recordId="customer123")
@@ -185,9 +182,6 @@ audience_create_result = fullcontact_client.audience.create(webhookUrl="http://y
 audience_download_result = fullcontact_client.audience.download(requestId="<your_requestId>")
 audience_download_result.write_to_file("<output_file_path>")
 
-# Email Verification
-email_verification_result = fullcontact_client.verification.email(email="marquitaross006@gmail.com")
-
 # Permission Create
 permission_create_result = fullcontact_client.permission.create(
                                             query={"email": "marquitaross006@gmail.com"},
@@ -218,6 +212,15 @@ permission_current_result = fullcontact_client.permission.current(email="marquit
 permission_verify_result = fullcontact_client.permission.verify(query={"email": "marquitaross006@gmail.com"},
                                                                 purposeId=6, 
                                                                 channel="web")
+# Verify Match
+verify_match_result = fullcontact_client.verify.match(email="marquitaross006@gmail.com")
+
+# Verify Signals
+verify_signals_result = fullcontact_client.verify.signals(email="marquitaross006@gmail.com")
+
+# Verify Activity
+verify_activity_result = fullcontact_client.verify.activity(email="marquitaross006@gmail.com")
+
 ```
 
 ## Client Configuration
@@ -350,7 +353,6 @@ class: _fullcontact.api.person_api.PersonApi_
 * `confidence`: _str_
 * `dataFilter`: _List[str]_
 * `infer`: _bool_
-* `verifiedPhysical`: _bool_
 * `maxMaids`: _int_
 
 #### Returns:
@@ -388,8 +390,7 @@ class: _fullcontact.response.person_response.PersonEnrichResponse_
 * `get_finance()`: _dict_ - Finance details from Person Enrich Response
 * `get_census()`: _dict_ - Census details from Person Enrich Response
 * `get_identifiers()`: _dict_ - Identifiers from Person Enrich Response
-* `get_verifiedPhysical()`: _dict_ - Flag if response is verified physical
-* `get_epsilon()`: _dict_ - All Epsilon data
+* `get_extended()`: _dict_ - All Extended data
 
 ### FullContactClient.person.enrich_async()
 
@@ -411,15 +412,13 @@ class: _concurrent.Futures.Future_
 
 ## Company API
 
-The client library provides methods to interact with V3 Company Enrich and Search APIs
+The client library provides methods to interact with V3 Company Enrich API
 through `FullContactClient.company` object. The V3 Company Enrich API can be called synchronously
 using [enrich()](#fullcontactclientcompanyenrich) and asynchronously
-using [enrich_async()](#fullcontactclientcompanyenrich_async). Similarly, the V3 Company Search API can be called
-synchronously using [search()](#fullcontactclientcompanysearch) and asynchronously
-using [search_async()](#fullcontactclientcompanysearch_async). Additional headers can be set on a per-request basis by
+using [enrich_async()](#fullcontactclientcompanyenrich_async).
+Additional headers can be set on a per-request basis by
 setting the parameter `headers` while calling [enrich()](#fullcontactclientcompanyenrich))
-, [enrich_async()](#fullcontactclientcompanyenrich_async), [search()](#fullcontactclientcompanysearch)
-or [search_async()](#fullcontactclientcompanysearch_async).  
+
 Being a request level parameter, this can be used to override any header that has been set on the client level.
 > Company Enrichment API Documentation: https://platform.fullcontact.com/docs/apis/enrich/company-enrichment
 
@@ -439,33 +438,12 @@ print(enrich_response.get_summary())
  'employees': 300,
  'locale': 'en',
  'category': 'Other',
- 'dataAddOns': [{'id': 'keypeople',
-   'name': 'Key People',
-   'enabled': True,
-   'applied': True,
-   'description': 'Displays information about people of interest at this company.',
-   'docLink': 'http://docs.fullcontact.com/api/#key-people'}],
  'updated': '2020-05-31'} """
-
-# Synchronous search execution
-search_response = fullcontact_client.company.search(companyName="fullcontact")
-print(search_response.json()[0])
-""" Output: {'lookupDomain': 'fullcontact.com',
- 'orgName': 'FullContact Inc',
- 'logo': 'https://d2ojpxxtu63wzl.cloudfront.net/v1/thumbnail?size=128&url=https://img.fullcontact.com/static/7329d91237b7970b984d56c2497c80c0_7abd96cd75e5587b39b9f15dce07d7ebe8dc31accecf1b0f2a617ada34498633',
- 'location': {'locality': 'Denver',
-  'region': {'name': 'CO'},
-  'country': {'name': 'USA'}}} """
 
 # Asynchronous enrich execution
 enrich_async_response = fullcontact_client.company.enrich_async(domain="fullcontact.com")
 enrich_result = enrich_async_response.result()
 print(enrich_result.get_summary())
-
-# Asynchronous search execution
-search_async_response = fullcontact_client.company.search_async(companyName="fullcontact")
-search_result = search_async_response.result()
-print(search_result.json()[0])
 ```
 
 ### FullContactClient.company.enrich()
@@ -519,63 +497,6 @@ class: _concurrent.Futures.Future_
 #### Useful Methods:
 
 * `result()`: _CompanyEnrichResponse_ - [CompanyEnrichResponse](#companyenrichresponse) object received once execution
-  is completed
-* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
-
-### FullContactClient.company.search()
-
-class: _fullcontact.api.company_api.CompanyApi_
-
-#### Parameters:
-
-* `**query`: _kwargs_ - (required)
-* `headers`: _dict_ - [optional]
-
-Supported fields for query:
-
-* `companyName`: _str_
-* `sort`: _str_
-* `location`: _str_
-* `locality`: _str_
-* `region`: _str_
-* `country`: _str_
-* `webhookUrl`: _str_
-
-#### Returns:
-
-#### CompanySearchResponse
-
-class: _fullcontact.response.company_response.CompanySearchResponse_
-
-#### Instance variables
-
-* `is_successful`: _bool_ - Success flag
-* `response`: _requests.Response_ - Raw _requests.Response_ object
-
-#### Methods:
-
-* `json()`: _dict_ - Response JSON as dict
-* `get_message()`: _str_ - Response message or HTTP status message
-* `get_headers()`: _dict_ - Response headers
-
-### FullContactClient.company.search_async()
-
-class: _fullcontact.api.company_api.CompanyClient_
-
-#### Parameters:
-
-Same as that of [FullContactClient.company.search()](#fullcontactclientcompanysearch)
-
-#### Returns:
-
-#### Future[CompanySearchResponse]
-
-class: _concurrent.Futures.Future_
-> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
-
-#### Useful Methods:
-
-* `result()`: _CompanySearchResponse_ - [CompanySearchResponse](#companysearchresponse) object received once execution
   is completed
 * `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
 
@@ -1199,127 +1120,6 @@ class: _concurrent.Futures.Future_
   execution is completed
 * `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
 
-## Verification API
-
-The client library provides methods to interact with Email Verification API (`v2/verification/email` endpoint)
-through `FullContactClient.verification` object. The Email Verification API can be accessed using the
-method [email()](#fullcontactclientverificationemail). This API can be accessed using the async version the function as
-well, [email_async()](#fullcontactclientverificationemail_async). Additional headers can be set on a per-request basis
-by setting the parameter `headers` while calling these methods.     
-Being a request level parameter, this can be used to override any header that has been set on the client level.
-> Verification API Documentation: https://platform.fullcontact.com/docs/apis/verification/introduction
-
-```python
-import json
-
-# Synchronous email verification
-email_verification_response = fullcontact_client.verification.email(email="marquitaross006@gmail.com")
-print(json.dumps(email_verification_response.json(), indent=4, sort_keys=True))
-"""
-Output:
-{
-    "emails": {
-        "marquitaross006@gmail.com": {
-            "address": "marquitaross006@gmail.com",
-            "attributes": {
-                "catchall": false,
-                "deliverable": true,
-                "disposable": false,
-                "risky": false,
-                "validSyntax": true
-            },
-            "corrected": false,
-            "domain": "gmail.com",
-            "message": "Valid email address",
-            "person": "https://api.fullcontact.com/v2/person.json?email=marquitaross006@gmail.com&apiKey=",
-            "sendSafely": true,
-            "username": "marquitaross006"
-        }
-    },
-    "requestId": "5b334bae-e205-423f-8a13-be669ad67806",
-    "status": 200
-}
-"""
-
-# Asynchronous email verification
-
-email_verification_async_response = fullcontact_client.verification.email_async(email="marquitaross006@gmail.com")
-email_verification_response = email_verification_async_response.result()
-print(json.dumps(email_verification_response.json(), indent=4, sort_keys=True))
-"""
-Output:
-{
-    "emails": {
-        "marquitaross006@gmail.com": {
-            "address": "marquitaross006@gmail.com",
-            "attributes": {
-                "catchall": false,
-                "deliverable": true,
-                "disposable": false,
-                "risky": false,
-                "validSyntax": true
-            },
-            "corrected": false,
-            "domain": "gmail.com",
-            "message": "Valid email address",
-            "person": "https://api.fullcontact.com/v2/person.json?email=marquitaross006@gmail.com&apiKey=",
-            "sendSafely": true,
-            "username": "marquitaross006"
-        }
-    },
-    "requestId": "5b334bae-e205-423f-8a13-be669ad67806",
-    "status": 200
-}
-"""
-```
-
-### FullContactClient.verification.email()
-
-class: _fullcontact.api.verification_api.VerificationApi_
-
-#### Parameters:
-
-* `email`: _str_ - [required]
-* `headers`: _dict_ - [optional]
-
-#### Returns:
-
-#### EmailVerificationResponse
-
-class: _fullcontact.response.verification_response.EmailVerificationResponse_
-
-#### Instance variables
-
-* `is_successful`: _bool_ - Success flag
-* `response`: _requests.Response_ - Raw _requests.Response_ object
-
-#### Methods:
-
-* `json()`: _dict_ - Response JSON as dict
-* `get_message()`: _str_ - Response message or HTTP status message
-* `get_headers()`: _dict_ - Response headers
-
-### FullContactClient.verification.email_async()
-
-class: _fullcontact.api.verification_api.VerificationApi_
-
-#### Parameters:
-
-Same as that of [FullContactClient.verification.email()](#fullcontactclientverificationemail)
-
-#### Returns:
-
-#### Future[EmailVerificationResponse]
-
-class: _concurrent.Futures.Future_
-> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
-
-#### Useful Methods:
-
-* `result()`: _AudienceCreateResponse_ - [EmailVerificationResponse](#emailverificationresponse) object received once
-  execution is completed
-* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
-
 ## Permission API
 
 The client library provides methods to interact with Permission
@@ -1651,3 +1451,243 @@ All these takes same parameters as their synchronous counterparts but return a `
 class: _concurrent.Futures.Future_
 > More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
 
+## Verify API
+
+The client library provides methods to interact with V3 Verfiy API (`verify.match`, `verify.signals` and `verify.activity` 
+endpoints) through `FullContactClient.verify` object. The V3 Verify API can be accessed using
+the methods [match()](#fullcontactclientverifymatch), [signals()](#fullcontactclientverifysignals) and 
+[activity()](#fullcontactclientverifyactivity), respectively. These APIs can be accessed using the async version these
+functions, [match_async()](#fullcontactclientverifymatch_async), [signals_async()](#fullcontactclientverifysignals_async) and
+[activity_async()](#fullcontactclientverifyactivity_async). Additional headers can be set on a per-request basis by
+setting the parameter `headers` while calling these methods.     
+Being a request level parameter, this can be used to override any header that has been set on the client level.
+> Verify API Documentation: https://docs.fullcontact.com/docs/verify-overview
+
+```python
+# Synchronous match execution
+match_response = fullcontact_client.verify.match(email="bart.lorang@fullcontact.com")
+print(match_response.json())
+# Output: {'email': True}
+
+# Synchronous signals execution
+signals_response = fullcontact_client.verify.signals(email="marquitaross006@gmail.com")
+print(signals_response.json())
+'''
+Output: 
+{ 'personIds': ['L0yG2Mp8Z4TVHxJK92GAxjWsTX6lrSfMBsQKvRsy5NzKnTm6'], 
+  'maids': [{'id': '0N3ZIUBF-RPCI-GO59-O29M-S3I3U0A8I9WUN', 'type': 'idfa', 'firstSeenMs': 0, 'lastSeenMs': 0, 'observations': 1, 'confidence': 1.0}], 
+  'name': {'givenName': 'Marquita', 'familyName': 'Ross'}, 
+  'nonIds': [{'id': '0C-83f57c786a0b_-4a39efab23731c7EBC', 'firstSeenMs': 0, 'lastSeenMs': 0, 'observations': 1, 'confidence': 1.0}], 
+  'socialProfiles': {'twitterUrl': 'https://twitter.com/marqross91', 'linkedInUrl': 'https://www.linkedin.com/in/marquita-ross-5b6b72192'}, 
+  'demographics': {'age': 42, 'ageRange': '40-49', 'gender': 'Female'}, 
+  'employment': {'current': True, 'company': 'Mostow Co.', 'title': 'Senior Petroleum Manager'}
+}
+'''
+
+# Synchronous activity execution
+activity_response = fullcontact_client.verify.activity(email="bart.lorang@fullcontact.com")
+print(activity_response.json())
+# Output: {'emails': 0.03}
+
+# Asynchronous match execution
+match_async_response = fullcontact_client.verify.match_async(email="bart.lorang@fullcontact.com")
+match_response = match_async_response.result()
+print(match_response.json())
+# Output: {'email': True}
+
+# Asynchronous signals execution
+signals_async_response = fullcontact_client.verify.signals_async(email="marquitaross006@gmail.com")
+signals_response = signals_async_response.result()
+print(signals_response.json())
+'''
+Output: 
+{ 'personIds': ['L0yG2Mp8Z4TVHxJK92GAxjWsTX6lrSfMBsQKvRsy5NzKnTm6'], 
+  'maids': [{'id': '0N3ZIUBF-RPCI-GO59-O29M-S3I3U0A8I9WUN', 'type': 'idfa', 'firstSeenMs': 0, 'lastSeenMs': 0, 'observations': 1, 'confidence': 1.0}], 
+  'name': {'givenName': 'Marquita', 'familyName': 'Ross'}, 
+  'nonIds': [{'id': '0C-83f57c786a0b_-4a39efab23731c7EBC', 'firstSeenMs': 0, 'lastSeenMs': 0, 'observations': 1, 'confidence': 1.0}], 
+  'socialProfiles': {'twitterUrl': 'https://twitter.com/marqross91', 'linkedInUrl': 'https://www.linkedin.com/in/marquita-ross-5b6b72192'}, 
+  'demographics': {'age': 42, 'ageRange': '40-49', 'gender': 'Female'}, 
+  'employment': {'current': True, 'company': 'Mostow Co.', 'title': 'Senior Petroleum Manager'}
+}
+'''
+
+# Asynchronous activity execution
+activity_async_response = fullcontact_client.verify.activity_async(email="bart.lorang@fullcontact.com")
+activity_response = activity_async_response.result()
+print(activity_response.json())
+# Output: {'emails': 0.03}
+
+```
+
+### FullContactClient.verify.match()
+
+class: _fullcontact.api.verify_api.VerifyClient_
+
+#### Parameters:
+
+* `**query`: _kwargs_ - (required)
+* `headers`: _dict_ - [optional]
+
+`query` takes in [MultiFieldReq](#multifieldrequest).
+
+#### Returns:
+
+#### VerifyMatchResponse
+
+class: _fullcontact.response.verify_response.MatchResponse_
+
+#### Instance variables
+
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+
+#### Methods:
+
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+* `get_city()`: _bool_ - city flag from Verify Match Response
+* `get_region()`: _bool_ - region flag from Verify Match Response
+* `get_country()`: _bool_ - country flag from Verify Match Response
+* `get_continent()`: _bool_ - continent flag from Verify Match Response
+* `get_postalCode()`: _bool_ - postalCode flag from Verify Match Response
+* `get_familyName()`: _bool_ - familyName flag from Verify Match Response
+* `get_givenName()`: _bool_ - givenName flag from Verify Match Response
+* `get_phone()`: _bool_ - phone flag from Verify Match Response
+* `get_maid()`: _bool_ - maid flag from Verify Match Response
+* `get_email()`: _bool_ - email flag from Verify Match Response
+* `get_social()`: _bool_ - social flag from Verify Match Response
+* `get_nonId()`: _bool_ - nonId flag from Verify Match Response
+
+### FullContactClient.verify.match_async()
+
+class: _fullcontact.api.verify_api.VerifyClient_
+
+#### Parameters:
+
+Same as that of [FullContactClient.verify.match()](#fullcontactclientverifymatch)
+
+#### Returns:
+
+#### Future[VerifyMatchResponse]
+
+class: _concurrent.Futures.Future_
+> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+
+#### Useful Methods:
+
+* `result()`: _VerifyMatchResponse_ - [VerifyMatchResponse](#verifymatchresponse) object received once execution is
+  completed
+* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
+
+### FullContactClient.verify.signals()
+
+class: _fullcontact.api.verify_api.VerifyClient_
+
+#### Parameters:
+
+* `**query`: _kwargs_ - (required)
+* `headers`: _dict_ - [optional]
+
+`query` takes in [MultiFieldReq](#multifieldrequest).
+
+#### Returns:
+
+#### VerifySignalsResponse
+
+class: _fullcontact.response.verify_response.VerifySignalResponse_
+
+#### Instance variables
+
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+
+#### Methods:
+
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+* `get_personIds()`: List[str] - List of personIds from Signals response
+* `get_name()`: _dict_ - Name from Verify Signals response
+* `get_emails()`: List[_dict_] - List of email objects from Verify Signals response
+* `get_phones()`: List[_dict_] - List of phone objects from Verify Signals response
+* `get_maids()`: List[_dict_] - List of maids objects from Verify Signals response
+* `get_nonIds()`: List[_dict_] - List of nonIds objects from Verify Signals response
+* `get_panoIds()`: List[_dict_] - List of panoIds objects from Verify Signals response
+* `get_ipAddresses()`: List[_dict_] - List of ipAddress objects from Verify Signals response
+* `get_socialProfiles()`: List[str] - List of Social Profiles from Verify Signals response
+* `get_demographics()`: _dict_ - Demographics from Verify Signals response
+* `get_employment()`: _dict_ - Employment from Verify Signals response
+* `get_locations()`: List[_dict_] - List of location object from Verify Signals response
+
+### FullContactClient.verify.signals_async()
+
+class: _fullcontact.api.verify_api.VerifyClient_
+
+#### Parameters:
+
+Same as that of [FullContactClient.verify.signals()](#fullcontactclientverifysignals)
+
+#### Returns:
+
+#### Future[VerifySignalsResponse]
+
+class: _concurrent.Futures.Future_
+> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+
+#### Useful Methods:
+
+* `result()`: _VerifySignalsResponse_ - [VerifySignalsResponse](#verifysignalsresponse) object received once
+  execution is completed
+* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
+
+
+### FullContactClient.verify.activity()
+
+class: _fullcontact.api.verify_api.VerifyClient_
+
+#### Parameters:
+
+* `**query`: _kwargs_ - (required)
+* `headers`: _dict_ - [optional]
+
+`query` takes in [MultiFieldReq](#multifieldrequest).
+
+#### Returns:
+
+#### VerifyActivityResponse
+
+class: _fullcontact.response.verify_response.VerifyActivityResponse_
+
+#### Instance variables
+
+* `is_successful`: _bool_ - Success flag
+* `response`: _requests.Response_ - Raw _requests.Response_ object
+
+#### Methods:
+
+* `json()`: _dict_ - Response JSON as dict
+* `get_message()`: _str_ - Response message or HTTP status message
+* `get_headers()`: _dict_ - Response headers
+* `get_emails()`: _float_ - email activity score from Verify Activity Response
+
+### FullContactClient.verify.activity_async()
+
+class: _fullcontact.api.verify_api.VerifyClient_
+
+#### Parameters:
+
+Same as that of [FullContactClient.verify.activity()](#fullcontactclientverifyactivity)
+
+#### Returns:
+
+#### Future[VerifyActivityResponse]
+
+class: _concurrent.Futures.Future_
+> More on _concurrent.Futures.Future_: https://docs.python.org/3/library/concurrent.futures.html#future-objects
+
+#### Useful Methods:
+
+* `result()`: _VerifyActivityResponse_ - [VerifyActivityResponse](#verifyactivityresponse) object received once execution is
+  completed
+* `add_done_callback(fn)`: _None_ - Add a callback function to be executed on successful execution.
