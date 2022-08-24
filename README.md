@@ -1467,7 +1467,7 @@ Being a request level parameter, this can be used to override any header that ha
 # Synchronous match execution
 match_response = fullcontact_client.verify.match(email="bart.lorang@fullcontact.com")
 print(match_response.json())
-# Output: {'email': True}
+# Output: {"email" : "self", "risk": 0.2}
 
 # Synchronous signals execution
 signals_response = fullcontact_client.verify.signals(email="marquitaross006@gmail.com")
@@ -1487,13 +1487,13 @@ Output:
 # Synchronous activity execution
 activity_response = fullcontact_client.verify.activity(email="bart.lorang@fullcontact.com")
 print(activity_response.json())
-# Output: {'emails': 0.03}
+# Output: {"emails" : 0.83, "online" : 0.91, "social" : 0.32, "employment" : 0.78}
 
 # Asynchronous match execution
 match_async_response = fullcontact_client.verify.match_async(email="bart.lorang@fullcontact.com")
 match_response = match_async_response.result()
 print(match_response.json())
-# Output: {'email': True}
+# Output: {"email" : "self", "risk": 0.2}
 
 # Asynchronous signals execution
 signals_async_response = fullcontact_client.verify.signals_async(email="marquitaross006@gmail.com")
@@ -1515,7 +1515,7 @@ Output:
 activity_async_response = fullcontact_client.verify.activity_async(email="bart.lorang@fullcontact.com")
 activity_response = activity_async_response.result()
 print(activity_response.json())
-# Output: {'emails': 0.03}
+# Output: {"emails" : 0.83, "online" : 0.91, "social" : 0.32, "employment" : 0.78}
 
 ```
 
@@ -1546,18 +1546,15 @@ class: _fullcontact.response.verify_response.MatchResponse_
 * `json()`: _dict_ - Response JSON as dict
 * `get_message()`: _str_ - Response message or HTTP status message
 * `get_headers()`: _dict_ - Response headers
-* `get_city()`: _bool_ - city flag from Verify Match Response
-* `get_region()`: _bool_ - region flag from Verify Match Response
-* `get_country()`: _bool_ - country flag from Verify Match Response
-* `get_continent()`: _bool_ - continent flag from Verify Match Response
-* `get_postalCode()`: _bool_ - postalCode flag from Verify Match Response
-* `get_familyName()`: _bool_ - familyName flag from Verify Match Response
-* `get_givenName()`: _bool_ - givenName flag from Verify Match Response
-* `get_phone()`: _bool_ - phone flag from Verify Match Response
-* `get_maid()`: _bool_ - maid flag from Verify Match Response
-* `get_email()`: _bool_ - email flag from Verify Match Response
-* `get_social()`: _bool_ - social flag from Verify Match Response
-* `get_nonId()`: _bool_ - nonId flag from Verify Match Response
+* `get_city()`: _str_ - city flag from Verify Match Response
+* `get_region()`: _str_ - region flag from Verify Match Response
+* `get_country()`: _str_ - country flag from Verify Match Response
+* `get_postalCode()`: _str_ - postalCode flag from Verify Match Response
+* `get_familyName()`: _str_ - familyName flag from Verify Match Response
+* `get_givenName()`: _str_ - givenName flag from Verify Match Response
+* `get_phone()`: _str_ - phone flag from Verify Match Response
+* `get_email()`: _str_ - email flag from Verify Match Response
+* `get_risk()`: _float_ - email flag from Verify Match Response
 
 ### FullContactClient.verify.match_async()
 
@@ -1670,6 +1667,9 @@ class: _fullcontact.response.verify_response.VerifyActivityResponse_
 * `get_message()`: _str_ - Response message or HTTP status message
 * `get_headers()`: _dict_ - Response headers
 * `get_emails()`: _float_ - email activity score from Verify Activity Response
+* `get_online()`: _float_ - online activity score from Verify Activity Response
+* `get_social()`: _float_ - social activity score from Verify Activity Response
+* `get_employment()`: _float_ - employment activity score from Verify Activity Response
 
 ### FullContactClient.verify.activity_async()
 
