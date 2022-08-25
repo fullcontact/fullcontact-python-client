@@ -55,12 +55,6 @@ class PersonEnrichResponse(BaseEnrichResponse):
     def get_household(self) -> dict:
         return self.get_details().get("household", None) or {}
 
-    def get_finance(self) -> dict:
-        return self.get_details().get("finance", None) or {}
-
-    def get_census(self) -> dict:
-        return self.get_details().get("census", None) or {}
-
     def get_identifiers(self) -> dict:
         return self.get_details().get("identifiers", None) or {}
 
@@ -72,3 +66,6 @@ class PersonEnrichResponse(BaseEnrichResponse):
 
     def get_Triggers(self) -> dict:
         return self.get_details().get("triggers", None) or {}
+
+    def get_buyer(self) -> dict:
+        return self.get_details().get("buyer", None) or {}
