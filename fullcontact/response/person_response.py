@@ -64,5 +64,11 @@ class PersonEnrichResponse(BaseEnrichResponse):
     def get_identifiers(self) -> dict:
         return self.get_details().get("identifiers", None) or {}
 
-    def get_extended(self) -> dict:
-        return self.get_summary().get("extended", None) or {}
+    def get_surveys(self) -> dict:
+        return self.get_details().get("surveys", None) or {}
+
+    def get_marketTrends(self) -> dict:
+        return self.get_details().get("marketTrends", None) or {}
+
+    def get_Triggers(self) -> dict:
+        return self.get_details().get("triggers", None) or {}
