@@ -391,7 +391,6 @@ class: _fullcontact.response.person_response.PersonEnrichResponse_
 * `get_surveys()`: _dict_ - Surveys details from Person Enrich Response
 * `get_marketTrends()`: _dict_ - MarketTrends details from Person Enrich Response
 * `get_triggers()`: _dict_ - Triggers details from Person Enrich Response
-* `get_buyer()`: _dict_ - Buyer details from Person Enrich Response
 
 ### FullContactClient.person.enrich_async()
 

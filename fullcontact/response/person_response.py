@@ -66,6 +66,3 @@ class PersonEnrichResponse(BaseEnrichResponse):
 
     def get_Triggers(self) -> dict:
         return self.get_details().get("triggers", None) or {}
-
-    def get_buyer(self) -> dict:
-        return self.get_details().get("buyer", None) or {}
