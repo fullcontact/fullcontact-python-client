@@ -70,7 +70,7 @@ To add FullContact Python Client library to your project, add the below line to 
 requirement in the `setup.py` file.
 
 ```
-python-fullcontact==4.1.0
+python-fullcontact==4.2.0
 ```
 
 # Installation
@@ -387,10 +387,11 @@ class: _fullcontact.response.person_response.PersonEnrichResponse_
 * `get_urls()`: _List[dict]_ - URLs from Person Enrich Response
 * `get_interests()`: _List[dict]_ - Interests from Person Enrich Response
 * `get_household()`: _dict_ - Household details from Person Enrich Response
-* `get_finance()`: _dict_ - Finance details from Person Enrich Response
-* `get_census()`: _dict_ - Census details from Person Enrich Response
 * `get_identifiers()`: _dict_ - Identifiers from Person Enrich Response
-* `get_extended()`: _dict_ - All Extended data
+* `get_surveys()`: _dict_ - Surveys details from Person Enrich Response
+* `get_marketTrends()`: _dict_ - MarketTrends details from Person Enrich Response
+* `get_triggers()`: _dict_ - Triggers details from Person Enrich Response
+* `get_buyer()`: _dict_ - Buyer details from Person Enrich Response
 
 ### FullContactClient.person.enrich_async()
 
